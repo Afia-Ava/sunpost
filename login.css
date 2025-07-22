@@ -1,0 +1,314 @@
+/* Root Variables */
+:root {
+  --mauve: #3a2a3d;
+  --gradient-start: #2a1e2f;
+  --gradient-end: #18181b;
+  --tab-active: #ff9900;
+}
+
+/* Base Styles */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #111
+    url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" fill="%23111111"/><rect x="20" width="1" height="40" fill="%23181818"/><rect y="20" width="40" height="1" fill="%23181818"/></svg>')
+    repeat;
+  color: #fff;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100vh;
+}
+
+body {
+  padding-top: 56px;
+}
+
+#grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.1;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2"/></filter><rect width="100" height="100" filter="url(%23grain)"/></svg>');
+}
+
+/* Navbar */
+.top-navbar.pill-navbar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Added to match index.html */
+  background: none; /* Changed from #18181b to match index.html */
+  border: none; /* Added to match index.html */
+  box-shadow: none; /* Already matches */
+  margin-bottom: 0; /* Added to match index.html */
+  position: fixed;
+  top: 24px;
+  left: 0;
+  z-index: 90;
+}
+
+.pill-navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #18181b; /* Remains as inner background */
+  border-radius: 18px;
+  box-shadow: none;
+  padding: 0 32px;
+  min-height: 56px;
+  max-width: 850px;
+  width: 100%;
+  gap: 32px;
+}
+
+.pill-navbar-logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+  margin-right: 24px;
+}
+
+.pill-navbar-logo a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.pill-navbar-logo a:visited {
+  color: #fff;
+}
+
+.pill-navbar-logo a:hover {
+  color: #e4e4e7;
+}
+
+.pill-navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
+.pill-navbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1; /* Added to match index.html */
+  gap: 12px;
+}
+
+.pill-navbar .nav-link {
+  color: #e4e4e7;
+  text-decoration: none;
+  font-size: 1em;
+  font-weight: 500;
+  background: none; /* Added to match index.html */
+  border: none; /* Added to match index.html */
+  border-radius: 8px;
+  padding: 8px 16px;
+  transition: background 0.2s, color 0.2s; /* Updated to match index.html */
+  cursor: pointer; /* Added to match index.html */
+}
+
+.pill-navbar .nav-link:hover {
+  background: #232329;
+  color: #fff;
+}
+
+.login-btn {
+  background: #fff;
+  color: #000; /* Changed from #3a2a3d to match index.html */
+  border: none; /* Changed from 2px solid #3a2a3d to match index.html */
+  border-radius: 8px;
+  font-size: 1em; /* Changed from 1.1em to match index.html */
+  font-weight: 700; /* Changed from 600 to match index.html */
+  padding: 4px 12px; /* Changed from 10px to match index.html */
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.18s; /* Changed to match index.html */
+}
+
+.login-btn:hover {
+  background: #e5e5e5; /* Changed from #3a2a3d to match index.html */
+  color: #000; /* Changed from #fff to match index.html */
+}
+
+/* Login Container (Unchanged) */
+.login-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 60px 40px 40px;
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: #333;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.login-form-wrapper {
+  position: relative;
+  min-height: 300px;
+  overflow: hidden;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(0);
+}
+
+.login-form.signup-form {
+  transform: translateX(100%);
+}
+
+.login-form.active {
+  transform: translateX(0);
+}
+
+.title-box {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.login-title {
+  font-size: 2em;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+}
+
+.login-subtitle {
+  font-size: 1.1em;
+  color: #666;
+  margin: 0;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #444;
+}
+
+.form-group input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  font-size: 1em;
+  background: rgba(255, 255, 255, 0.8);
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #3a2a3d;
+  outline: none;
+}
+
+.login-btn[type='submit'] {
+  background: rgba(255, 255, 255, 0.8);
+  color: #3a2a3d;
+  border: 2px solid #3a2a3d;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.login-btn[type='submit']:hover {
+  background: #3a2a3d;
+  color: #fff;
+}
+
+.signup-link {
+  text-align: center;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.signup-link a {
+  color: #3a2a3d;
+  text-decoration: underline;
+}
+
+.signup-link a:hover {
+  color: #2a1e2f;
+}
+
+.page-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.footer-note {
+  width: 100%;
+  background: #18181b;
+  color: #aaa;
+  text-align: center;
+  font-size: 0.92em;
+  padding: 32px 0;
+  letter-spacing: 0.04em;
+  margin-top: 0;
+  position: relative;
+  z-index: 5;
+}
+
+#app {
+  flex: 1;
+}
+
+.login-container {
+  margin-top: 80px;
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    margin-top: 80px;
+  }
+}
+
+@media (max-width: 600px) {
+  .login-card {
+    padding: 40px 20px 20px;
+  }
+}

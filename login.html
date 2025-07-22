@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatCard - Log In / Sign Up</title>
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body>
+    <div id="grain"></div>
+    <nav class="top-navbar pill-navbar">
+      <div class="pill-navbar-inner">
+        <div class="pill-navbar-logo">
+          <a href="index.html" class="logo-text">chatcard</a>
+        </div>
+        <div class="pill-navbar-links">
+          <a href="#about" class="nav-link">About</a>
+          <a href="#" class="nav-link">Privacy</a>
+          <a href="#" class="nav-link">Community</a>
+          <a href="#" class="nav-link">Contact</a>
+        </div>
+        <div class="pill-navbar-actions">
+          <div class="login-button-container">
+            <a href="login.html" class="login-btn">Log In</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div id="app">
+      <section class="login-container">
+        <div class="login-card">
+          <div class="login-form-wrapper">
+            <form id="login-form" class="login-form active">
+              <div class="title-box">
+                <h1 class="login-title" id="form-title">Welcome Back</h1>
+                <p class="login-subtitle" id="form-subtitle">
+                  Log in to create or request your ChatCard
+                </p>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  placeholder="Enter your email"
+                />
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                  placeholder="Enter your password"
+                />
+              </div>
+              <div
+                class="form-group"
+                id="confirm-password-group"
+                style="display: none"
+              >
+                <label for="confirm-password">Confirm Password</label>
+                <input
+                  type="password"
+                  id="confirm-password"
+                  name="confirm-password"
+                  placeholder="Confirm your password"
+                />
+              </div>
+              <button type="submit" class="login-btn" id="submit-btn">
+                Log In
+              </button>
+            </form>
+          </div>
+          <p class="signup-link" id="switch-link">
+            Don’t have an account? <a href="#" id="switch-to-signup">Sign Up</a>
+          </p>
+        </div>
+      </section>
+    </div>
+    <footer class="footer-note">© 2025 ChatCard. All rights reserved.</footer>
+    <script src="login.js"></script>
+    <script>
+      // Simple toggle to match index.html behavior
+      document.getElementById('getCardBtn')?.addEventListener('click', () => {
+        document.getElementById('heroSection').style.display = 'none';
+        document.getElementById('loginSection').style.display = 'flex';
+      });
+      document
+        .getElementById('requestCardBtn')
+        ?.addEventListener('click', () => {
+          document.getElementById('heroSection').style.display = 'none';
+          document.getElementById('loginSection').style.display = 'flex';
+        });
+    </script>
+  </body>
+</html>

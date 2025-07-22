@@ -57,29 +57,40 @@ function renderLanding() {
     <nav class="top-navbar pill-navbar">
       <div class="pill-navbar-inner">
         <div class="pill-navbar-logo">
-          <span class="logo-text">chatcard</span>
+          <a href="index.html" class="logo-text" style="text-decoration:none;">chatcard</a>
         </div>
         <div class="pill-navbar-links">
-          <a href="#" class="nav-link" onclick="goTo('landing')">About</a>
-          <a href="#" class="nav-link" onclick="goTo('about')">Privacy</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#" class="nav-link">Privacy</a>
           <a href="#" class="nav-link">Community</a>
           <a href="#" class="nav-link">Contact</a>
         </div>
         <div class="pill-navbar-actions">
-          <button class="github-btn getstarted-btn" onclick="goTo('auth','signup')">Log in</button>
+          <div class="login-button-container">
+            <a href="login.html" class="login-btn">Log In</a>
+          </div>
         </div>
       </div>
     </nav>
-    <div class="navbar-spacer"></div>
     <section class="main-hero">
-      <h1 class="hero-title big" style="margin-bottom:0.4em;">ChatCard is a personality layer<br>built on top of your AI chats.</h1>
-      <div class="hero-desc sub-caption" style="font-size:1.25em;color:#fff;margin:0 auto;opacity:0.92;white-space:nowrap;">Understand yourself. Share your vibe. Let others see the real you.</div>
+      <h1 class="hero-title big" style="margin-bottom:0.4em;">ChatCard</h1>
+      <div class="hero-desc big">
+        ChatCard is a personality layer<br>
+        built on top of your AI chats.
+      </div>
+      <div class="hero-desc sub-caption" style="font-size:1.25em;color:#fff;margin:0 auto;opacity:0.92;white-space:nowrap;">
+        Understand yourself. Share your vibe. Let others see the real you.
+      </div>
       <div class="hero-btn-row">
         <button class="hero-btn" id="getCardBtn">Get card</button>
         <button class="hero-btn" id="requestCardBtn">Request card</button>
       </div>
     </section>
   `;
+}
+
+function goTo(section) {
+  console.log(`Navigating to ${section}`);
 }
 
 function renderAuth() {
