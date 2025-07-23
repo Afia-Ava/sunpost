@@ -61,7 +61,7 @@ function renderLanding() {
         </div>
         <div class="pill-navbar-links">
           <a href="#about" class="nav-link">About</a>
-          <a href="#" class="nav-link">Privacy</a>
+          <a href="privacy.html" class="nav-link">Privacy</a>
           <a href="#" class="nav-link">Community</a>
           <a href="#" class="nav-link">Contact</a>
         </div>
