@@ -73,17 +73,21 @@ function renderLanding() {
       </div>
     </nav>
     <section class="main-hero">
-      <h1 class="hero-title big" style="margin-bottom:0.4em;">ChatCard</h1>
-      <div class="hero-desc big">
-        ChatCard is a personality layer<br>
+      <h1 class="hero-title big" style="margin-bottom:0.4em;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif;">ChatCard</h1>
+      <div class="hero-desc big" style="font-size:4vw;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif;">
+        Chatcard is a personality layer<br>
         built on top of your AI chats.
       </div>
-      <div class="hero-desc sub-caption" style="font-size:1.25em;color:#fff;margin:0 auto;opacity:0.92;white-space:nowrap;">
+      <div class="hero-desc sub-caption" style="font-size:1.25em;color:#fff;margin:-0.5em auto 0 auto;white-space:nowrap;filter:none;transition:none;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif;">
         Understand yourself. Share your vibe. Let others see the real you.
       </div>
       <div class="hero-btn-row">
-        <button class="hero-btn" id="getCardBtn">Get card</button>
-        <button class="hero-btn" id="requestCardBtn">Request card</button>
+        <a href="getcard.html" id="getCardBtn" style="text-decoration:none;">
+          <button style="background:#fff;color:#222;padding:12px 32px;border-radius:10px;font-size:1.1em;cursor:pointer;font-family:'Poppins',sans-serif;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.07);font-weight:600;">Get card</button>
+        </a>
+        <a href="requestcard.html" id="requestCardBtn" style="text-decoration:none;">
+          <button style="background:#fff;color:#222;padding:12px 32px;border-radius:10px;font-size:1.1em;cursor:pointer;font-family:'Poppins',sans-serif;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.07);font-weight:600;">Request card</button>
+        </a>
       </div>
     </section>
   `;
@@ -287,9 +291,17 @@ function renderUpload() {
   app.innerHTML = `
     <div class="card">
       <h3>Paste Your AI Convos</h3>
-      <textarea id="convos" rows="6" placeholder="Paste your ChatGPT convos here..."></textarea>
-      <button onclick="submitConvos()">Submit</button>
-      <button onclick="goTo('home')" style="background:#eee;color:#222;">Back</button>
+      <div style="margin-bottom:1em;color:#444;font-size:1em;">
+        <b>Requested Focus:</b> ${
+          state.selectedQuestions.length
+            ? state.selectedQuestions.map(q => q.q).join(', ')
+            : 'General personality'
+        }
+      </div>
+      <textarea id="convos" rows="8" placeholder="Paste your ChatGPT convos here..." style="width:100%;font-size:1em;padding:12px;border-radius:8px;border:1px solid #ccc;margin-bottom:1.2em;"></textarea>
+      <button onclick="submitConvos()">Generate Card</button>
+      <button onclick="goTo('home')" style="background:#eee;color:#222;margin-left:10px;">Back</button>
+      <div id="requestSummaryCard" class="summary-card" style="display:none;margin-top:2em;"></div>
     </div>
   `;
 }
@@ -374,13 +386,264 @@ function giveConsent() {
 }
 
 function submitConvos() {
-  state.pastedConvos = document.getElementById('convos').value;
-  state.page = 'submitted';
-  render();
-  setTimeout(() => {
-    state.page = 'report';
-    render();
-  }, 2000);
+  const memory = document.getElementById('convos').value.trim();
+  if (!memory) return alert('Please paste your ChatGPT chats.');
+  // Show summary card in place
+  const summary = analyzeRequestPersonality(memory, state.selectedQuestions);
+  document.getElementById('requestSummaryCard').style.display = 'block';
+  document.getElementById('requestSummaryCard').innerHTML = summary;
+  // Analyze pasted memory focusing on selected questions
+  function analyzeRequestPersonality(text, questions) {
+    // Basic keyword/topic extraction
+    const words = text
+      .toLowerCase()
+      .replace(/[^a-zA-Z0-9\s]/g, '')
+      .split(/\s+/);
+    const stopwords = [
+      'the',
+      'and',
+      'i',
+      'to',
+      'a',
+      'of',
+      'in',
+      'is',
+      'it',
+      'for',
+      'on',
+      'with',
+      'you',
+      'my',
+      'me',
+      'at',
+      'that',
+      'this',
+      'was',
+      'are',
+      'but',
+      'so',
+      'we',
+      'they',
+      'be',
+      'have',
+      'has',
+      'had',
+      'as',
+      'from',
+      'by',
+      'an',
+      'or',
+      'if',
+      'not',
+      'do',
+      'can',
+      'just',
+      'your',
+      'about',
+      'what',
+      'when',
+      'who',
+      'how',
+      'why',
+      'which',
+      'will',
+      'would',
+      'should',
+      'could',
+      'all',
+      'any',
+      'more',
+      'some',
+      'get',
+      'got',
+      'like',
+      'one',
+      'out',
+      'up',
+      'see',
+      'no',
+      'yes',
+      'too',
+      'very',
+      'also',
+      'because',
+      'than',
+      'then',
+      'now',
+      'were',
+      'been',
+      'did',
+      'them',
+      'their',
+      'our',
+      'us',
+      'he',
+      'she',
+      'him',
+      'her',
+      'his',
+      'hers',
+      'its',
+      'into',
+      'over',
+      'under',
+      'after',
+      'before',
+      'again',
+      'still',
+      'where',
+      'there',
+      'here',
+      'go',
+      'went',
+      'come',
+      'came',
+      'make',
+      'made',
+      'want',
+      'wanted',
+      'need',
+      'needed',
+      'use',
+      'used',
+      'say',
+      'said',
+      'tell',
+      'told',
+      'ask',
+      'asked',
+      'think',
+      'thought',
+      'feel',
+      'felt',
+      'know',
+      'knew',
+      'time',
+      'day',
+      'days',
+      'week',
+      'weeks',
+      'month',
+      'months',
+      'year',
+      'years',
+      'chat',
+      'gpt',
+      'ai',
+      'openai',
+      'memory',
+      'paste',
+      'copy',
+      'user',
+      'assistant',
+    ];
+    const freq = {};
+    words.forEach(w => {
+      if (w.length > 2 && !stopwords.includes(w)) {
+        freq[w] = (freq[w] || 0) + 1;
+      }
+    });
+    const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
+    const topTopics = sorted.slice(0, 3).map(x => x[0]);
+
+    // Focus on custom questions
+    let focusResults = '';
+    if (questions && questions.length) {
+      focusResults = questions
+        .map(q => {
+          // Find most relevant words for each question
+          const qWords = q
+            .toLowerCase()
+            .split(/\s+/)
+            .filter(w => w.length > 2 && !stopwords.includes(w));
+          const matches = qWords
+            .map(qw => ({ qw, freq: freq[qw] || 0 }))
+            .filter(x => x.freq > 0);
+          if (matches.length) {
+            return `<li><b>${q}:</b> Mentioned ${matches
+              .map(m => `'${m.qw}' (${m.freq}x)`)
+              .join(', ')}</li>`;
+          } else {
+            return `<li><b>${q}:</b> Not directly mentioned</li>`;
+          }
+        })
+        .join('');
+    }
+
+    // Sentiment analysis (very basic)
+    const positiveWords = [
+      'happy',
+      'love',
+      'excited',
+      'great',
+      'good',
+      'fun',
+      'enjoy',
+      'awesome',
+      'amazing',
+      'cool',
+      'interesting',
+      'positive',
+      'success',
+      'win',
+      'helpful',
+      'creative',
+      'inspired',
+      'hope',
+      'peace',
+      'calm',
+      'relaxed',
+      'joy',
+      'smile',
+      'laugh',
+    ];
+    const negativeWords = [
+      'sad',
+      'angry',
+      'upset',
+      'bad',
+      'hate',
+      'problem',
+      'fail',
+      'failure',
+      'stress',
+      'stressed',
+      'anxious',
+      'anxiety',
+      'worry',
+      'worried',
+      'negative',
+      'cry',
+      'pain',
+      'hurt',
+      'fear',
+      'scared',
+      'bored',
+      'tired',
+      'confused',
+    ];
+    let pos = 0,
+      neg = 0;
+    words.forEach(w => {
+      if (positiveWords.includes(w)) pos++;
+      if (negativeWords.includes(w)) neg++;
+    });
+    let vibe = 'Balanced, thoughtful';
+    if (pos > neg) vibe = 'Positive, optimistic';
+    if (neg > pos) vibe = 'Introspective, honest';
+
+    // Compose summary
+    return `
+    <b>Your Personality Summary</b><br><br>
+    <ul style="text-align:left; margin:0 auto; max-width:320px;">
+      ${focusResults}
+      <li><b>Most open about:</b> ${
+        topTopics.length ? topTopics.join(', ') : 'Various topics'
+      }</li>
+      <li><b>Vibe:</b> ${vibe}</li>
+    </ul>
+  `;
+  }
 }
 
 render();

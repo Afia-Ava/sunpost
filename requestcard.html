@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Request a Personality Card</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="requestcard.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="grain"></div>
+    <nav class="top-navbar pill-navbar">
+      <div class="pill-navbar-inner">
+        <div class="pill-navbar-logo">
+          <a href="index.html" class="logo-text" style="text-decoration: none"
+            >chatcard</a
+          >
+        </div>
+        <div class="pill-navbar-links">
+          <a href="#about" class="nav-link">About</a>
+          <a href="#" class="nav-link">Privacy</a>
+          <a href="#" class="nav-link">Community</a>
+          <a href="#" class="nav-link">Contact</a>
+        </div>
+        <div class="pill-navbar-actions">
+          <div class="login-button-container">
+            <a href="login.html" class="login-btn">Log In</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <section class="main-hero">
+      <div class="getcard-container">
+        <div class="getcard-title">Request a Personality Card</div>
+        <form id="requestForm" class="card">
+          <label for="questions">Add Custom Questions (comma separated):</label>
+          <input
+            type="text"
+            id="questions"
+            placeholder="e.g. hobbies, work style, favorite books"
+            style="width: 100%; margin-bottom: 1em"
+          />
+          <label for="email">Enter recipient's email (optional):</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="someone@email.com"
+            style="width: 100%; margin-bottom: 1em"
+          />
+          <button type="button" id="generateLinkBtn">
+            Generate Shareable Link
+          </button>
+          <button
+            type="button"
+            id="sendInviteBtn"
+            style="margin-left: 10px; background: #222; color: #fff"
+          >
+            Send Invite
+          </button>
+        </form>
+        <div
+          id="shareLinkCard"
+          class="summary-card"
+          style="display: none; margin-top: 2em"
+        ></div>
+        <div
+          id="inviteStatus"
+          class="summary-card"
+          style="
+            display: none;
+            margin-top: 1em;
+            background: #e6f7ff;
+            color: #222;
+          "
+        ></div>
+        <button
+          onclick="window.location.href='index.html'"
+          style="margin-top: 2em; background: #eee; color: #222"
+        >
+          Back
+        </button>
+      </div>
+    </section>
+    <script src="requestcard.js"></script>
+  </body>
+</html>

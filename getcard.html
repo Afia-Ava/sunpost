@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get Card | ChatCard</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="getcard.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Removed conflicting inline styles. All styles now come from getcard.css -->
+  </head>
+  <body>
+    <nav class="top-navbar pill-navbar">
+      <div class="pill-navbar-inner">
+        <div class="pill-navbar-logo">
+          <a href="index.html" class="logo-text" style="text-decoration: none"
+            >chatcard</a
+          >
+        </div>
+        <div class="pill-navbar-links">
+          <a href="#about" class="nav-link">About</a>
+          <a href="#" class="nav-link">Privacy</a>
+          <a href="#" class="nav-link">Community</a>
+          <a href="#" class="nav-link">Contact</a>
+        </div>
+        <div class="pill-navbar-actions">
+          <div class="login-button-container">
+            <a href="login.html" class="login-btn">Log In</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <section class="main-hero">
+      <div class="getcard-container">
+        <div class="getcard-title">Get Your Personality Card</div>
+        <div class="getcard-desc">
+          Connect your ChatGPT account to generate a personality summary card
+          based on your AI chats. Your data is private and only used for
+          analysis.
+        </div>
+        <button class="connect-btn" onclick="openPasteModal()">
+          Paste ChatGPT Memory
+        </button>
+        <div
+          id="pasteModal"
+          style="
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <div
+            style="
+              background: #fff;
+              padding: 32px 24px;
+              border-radius: 14px;
+              max-width: 480px;
+              width: 90vw;
+              box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+              text-align: center;
+            "
+          >
+            <h2
+              style="
+                font-family: 'Poppins', sans-serif;
+                font-size: 1.3em;
+                margin-bottom: 0.7em;
+                color: #222;
+              "
+            >
+              Paste your ChatGPT chats
+            </h2>
+            <textarea
+              id="chatMemory"
+              rows="8"
+              style="
+                width: 100%;
+                font-size: 1em;
+                padding: 12px;
+                border-radius: 8px;
+                border: 1px solid #ccc;
+                margin-bottom: 1.2em;
+              "
+            ></textarea>
+            <br />
+            <button
+              onclick="submitMemory()"
+              style="
+                background: #222;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                padding: 10px 24px;
+                font-size: 1em;
+              "
+            >
+              Generate Card
+            </button>
+            <button
+              onclick="closePasteModal()"
+              style="
+                background: #eee;
+                color: #222;
+                border: none;
+                border-radius: 8px;
+                padding: 10px 24px;
+                font-size: 1em;
+                margin-left: 10px;
+              "
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+        <div id="summaryCard" class="summary-card" style="display: none"></div>
+      </div>
+    </section>
+    <script>
+      function openPasteModal() {
+        document.getElementById('pasteModal').style.display = 'flex';
+      }
+      function closePasteModal() {
+        document.getElementById('pasteModal').style.display = 'none';
+      }
+      function submitMemory() {
+        const memory = document.getElementById('chatMemory').value.trim();
+        if (!memory) return alert('Please paste your ChatGPT chats.');
+        document.getElementById('pasteModal').style.display = 'none';
+        document.querySelector('.connect-btn').style.display = 'none';
+        document.getElementById('summaryCard').style.display = 'block';
+        setTimeout(function () {
+          const summary = analyzePersonality(memory);
+          document.getElementById('summaryCard').innerHTML = summary;
+        }, 800);
+      }
+
+      function analyzePersonality(text) {
+        // Basic keyword/topic extraction
+        const words = text
+          .toLowerCase()
+          .replace(/[^a-zA-Z0-9\s]/g, '')
+          .split(/\s+/);
+        const stopwords = [
+          'the',
+          'and',
+          'i',
+          'to',
+          'a',
+          'of',
+          'in',
+          'is',
+          'it',
+          'for',
+          'on',
+          'with',
+          'you',
+          'my',
+          'me',
+          'at',
+          'that',
+          'this',
+          'was',
+          'are',
+          'but',
+          'so',
+          'we',
+          'they',
+          'be',
+          'have',
+          'has',
+          'had',
+          'as',
+          'from',
+          'by',
+          'an',
+          'or',
+          'if',
+          'not',
+          'do',
+          'can',
+          'just',
+          'your',
+          'about',
+          'what',
+          'when',
+          'who',
+          'how',
+          'why',
+          'which',
+          'will',
+          'would',
+          'should',
+          'could',
+          'all',
+          'any',
+          'more',
+          'some',
+          'get',
+          'got',
+          'like',
+          'one',
+          'out',
+          'up',
+          'see',
+          'no',
+          'yes',
+          'too',
+          'very',
+          'also',
+          'because',
+          'than',
+          'then',
+          'now',
+          'were',
+          'been',
+          'did',
+          'them',
+          'their',
+          'our',
+          'us',
+          'he',
+          'she',
+          'him',
+          'her',
+          'his',
+          'hers',
+          'its',
+          'into',
+          'over',
+          'under',
+          'after',
+          'before',
+          'again',
+          'still',
+          'where',
+          'there',
+          'here',
+          'go',
+          'went',
+          'come',
+          'came',
+          'make',
+          'made',
+          'want',
+          'wanted',
+          'need',
+          'needed',
+          'use',
+          'used',
+          'say',
+          'said',
+          'tell',
+          'told',
+          'ask',
+          'asked',
+          'think',
+          'thought',
+          'feel',
+          'felt',
+          'know',
+          'knew',
+          'time',
+          'day',
+          'days',
+          'week',
+          'weeks',
+          'month',
+          'months',
+          'year',
+          'years',
+          'chat',
+          'gpt',
+          'ai',
+          'openai',
+          'memory',
+          'paste',
+          'copy',
+          'user',
+          'assistant',
+        ];
+        const freq = {};
+        words.forEach(w => {
+          if (w.length > 2 && !stopwords.includes(w)) {
+            freq[w] = (freq[w] || 0) + 1;
+          }
+        });
+        const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
+        const topTopics = sorted.slice(0, 3).map(x => x[0]);
+
+        // Sentiment analysis (very basic)
+        const positiveWords = [
+          'happy',
+          'love',
+          'excited',
+          'great',
+          'good',
+          'fun',
+          'enjoy',
+          'awesome',
+          'amazing',
+          'cool',
+          'interesting',
+          'positive',
+          'success',
+          'win',
+          'helpful',
+          'creative',
+          'inspired',
+          'hope',
+          'peace',
+          'calm',
+          'relaxed',
+          'joy',
+          'smile',
+          'laugh',
+        ];
+        const negativeWords = [
+          'sad',
+          'angry',
+          'upset',
+          'bad',
+          'hate',
+          'problem',
+          'fail',
+          'failure',
+          'stress',
+          'stressed',
+          'anxious',
+          'anxiety',
+          'worry',
+          'worried',
+          'negative',
+          'cry',
+          'pain',
+          'hurt',
+          'fear',
+          'scared',
+          'bored',
+          'tired',
+          'confused',
+        ];
+        let pos = 0,
+          neg = 0;
+        words.forEach(w => {
+          if (positiveWords.includes(w)) pos++;
+          if (negativeWords.includes(w)) neg++;
+        });
+        let vibe = 'Balanced, thoughtful';
+        if (pos > neg) vibe = 'Positive, optimistic';
+        if (neg > pos) vibe = 'Introspective, honest';
+
+        // Compose summary
+        return `
+          <b>Your Personality Summary</b><br><br>
+          <ul style="text-align:left; margin:0 auto; max-width:320px;">
+            <li><b>Most open about:</b> ${
+              topTopics.length ? topTopics.join(', ') : 'Various topics'
+            }</li>
+            <li><b>Biggest strength:</b> ${
+              pos > neg
+                ? 'Positive outlook'
+                : neg > pos
+                ? 'Self-reflection'
+                : 'Balanced perspective'
+            }</li>
+            <li><b>Vibe:</b> ${vibe}</li>
+          </ul>
+        `;
+      }
+    </script>
+  </body>
+</html>
