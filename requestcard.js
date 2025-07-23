@@ -9,7 +9,6 @@ document.getElementById('sendInviteBtn').addEventListener('click', function () {
     alert('Please enter a recipient email address.');
     return;
   }
-  // Simulate link generation
   const baseUrl = window.location.origin + '/getcard.html';
   const params = new URLSearchParams();
   params.set('questions', questionsInput);
@@ -34,7 +33,6 @@ document
       alert('Please add at least one custom question.');
       return;
     }
-    // Simulate link generation
     const baseUrl = window.location.origin + '/getcard.html';
     const params = new URLSearchParams();
     params.set('questions', questionsInput);

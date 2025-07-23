@@ -34,7 +34,7 @@ let state = {
   authError: '',
   users: {},
   customQuestions: '',
-  selectedQuestions: [], // [{cat, q}]
+  selectedQuestions: [],
   requestLink: '',
   consentGiven: false,
   pastedConvos: '',
@@ -388,13 +388,10 @@ function giveConsent() {
 function submitConvos() {
   const memory = document.getElementById('convos').value.trim();
   if (!memory) return alert('Please paste your ChatGPT chats.');
-  // Show summary card in place
   const summary = analyzeRequestPersonality(memory, state.selectedQuestions);
   document.getElementById('requestSummaryCard').style.display = 'block';
   document.getElementById('requestSummaryCard').innerHTML = summary;
-  // Analyze pasted memory focusing on selected questions
   function analyzeRequestPersonality(text, questions) {
-    // Basic keyword/topic extraction
     const words = text
       .toLowerCase()
       .replace(/[^a-zA-Z0-9\s]/g, '')
@@ -546,12 +543,10 @@ function submitConvos() {
     const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
     const topTopics = sorted.slice(0, 3).map(x => x[0]);
 
-    // Focus on custom questions
     let focusResults = '';
     if (questions && questions.length) {
       focusResults = questions
         .map(q => {
-          // Find most relevant words for each question
           const qWords = q
             .toLowerCase()
             .split(/\s+/)
@@ -570,7 +565,6 @@ function submitConvos() {
         .join('');
     }
 
-    // Sentiment analysis (very basic)
     const positiveWords = [
       'happy',
       'love',
@@ -632,7 +626,6 @@ function submitConvos() {
     if (pos > neg) vibe = 'Positive, optimistic';
     if (neg > pos) vibe = 'Introspective, honest';
 
-    // Compose summary
     return `
     <b>Your Personality Summary</b><br><br>
     <ul style="text-align:left; margin:0 auto; max-width:320px;">

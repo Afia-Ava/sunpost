@@ -1,5 +1,4 @@
 function connectChatGPT() {
-  // Simulate connecting and generating a summary
   document.querySelector('.connect-btn').disabled = true;
   document.querySelector('.connect-btn').innerText = 'Connecting...';
   setTimeout(function () {

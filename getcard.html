@@ -10,7 +10,6 @@
       href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap"
       rel="stylesheet"
     />
-    <!-- Removed conflicting inline styles. All styles now come from getcard.css -->
   </head>
   <body>
     <nav class="top-navbar pill-navbar">
@@ -145,7 +144,6 @@
       }
 
       function analyzePersonality(text) {
-        // Basic keyword/topic extraction
         const words = text
           .toLowerCase()
           .replace(/[^a-zA-Z0-9\s]/g, '')
@@ -297,7 +295,6 @@
         const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
         const topTopics = sorted.slice(0, 3).map(x => x[0]);
 
-        // Sentiment analysis (very basic)
         const positiveWords = [
           'happy',
           'love',
@@ -359,7 +356,6 @@
         if (pos > neg) vibe = 'Positive, optimistic';
         if (neg > pos) vibe = 'Introspective, honest';
 
-        // Compose summary
         return `
           <b>Your Personality Summary</b><br><br>
           <ul style="text-align:left; margin:0 auto; max-width:320px;">
@@ -378,5 +374,6 @@
         `;
       }
     </script>
+    <div id="grain"></div>
   </body>
 </html>

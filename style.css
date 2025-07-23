@@ -1,4 +1,3 @@
-/* Hero Section Buttons */
 .hero-btn-row {
   display: flex;
   justify-content: center;
@@ -34,7 +33,7 @@
   line-height: 1.2;
   white-space: nowrap;
 }
-/* Footer styles */
+
 .footer-note {
   width: 100%;
   background: #18181b;
@@ -53,7 +52,7 @@
 .getstarted-btn:hover {
   background: #303035;
 }
-/* Pill Navbar Styles */
+
 .pill-navbar {
   width: 100%;
   display: flex;
@@ -225,7 +224,6 @@ body {
 }
 position: sticky;
 
-/* Navbar */
 .top-navbar {
   background: #18181b;
   padding: 0;
@@ -508,7 +506,6 @@ body {
 .main-hero.dark-bg {
   background: none;
 }
-/* Hero Section - all text white */
 .hero-title.big {
   display: none;
 }
@@ -640,7 +637,7 @@ body {
   min-height: 100vh;
   color: #111;
   position: relative;
-  padding-top: 104px; /* leave space for fixed navbar pill */
+  padding-top: 104px;
 }
 #app {
   display: flex;
@@ -724,7 +721,7 @@ body {
   justify-content: center;
 }
 .burst::after {
-  content: '\1F7EB'; /* 🟫 */
+  content: '\1F7EB';
   font-size: 1.2em;
   color: #fff;
   opacity: 0.7;

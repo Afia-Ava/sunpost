@@ -10,15 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const switchLink = document.getElementById('switch-link');
   const switchToSignup = document.getElementById('switch-to-signup');
 
-  // Switch tabs
   tabButtons.forEach(button => {
     button.addEventListener('click', () => {
-      // Remove active class from all buttons
       tabButtons.forEach(btn => btn.classList.remove('active'));
-      // Add active class to clicked button
       button.classList.add('active');
 
-      // Switch form mode
       if (button.dataset.tab === 'login') {
         confirmPasswordGroup.style.display = 'none';
         formTitle.textContent = 'Welcome Back';
@@ -35,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Switch to Sign Up via link (optional)
   switchToSignup.addEventListener('click', event => {
     event.preventDefault();
     tabButtons.forEach(btn => btn.classList.remove('active'));
@@ -47,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     switchLink.style.display = 'block';
   });
 
-  // Form submission
   loginForm.addEventListener('submit', event => {
     event.preventDefault();
 
@@ -56,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmPassword = document.getElementById('confirm-password').value;
     const activeTab = document.querySelector('.tab-button.active').dataset.tab;
 
-    // Basic validation
     if (!email || !password) {
       alert('Please fill in both email and password.');
       return;
@@ -72,14 +65,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Placeholder for actual login/signup logic
     const action = activeTab === 'login' ? 'Logging in' : 'Signing up';
     alert(
       `${action} with ${email}. This is a demo! Replace with real authentication.`
     );
   });
 
-  // Simple email validation function
   function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
