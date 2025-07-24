@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body>
+    <div id="grain"></div>
+    <nav class="top-navbar pill-navbar">
+      <div class="pill-navbar-inner">
+        <div class="pill-navbar-logo">
+          <a href="index.html" class="logo-text">chatcard</a>
+        </div>
+        <div class="pill-navbar-links">
+          <a href="about.html" class="nav-link">About</a>
+          <a href="privacy.html" class="nav-link">Privacy</a>
+          <a href="#" class="nav-link">Community</a>
+          <a href="contact.html" class="nav-link active">Contact</a>
+        </div>
+        <div class="pill-navbar-actions">
+          <div class="login-button-container">
+            <a href="login.html" class="login-btn">Log In</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main
+      class="contact-main"
+      style="
+        max-width: 1300px;
+        margin: 48px auto 0 auto;
+        padding: 48px 80px 48px 40px;
+        background: rgba(30, 30, 30, 0.7);
+        border-radius: 28px;
+        box-shadow: 0 4px 32px rgba(0, 0, 0, 0.12);
+        border: 1.5px solid rgba(255, 255, 255, 0.13);
+        backdrop-filter: blur(8px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      "
+    >
+      <h1
+        style="
+          font-size: 2rem;
+          font-weight: 600;
+          margin-bottom: 24px;
+          text-align: left;
+        "
+      >
+        Contact Us
+      </h1>
+      <form
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+          align-items: flex-start;
+        "
+        autocomplete="off"
+      >
+        <div style="display: flex; gap: 48px; width: 100%">
+          <div style="flex: 1; min-width: 0; text-align: left">
+            <label
+              for="name"
+              style="
+                font-weight: 500;
+                margin-bottom: 6px;
+                display: block;
+                text-align: left;
+              "
+              >Name</label
+            >
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              style="
+                width: 100%;
+                padding: 10px 12px;
+                border-radius: 8px;
+                border: 1px solid #ccc;
+                background: rgba(255, 255, 255, 0.08);
+                color: #e4e4e7;
+                font-size: 1em;
+                margin-bottom: 2px;
+                text-align: left;
+              "
+            />
+          </div>
+          <div style="flex: 1; min-width: 0; text-align: left">
+            <label
+              for="email"
+              style="
+                font-weight: 500;
+                margin-bottom: 6px;
+                display: block;
+                text-align: left;
+              "
+              >Email</label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              style="
+                width: 100%;
+                padding: 10px 12px;
+                border-radius: 8px;
+                border: 1px solid #ccc;
+                background: rgba(255, 255, 255, 0.08);
+                color: #e4e4e7;
+                font-size: 1em;
+                margin-bottom: 2px;
+                text-align: left;
+              "
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+          "
+        >
+          <label
+            for="message"
+            style="font-weight: 500; margin-bottom: 6px; display: block"
+            >Your Suggestion / Question / Feedback</label
+          >
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            required
+            style="
+              width: 105%;
+              max-width: 100vw;
+              padding: 12px;
+              border-radius: 8px;
+              border: 1px solid #ccc;
+              background: rgba(255, 255, 255, 0.08);
+              color: #e4e4e7;
+              font-size: 1em;
+              margin-bottom: 2px;
+              box-sizing: border-box;
+              align-self: stretch;
+            "
+          ></textarea>
+        </div>
+        <button
+          type="submit"
+          style="
+            background: #fff;
+            color: #222;
+            padding: 12px 32px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+            font-weight: 600;
+          "
+        >
+          Send
+        </button>
+      </form>
+    </main>
+    <footer class="footer-note" style="margin-top: 48px">
+      © 2025 ChatCard. All rights reserved.
+    </footer>
+  </body>
+</html>

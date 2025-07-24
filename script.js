@@ -60,10 +60,10 @@ function renderLanding() {
           <a href="index.html" class="logo-text" style="text-decoration:none;">chatcard</a>
         </div>
         <div class="pill-navbar-links">
-          <a href="#about" class="nav-link">About</a>
+          <a href="about.html" class="nav-link">About</a>
           <a href="privacy.html" class="nav-link">Privacy</a>
           <a href="#" class="nav-link">Community</a>
-          <a href="#" class="nav-link">Contact</a>
+          <a href="contact.html" class="nav-link">Contact</a>
         </div>
         <div class="pill-navbar-actions">
           <div class="login-button-container">
