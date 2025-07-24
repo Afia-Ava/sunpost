@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign In / Sign Up | ChatCard</title>
     <link rel="stylesheet" href="login.css" />
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="firebase-secrets.js"></script>
@@ -76,7 +75,6 @@
     <div style="height: 48px;"></div>
     <footer class="footer-note">© 2025 ChatCard. All rights reserved.</footer>
     <script>
-      // Tab switching logic
       const card = document.getElementById('loginCard');
       const tabBtns = document.querySelectorAll('.tab-btn');
       const loginForm = document.getElementById('loginForm');
@@ -95,7 +93,6 @@
         });
       });
 
-      // Firebase v8 API
       var app, auth;
       document.addEventListener('DOMContentLoaded', function () {
         if (typeof firebase !== 'undefined') {
@@ -108,7 +105,6 @@
         }
       });
 
-      // Login form submit
       loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const email = document.getElementById('login-email').value;
@@ -150,7 +146,6 @@
           });
       });
 
-      // Show a styled popup notification
       function showPopup(msg, isError) {
         let popup = document.createElement('div');
         popup.textContent = msg;
@@ -238,7 +233,6 @@
       © 2025 ChatCard. All rights reserved.
     </footer>
     <script>
-      // Firebase v8 API
     </script>
   </body>
 </html>

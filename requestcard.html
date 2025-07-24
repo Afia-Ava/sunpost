@@ -35,54 +35,58 @@
     </nav>
     <section class="main-hero">
       <div class="getcard-container">
-        <div class="getcard-title">Request a Personality Card</div>
-        <form id="requestForm" class="card">
-          <label for="questions">Add Custom Questions (comma separated):</label>
-          <input
-            type="text"
-            id="questions"
-            placeholder="e.g. hobbies, work style, favorite books"
-            style="width: 100%; margin-bottom: 1em"
-          />
-          <label for="email">Enter recipient's email (optional):</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="someone@email.com"
-            style="width: 100%; margin-bottom: 1em"
-          />
-          <button type="button" id="generateLinkBtn">
-            Generate Shareable Link
-          </button>
+        <div class="card">
+          <div class="getcard-title">Request a Personality Card</div>
+          <form id="requestForm">
+            <label for="questions"
+              >Add Custom Questions (comma separated):</label
+            >
+            <input
+              type="text"
+              id="questions"
+              placeholder="e.g. hobbies, work style, favorite books"
+              style="width: 100%; margin-bottom: 1em"
+            />
+            <label for="email">Enter recipient's email (optional):</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="someone@email.com"
+              style="width: 100%; margin-bottom: 1em"
+            />
+            <button type="button" id="generateLinkBtn">
+              Generate Shareable Link
+            </button>
+            <button
+              type="button"
+              id="sendInviteBtn"
+              style="margin-left: 10px; background: #222; color: #fff"
+            >
+              Send Invite
+            </button>
+          </form>
+          <div
+            id="shareLinkCard"
+            class="summary-card"
+            style="display: none; margin-top: 2em"
+          ></div>
+          <div
+            id="inviteStatus"
+            class="summary-card"
+            style="
+              display: none;
+              margin-top: 1em;
+              background: #e6f7ff;
+              color: #222;
+            "
+          ></div>
           <button
-            type="button"
-            id="sendInviteBtn"
-            style="margin-left: 10px; background: #222; color: #fff"
+            onclick="window.location.href='index.html'"
+            style="margin-top: 2em; background: #eee; color: #222"
           >
-            Send Invite
+            Back
           </button>
-        </form>
-        <div
-          id="shareLinkCard"
-          class="summary-card"
-          style="display: none; margin-top: 2em"
-        ></div>
-        <div
-          id="inviteStatus"
-          class="summary-card"
-          style="
-            display: none;
-            margin-top: 1em;
-            background: #e6f7ff;
-            color: #222;
-          "
-        ></div>
-        <button
-          onclick="window.location.href='index.html'"
-          style="margin-top: 2em; background: #eee; color: #222"
-        >
-          Back
-        </button>
+        </div>
       </div>
     </section>
     <script src="requestcard.js"></script>
