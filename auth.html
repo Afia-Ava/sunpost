@@ -8,9 +8,10 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="firebase-secrets.js"></script>
     <script src="firebase-config.js"></script>
   </head>
-  <body style="min-height: 100vh; display: flex; flex-direction: column">
+  <body>
     <div id="grain"></div>
     <nav class="top-navbar pill-navbar">
       <div class="pill-navbar-inner">
@@ -30,20 +31,147 @@
         </div>
       </div>
     </nav>
-    <main
-      style="
-        max-width: 400px;
-        margin: 48px auto 0 auto;
-        padding: 32px 24px;
-        background: rgba(30, 30, 30, 0.7);
-        border-radius: 18px;
-        box-shadow: 0 4px 32px rgba(0, 0, 0, 0.12);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        flex: 1;
-      "
-    >
+    <div class="login-container">
+      <div class="login-card" id="loginCard">
+        <div class="login-tabs">
+          <button class="tab-btn active" data-tab="login">Login</button>
+          <button class="tab-btn" data-tab="signup">Signup</button>
+        </div>
+        <div class="login-form-wrapper">
+          <form class="login-form active" id="loginForm">
+            <h2 class="form-title">Login</h2>
+            <div class="form-group">
+              <label for="login-email">Email</label>
+              <input type="email" id="login-email" required>
+            </div>
+            <div class="form-group">
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" required>
+            </div>
+            <button type="submit" class="login-btn">Log In</button>
+          </form>
+          <form class="login-form signup-form" id="signupForm" style="display:none;">
+            <h2 class="form-title">Signup</h2>
+            <div class="form-group">
+              <label for="signup-username">Username</label>
+              <input type="text" id="signup-username" required>
+            </div>
+            <div class="form-group">
+              <label for="signup-email">Email</label>
+              <input type="email" id="signup-email" required>
+            </div>
+            <div class="form-group">
+              <label for="signup-password">Password</label>
+              <input type="password" id="signup-password" required>
+            </div>
+            <div class="form-group">
+              <label for="signup-confirm">Confirm Password</label>
+              <input type="password" id="signup-confirm" required>
+            </div>
+            <button type="submit" class="login-btn">Sign Up</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div style="height: 48px;"></div>
+    <footer class="footer-note">© 2025 ChatCard. All rights reserved.</footer>
+    <script>
+      // Tab switching logic
+      const card = document.getElementById('loginCard');
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          if (btn.dataset.tab === 'login') {
+            loginForm.style.display = '';
+            signupForm.style.display = 'none';
+          } else {
+            loginForm.style.display = 'none';
+            signupForm.style.display = '';
+          }
+        });
+      });
+
+      // Firebase v8 API
+      var app, auth;
+      document.addEventListener('DOMContentLoaded', function () {
+        if (typeof firebase !== 'undefined') {
+          if (!firebase.apps.length) {
+            app = firebase.initializeApp(window.firebaseConfig);
+          } else {
+            app = firebase.app();
+          }
+          auth = firebase.auth();
+        }
+      });
+
+      // Login form submit
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        if (!email || !password) return showPopup('Please enter email and password.', true);
+        auth.signInWithEmailAndPassword(email, password)
+          .then(function (userCredential) {
+            showPopup('Signed in successfully!');
+            setTimeout(function () {
+              window.location.href = 'index.html';
+            }, 700);
+          })
+          .catch(function (err) {
+            showPopup(err.message, true);
+          });
+      });
+
+      // Signup form submit
+      signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = document.getElementById('signup-username').value;
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+        const confirm = document.getElementById('signup-confirm').value;
+        if (!username || !email || !password || !confirm) return showPopup('Please fill all fields.', true);
+        if (password !== confirm) return showPopup('Passwords do not match.', true);
+        if (password.length < 6) return showPopup('Password must be at least 6 characters.', true);
+        auth.createUserWithEmailAndPassword(email, password)
+          .then(function (userCredential) {
+            // Optionally set displayName
+            userCredential.user.updateProfile({ displayName: username });
+            showPopup('Account created! You are signed in.');
+            setTimeout(function () {
+              window.location.href = 'index.html';
+            }, 1200);
+          })
+          .catch(function (err) {
+            showPopup(err.message, true);
+          });
+      });
+
+      // Show a styled popup notification
+      function showPopup(msg, isError) {
+        let popup = document.createElement('div');
+        popup.textContent = msg;
+        popup.style.position = 'fixed';
+        popup.style.top = '32px';
+        popup.style.left = '50%';
+        popup.style.transform = 'translateX(-50%)';
+        popup.style.background = isError ? '#b91c1c' : '#22c55e';
+        popup.style.color = '#fff';
+        popup.style.padding = '16px 32px';
+        popup.style.borderRadius = '12px';
+        popup.style.boxShadow = '0 2px 12px rgba(0,0,0,0.15)';
+        popup.style.zIndex = '9999';
+        popup.style.fontSize = '1.1em';
+        document.body.appendChild(popup);
+        setTimeout(function () {
+          popup.remove();
+        }, 1200);
+      }
+    </script>
+  </body>
       <h1
         style="
           font-size: 2rem;
@@ -111,67 +239,6 @@
     </footer>
     <script>
       // Firebase v8 API
-      let app, auth;
-      document.addEventListener('DOMContentLoaded', function () {
-        if (typeof firebase !== 'undefined') {
-          if (!firebase.apps.length) {
-            app = firebase.initializeApp(firebaseConfig);
-          } else {
-            app = firebase.app();
-          }
-          auth = firebase.auth();
-          // Listen for auth state changes and update navbar
-          auth.onAuthStateChanged(function (user) {
-            updateNavbar(user);
-          });
-        }
-      });
-      function signIn() {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        if (!email || !password)
-          return showMessage('Please enter email and password.');
-        auth
-          .signInWithEmailAndPassword(email, password)
-          .then(function (userCredential) {
-            showMessage('Signed in successfully!');
-            updateNavbar(userCredential.user);
-          })
-          .catch(function (err) {
-            showMessage(err.message);
-          });
-      }
-      function signUp() {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        if (!email || !password)
-          return showMessage('Please enter email and password.');
-        auth
-          .createUserWithEmailAndPassword(email, password)
-          .then(function (userCredential) {
-            showMessage('Account created! You are signed in.');
-            updateNavbar(userCredential.user);
-          })
-          .catch(function (err) {
-            showMessage(err.message);
-          });
-      }
-      function showMessage(msg) {
-        document.getElementById('authMessage').textContent = msg;
-      }
-      function updateNavbar(user) {
-        const container = document.getElementById('profileContainer');
-        if (!container) return;
-        if (user) {
-          // Remove login button and show profile icon + username
-          const name = user.displayName || user.email;
-          container.innerHTML = `<span style="display:inline-flex;align-items:center;gap:8px;"><img src='https://ui-avatars.com/api/?name=${encodeURIComponent(
-            name
-          )}&background=222&color=fff&size=32' alt='Profile' style='width:32px;height:32px;border-radius:50%;border:2px solid #eee;vertical-align:middle;'> <span style='color:#fff;font-weight:500;'>${name}</span></span>`;
-        } else {
-          container.innerHTML = `<a href="login.html" class="login-btn" id="loginBtn">Log In</a>`;
-        }
-      }
     </script>
   </body>
 </html>
