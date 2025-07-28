@@ -3,30 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inquiry | ChatCard</title>
+    <title>Request Card | ChatCard</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="login.css" />
+  </head>
+  <body style="background: #18181b; color: #fff; min-height: 100vh">
+    <div id="grain"></div>
+    <div style="height: 120px"></div>
     <!-- Firebase App (the core Firebase SDK) -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <!-- Add Firebase products that you want to use -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script>
-      // Firebase config for thechatcard project
       const firebaseConfig = {
         apiKey: 'AIzaSyAoea1mOHxpnAt9yJ9QmeVwuXARiuxZeco',
         authDomain: 'thechatcard.firebaseapp.com',
         projectId: 'thechatcard',
         storageBucket: 'thechatcard.appspot.com',
         messagingSenderId: '623571205943',
-        appId: '1:623571205943:web:YOUR_UNIQUE_ID', // TODO: Replace with your actual App ID
+        appId: '1:623571205943:web:fbdd5db249e594a6e0a4b2',
+        measurementId: 'G-5D1FBKFZYR',
       };
       firebase.initializeApp(firebaseConfig);
       const db = firebase.firestore();
     </script>
-  </head>
-  <body style="background: #18181b; color: #fff; min-height: 100vh">
-    <div id="grain"></div>
-    <div style="height: 120px"></div>
     <main style="display: flex; min-height: 100vh">
       <aside
         style="
@@ -85,14 +85,14 @@
             >Get Card</a
           >
           <a
-            href="reqcard.html"
-            class="sidebar-link left-nav-link"
+            href="#"
+            class="sidebar-link left-nav-link selected"
             id="requestcard-link"
             >Request Card</a
           >
           <a
-            href="#"
-            class="sidebar-link left-nav-link selected"
+            href="inquiry.html"
+            class="sidebar-link left-nav-link"
             id="inquiry-link"
             >Inquiry</a
           >
@@ -239,7 +239,10 @@
           padding: 38px 0 0 0;
         "
       >
-        <div id="inquiry-content" style="margin: 0 0 0 48px; max-width: 480px">
+        <div
+          id="request-card-content"
+          style="margin: 0 0 0 48px; max-width: 480px"
+        >
           <h2
             style="
               font-size: 1.5rem;
@@ -248,98 +251,206 @@
               color: #fff;
             "
           >
-            Personality Card Requests
+            Request a Personality Card
           </h2>
-          <div id="email-prompt" style="margin-bottom: 18px">
-            <label for="user-email" style="color: #bdbdbd; font-size: 1.01rem"
-              >Enter your email to see your requests:</label
-            >
-            <input
-              id="user-email"
-              type="email"
-              placeholder="your@email.com"
-              style="
-                width: 70%;
-                border-radius: 8px;
-                border: none;
-                background: #050507;
-                color: #fff;
-                padding: 8px;
-                font-size: 1rem;
-                margin: 0 8px 0 0;
-              "
-            />
+          <label
+            for="recipient-name"
+            style="
+              display: block;
+              margin-bottom: 8px;
+              color: #bdbdbd;
+              font-size: 1.01rem;
+            "
+            >Enter recipient's name:</label
+          >
+          <input
+            id="recipient-name"
+            type="text"
+            placeholder="e.g. John Doe"
+            style="
+              width: 100%;
+              border-radius: 8px;
+              border: none;
+              background: #050507;
+              color: #fff;
+              padding: 12px;
+              font-size: 1rem;
+              margin-bottom: 18px;
+            "
+          />
+          <label
+            for="recipient-email"
+            style="
+              display: block;
+              margin-bottom: 8px;
+              color: #bdbdbd;
+              font-size: 1.01rem;
+            "
+            >Enter recipient's email:</label
+          >
+          <input
+            id="recipient-email"
+            type="email"
+            placeholder="someone@email.com"
+            style="
+              width: 100%;
+              border-radius: 8px;
+              border: none;
+              background: #050507;
+              color: #fff;
+              padding: 12px;
+              font-size: 1rem;
+              margin-bottom: 18px;
+            "
+          />
+          <label
+            for="custom-questions"
+            style="
+              display: block;
+              margin-bottom: 8px;
+              color: #bdbdbd;
+              font-size: 1.01rem;
+            "
+            >Add Custom Questions (comma separated):</label
+          >
+          <input
+            id="custom-questions"
+            type="text"
+            placeholder="e.g. hobbies, work style, favorite books"
+            style="
+              width: 100%;
+              border-radius: 8px;
+              border: none;
+              background: #050507;
+              color: #fff;
+              padding: 12px;
+              font-size: 1rem;
+              margin-bottom: 18px;
+            "
+          />
+          <div style="display: flex; gap: 10px; margin-bottom: 18px">
             <button
-              id="load-inquiries-btn"
+              id="generate-link-btn"
               style="
+                flex: 1;
                 background: #000;
                 color: #fff;
                 border: none;
                 border-radius: 8px;
-                padding: 8px 16px;
-                font-size: 1rem;
+                padding: 12px 0;
+                font-size: 1.08rem;
                 font-weight: 600;
                 cursor: pointer;
+                transition: background 0.18s;
               "
             >
-              Load
+              Generate Shareable Link
             </button>
-          </div>
-          <div id="inquiry-requests-list"></div>
-          <script>
-            // Load inquiries for the entered email
-            document.getElementById('load-inquiries-btn').onclick =
-              async function () {
-                const email = document
-                  .getElementById('user-email')
-                  .value.trim()
-                  .toLowerCase();
-                const listDiv = document.getElementById(
-                  'inquiry-requests-list'
-                );
-                listDiv.innerHTML = '';
-                if (!email) {
-                  alert('Please enter your email.');
-                  return;
-                }
-                listDiv.innerHTML =
-                  '<span style="color:#bdbdbd;">Loading...</span>';
-                try {
-                  const qSnap = await db
-                    .collection('inquiries')
-                    .where('recipientEmail', '==', email)
-                    .orderBy('sentAt', 'desc')
-                    .get();
-                  if (qSnap.empty) {
-                    listDiv.innerHTML =
-                      '<span style="color:#bdbdbd;">No requests found for this email.</span>';
+            <span
+              id="share-link-container"
+              style="
+                display: none;
+                flex: 1;
+                align-items: center;
+                margin-left: 10px;
+              "
+            ></span>
+            <script>
+              // Generate shareable link for personality card inquiry
+              const genLinkBtn = document.getElementById('generate-link-btn');
+              const shareLinkContainer = document.getElementById(
+                'share-link-container'
+              );
+              if (genLinkBtn && shareLinkContainer) {
+                genLinkBtn.addEventListener('click', function () {
+                  const name = document
+                    .getElementById('recipient-name')
+                    .value.trim();
+                  const email = document
+                    .getElementById('recipient-email')
+                    .value.trim();
+                  const questions = document
+                    .getElementById('custom-questions')
+                    .value.trim();
+                  if (!name || !email) {
+                    alert('Please enter both name and email.');
                     return;
                   }
-                  let html = '';
-                  qSnap.forEach(doc => {
-                    const d = doc.data();
-                    html += `<div style="background:#232323; border-radius:12px; box-shadow:0 1px 6px rgba(0,0,0,0.1); padding:22px 18px; margin-bottom:18px;">
-                    <span style="font-size:1.08rem; color:#fff; margin-bottom:10px; display:block;"><b>${
-                      d.recipientName || 'Someone'
-                    }</b> has requested a personality card from you.</span>
-                    <span style="color:#bdbdbd; font-size:0.98rem;">Custom Questions: ${
-                      d.questions || 'None'
-                    }</span><br>
-                    <span style="color:#bdbdbd; font-size:0.95rem;">Sent: ${
-                      d.sentAt ? new Date(d.sentAt).toLocaleString() : ''
-                    }</span><br>
-                    <button style="background:#000; color:#fff; border:none; border-radius:8px; padding:10px 18px; font-size:1rem; font-weight:600; cursor:pointer; margin-top:10px;">Fill Out & Send</button>
-                  </div>`;
+                  const params = new URLSearchParams({
+                    name,
+                    email,
+                    questions,
                   });
-                  listDiv.innerHTML = html;
-                } catch (err) {
-                  listDiv.innerHTML =
-                    '<span style="color:#f77;">Error loading requests: ' +
-                    err.message +
-                    '</span>';
-                }
-              };
-          </script>
+                  const base =
+                    window.location.origin +
+                    window.location.pathname.replace('cards.html', '') +
+                    'inquiry.html';
+                  const link = base + '?' + params.toString();
+                  shareLinkContainer.style.display = 'flex';
+                  shareLinkContainer.innerHTML = `<input type="text" value="${link}" readonly style="width:calc(100% - 60px); background:#18181b; color:#fff; border:none; border-radius:6px; padding:6px 10px; font-size:0.98rem; margin-right:6px;" id="share-link-input"><button style="background:#232323; color:#fff; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:0.98rem;" id="copy-link-btn">Copy</button>`;
+                  document.getElementById('copy-link-btn').onclick =
+                    function () {
+                      const inp = document.getElementById('share-link-input');
+                      inp.select();
+                      document.execCommand('copy');
+                      this.textContent = 'Copied!';
+                      setTimeout(() => {
+                        this.textContent = 'Copy';
+                      }, 1200);
+                    };
+                });
+              }
+            </script>
+            <button
+              id="send-invite-btn"
+              style="
+                flex: 1;
+                background: #000;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                padding: 12px 0;
+                font-size: 1.08rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.18s;
+              "
+            >
+              Send Invite
+            </button>
+            <script>
+              // Send Invite: Save inquiry to Firestore
+              const sendInviteBtn = document.getElementById('send-invite-btn');
+              if (sendInviteBtn) {
+                sendInviteBtn.addEventListener('click', async function () {
+                  const name = document
+                    .getElementById('recipient-name')
+                    .value.trim();
+                  const email = document
+                    .getElementById('recipient-email')
+                    .value.trim();
+                  const questions = document
+                    .getElementById('custom-questions')
+                    .value.trim();
+                  if (!name || !email) {
+                    alert('Please enter both name and email.');
+                    return;
+                  }
+                  try {
+                    await db.collection('inquiries').add({
+                      recipientName: name,
+                      recipientEmail: email,
+                      questions: questions,
+                      sentAt: new Date().toISOString(),
+                    });
+                    alert('Invite sent!');
+                  } catch (err) {
+                    alert('Error sending invite: ' + err.message);
+                  }
+                });
+              }
+            </script>
+          </div>
         </div>
       </section>
     </main>
