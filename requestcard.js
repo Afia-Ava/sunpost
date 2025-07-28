@@ -35,7 +35,7 @@ document
     }
     const baseUrl = window.location.origin + '/getcard.html';
     const params = new URLSearchParams();
-    params.set('questions', questionsInput);
+    // Do not include questions in the link
     if (emailInput) params.set('email', emailInput);
     const shareLink = `${baseUrl}?${params.toString()}`;
     const card = document.getElementById('shareLinkCard');

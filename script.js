@@ -82,10 +82,10 @@ function renderLanding() {
         Understand yourself. Share your vibe. Let others see the real you.
       </div>
       <div class="hero-btn-row">
-        <a href="getcard.html" id="getCardBtn" style="text-decoration:none;">
+        <a href="login.html" id="getCardBtn" style="text-decoration:none;">
           <button style="background:#fff;color:#222;padding:12px 32px;border-radius:10px;font-size:1.1em;cursor:pointer;font-family:'Poppins',sans-serif;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.07);font-weight:600;">Get card</button>
         </a>
-        <a href="requestcard.html" id="requestCardBtn" style="text-decoration:none;">
+        <a href="login.html" id="requestCardBtn" style="text-decoration:none;">
           <button style="background:#fff;color:#222;padding:12px 32px;border-radius:10px;font-size:1.1em;cursor:pointer;font-family:'Poppins',sans-serif;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.07);font-weight:600;">Request card</button>
         </a>
       </div>

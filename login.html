@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login / Signup</title>
     <link rel="stylesheet" href="login.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="firebase-secrets.js"></script>
+    <script src="firebase-config.js"></script>
   </head>
   <body>
     <div id="grain"></div>
@@ -87,28 +91,81 @@
           }
         });
       });
+
+      var app, auth;
+      document.addEventListener('DOMContentLoaded', function () {
+        if (typeof firebase !== 'undefined') {
+          if (!firebase.apps.length) {
+            app = firebase.initializeApp(window.firebaseConfig);
+          } else {
+            app = firebase.app();
+          }
+          auth = firebase.auth();
+        }
+      });
+
+
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        if (!email || !password) return showPopup('Please enter email and password.', true);
+        auth.signInWithEmailAndPassword(email, password)
+          .then(function (userCredential) {
+            showPopup('Signed in successfully!');
+            setTimeout(function () {
+              window.location.href = 'cards.html';
+            }, 700);
+          })
+          .catch(function (err) {
+            showPopup(err.message, true);
+          });
+      });
+
+      signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = document.getElementById('signup-username').value;
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+        const confirm = document.getElementById('signup-confirm').value;
+        if (!username || !email || !password || !confirm) return showPopup('Please fill all fields.', true);
+        if (password !== confirm) return showPopup('Passwords do not match.', true);
+        if (password.length < 6) return showPopup('Password must be at least 6 characters.', true);
+        auth.createUserWithEmailAndPassword(email, password)
+          .then(function (userCredential) {
+            userCredential.user.updateProfile({ displayName: username });
+            showPopup('Account created! You are signed in.');
+            setTimeout(function () {
+              window.location.href = 'cards.html';
+            }, 1200);
+          })
+          .catch(function (err) {
+            showPopup(err.message, true);
+          });
+      });
+
+      function showPopup(msg, isError) {
+        let popup = document.createElement('div');
+        popup.textContent = msg;
+        popup.style.position = 'fixed';
+        popup.style.top = '32px';
+        popup.style.left = '50%';
+        popup.style.transform = 'translateX(-50%)';
+        popup.style.background = isError ? '#b91c1c' : '#22c55e';
+        popup.style.color = '#fff';
+        popup.style.padding = '16px 32px';
+        popup.style.borderRadius = '12px';
+        popup.style.boxShadow = '0 2px 12px rgba(0,0,0,0.15)';
+        popup.style.zIndex = '9999';
+        popup.style.fontSize = '1.1em';
+        document.body.appendChild(popup);
+        setTimeout(function () {
+          popup.remove();
+        }, 1200);
+      }
     </script>
   </body>
     <div style="height: 48px;"></div>
     <footer class="footer-note">© 2025 ChatCard. All rights reserved.</footer>
-    <script>
-      const card = document.getElementById('loginCard');
-      const tabBtns = document.querySelectorAll('.tab-btn');
-      const loginForm = document.getElementById('loginForm');
-      const signupForm = document.getElementById('signupForm');
-      tabBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-          tabBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          if (btn.dataset.tab === 'login') {
-            loginForm.style.display = '';
-            signupForm.style.display = 'none';
-          } else {
-            loginForm.style.display = 'none';
-            signupForm.style.display = '';
-          }
-        });
-      });
-    </script>
   </body>
 </html>

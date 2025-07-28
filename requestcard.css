@@ -82,12 +82,13 @@ label {
   display: block;
 }
 input[type='text'],
+input[type='email'],
 textarea {
   font-size: 1em;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  margin-bottom: 12px;
+  margin-bottom: 18px;
   width: 100%;
   box-sizing: border-box;
 }

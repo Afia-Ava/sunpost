@@ -38,22 +38,18 @@
         <div class="card">
           <div class="getcard-title">Request a Personality Card</div>
           <form id="requestForm">
-            <label for="questions"
+            <label for="questions" style="text-align: left; display: block"
               >Add Custom Questions (comma separated):</label
             >
             <input
               type="text"
               id="questions"
               placeholder="e.g. hobbies, work style, favorite books"
-              style="width: 100%; margin-bottom: 1em"
             />
-            <label for="email">Enter recipient's email (optional):</label>
-            <input
-              type="email"
-              id="email"
-              placeholder="someone@email.com"
-              style="width: 100%; margin-bottom: 1em"
-            />
+            <label for="email" style="text-align: left; display: block"
+              >Enter recipient's email:</label
+            >
+            <input type="email" id="email" placeholder="someone@email.com" />
             <button type="button" id="generateLinkBtn">
               Generate Shareable Link
             </button>
