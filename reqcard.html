@@ -10,22 +10,16 @@
   <body style="background: #18181b; color: #fff; min-height: 100vh">
     <div id="grain"></div>
     <div style="height: 120px"></div>
-    <!-- Firebase App (the core Firebase SDK) -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <!-- Add Firebase products that you want to use -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script>
-      const firebaseConfig = {
-        apiKey: 'AIzaSyAoea1mOHxpnAt9yJ9QmeVwuXARiuxZeco',
-        authDomain: 'thechatcard.firebaseapp.com',
-        projectId: 'thechatcard',
-        storageBucket: 'thechatcard.appspot.com',
-        messagingSenderId: '623571205943',
-        appId: '1:623571205943:web:fbdd5db249e594a6e0a4b2',
-        measurementId: 'G-5D1FBKFZYR',
+      const script = document.createElement('script');
+      script.src = 'firebase-secrets.js';
+      script.onload = function () {
+        firebase.initializeApp(window.firebaseConfig);
+        window.db = firebase.firestore();
       };
-      firebase.initializeApp(firebaseConfig);
-      const db = firebase.firestore();
+      document.head.appendChild(script);
     </script>
     <main style="display: flex; min-height: 100vh">
       <aside
@@ -79,7 +73,7 @@
           "
         >
           <a
-            href="cards.html#getcard"
+            href="cards.html"
             class="sidebar-link left-nav-link"
             id="getcard-link"
             >Get Card</a
@@ -119,25 +113,48 @@
               box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
             "
           >
-            <img
-              src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=256&h=256&facepad=2"
-              alt="Cute Animal"
-              style="
-                width: 38px;
-                height: 38px;
-                border-radius: 50%;
-                object-fit: cover;
-              "
-            />
-            <span
-              style="
-                color: #fff;
-                font-size: 1.08rem;
-                font-weight: 500;
-                white-space: nowrap;
-              "
-              >Afia Khanom Ava</span
-            >
+          <img
+            id="sidebar-profile-pic"
+            src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=256&h=256&facepad=2"
+            alt="Profile Picture"
+            style="
+              width: 38px;
+              height: 38px;
+              border-radius: 50%;
+              object-fit: cover;
+            "
+          />
+          <span
+            id="sidebar-profile-name"
+            style="
+              color: #fff;
+              font-size: 1.08rem;
+              font-weight: 500;
+              white-space: nowrap;
+            "
+            >Your Name</span
+          >
+          <script>
+            // Load profile photo and name/email for sidebar
+            document.addEventListener('DOMContentLoaded', function () {
+              var sidebarPic = document.getElementById('sidebar-profile-pic');
+              var savedPic = localStorage.getItem('chatcard_profile_pic');
+              if (sidebarPic && savedPic) sidebarPic.src = savedPic;
+              var sidebarName = document.getElementById('sidebar-profile-name');
+              // Prefer name from sign up/settings, fallback to email before @, else 'Your Name'
+              var savedName = localStorage.getItem('chatcard_profile_name');
+              var savedEmail = localStorage.getItem('chatcard_profile_email');
+              if (sidebarName) {
+                if (savedName && savedName.trim()) {
+                  sidebarName.textContent = savedName;
+                } else if (savedEmail && savedEmail.trim()) {
+                  sidebarName.textContent = savedEmail.split('@')[0];
+                } else {
+                  sidebarName.textContent = 'Your Name';
+                }
+              }
+            });
+          </script>
             <span style="margin-left: auto; display: flex; align-items: center">
               <div style="position: relative">
                 <button
@@ -208,6 +225,16 @@
                 </div>
               </div>
               <script>
+                // Load profile photo from localStorage for sidebar
+                document.addEventListener('DOMContentLoaded', function () {
+                  var sidebarPic = document.getElementById(
+                    'sidebar-profile-pic'
+                  );
+                  var savedPic = localStorage.getItem('chatcard_profile_pic');
+                  if (sidebarPic && savedPic) {
+                    sidebarPic.src = savedPic;
+                  }
+                });
                 // Dropdown for 3-dot menu
                 const menuBtn = document.getElementById('profile-menu-btn');
                 const dropdown = document.getElementById('profile-dropdown');
@@ -311,7 +338,7 @@
               color: #bdbdbd;
               font-size: 1.01rem;
             "
-            >Add Custom Questions (comma separated):</label
+            >Add Custom Topics (comma separated):</label
           >
           <input
             id="custom-questions"
@@ -356,7 +383,6 @@
               "
             ></span>
             <script>
-              // Generate shareable link for personality card inquiry
               const genLinkBtn = document.getElementById('generate-link-btn');
               const shareLinkContainer = document.getElementById(
                 'share-link-container'
@@ -419,7 +445,6 @@
               Send Invite
             </button>
             <script>
-              // Send Invite: Save inquiry to Firestore
               const sendInviteBtn = document.getElementById('send-invite-btn');
               if (sendInviteBtn) {
                 sendInviteBtn.addEventListener('click', async function () {

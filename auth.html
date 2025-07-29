@@ -133,7 +133,6 @@
         if (password.length < 6) return showPopup('Password must be at least 6 characters.', true);
         auth.createUserWithEmailAndPassword(email, password)
           .then(function (userCredential) {
-            // Optionally set displayName
             userCredential.user.updateProfile({ displayName: username });
             showPopup('Account created! You are signed in.');
             setTimeout(function () {

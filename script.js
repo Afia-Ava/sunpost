@@ -1,32 +1,5 @@
 const app = document.getElementById('app');
 
-const categories = [
-  {
-    name: 'Dating',
-    questions: [
-      'How do you talk to AI about love?',
-      'What’s your ideal first date?',
-      'What’s your biggest dating ick?',
-    ],
-  },
-  {
-    name: 'Creativity',
-    questions: [
-      'What’s your go-to AI prompt?',
-      'What’s your weirdest late-night spiral?',
-      'What’s something you’d never tell an AI?',
-    ],
-  },
-  {
-    name: 'Deep Dive',
-    questions: [
-      'Ask GPT what your biggest fear is.',
-      'What’s your most honest AI convo?',
-      'What do you wish AI could understand about you?',
-    ],
-  },
-];
-
 let state = {
   page: 'landing',
   user: null,

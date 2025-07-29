@@ -79,12 +79,6 @@
             id="inquiry-link"
             >Inquiry</a
           >
-          <a
-            href="settings.html"
-            class="sidebar-link left-nav-link selected"
-            id="settings-link"
-            >Settings</a
-          >
         </nav>
         <div style="flex: 1"></div>
         <div
@@ -109,8 +103,9 @@
             "
           >
             <img
+              id="sidebar-profile-pic"
               src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=256&h=256&facepad=2"
-              alt="Cute Animal"
+              alt="Profile Picture"
               style="
                 width: 38px;
                 height: 38px;
@@ -119,14 +114,122 @@
               "
             />
             <span
+              id="sidebar-profile-name"
               style="
                 color: #fff;
                 font-size: 1.08rem;
                 font-weight: 500;
                 white-space: nowrap;
               "
-              >Afia Khanom Ava</span
+              >Your Name</span
             >
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                var sidebarPic = document.getElementById('sidebar-profile-pic');
+                var savedPic = localStorage.getItem('chatcard_profile_pic');
+                if (sidebarPic && savedPic) sidebarPic.src = savedPic;
+                var sidebarName = document.getElementById(
+                  'sidebar-profile-name'
+                );
+                var savedName = localStorage.getItem('chatcard_profile_name');
+                var savedEmail = localStorage.getItem('chatcard_profile_email');
+                if (sidebarName) {
+                  if (savedName && savedName.trim()) {
+                    sidebarName.textContent = savedName;
+                  } else if (savedEmail && savedEmail.trim()) {
+                    sidebarName.textContent = savedEmail.split('@')[0];
+                  } else {
+                    sidebarName.textContent = 'Your Name';
+                  }
+                }
+              });
+            </script>
+            <span style="margin-left: auto; display: flex; align-items: center">
+              <div style="position: relative">
+                <button
+                  id="profile-menu-btn"
+                  style="
+                    background: none;
+                    border: none;
+                    padding: 0;
+                    cursor: pointer;
+                  "
+                >
+                  <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#bdbdbd"
+                    stroke-width="2.1"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="6" r="1.5" />
+                    <circle cx="12" cy="12" r="1.5" />
+                    <circle cx="12" cy="18" r="1.5" />
+                  </svg>
+                </button>
+                <div
+                  id="profile-dropdown"
+                  style="
+                    display: none;
+                    position: absolute;
+                    right: 0;
+                    bottom: 38px;
+                    background: #232323;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+                    min-width: 140px;
+                    z-index: 10;
+                  "
+                >
+                  <a
+                    href="settings.html"
+                    id="settings-link"
+                    style="
+                      display: block;
+                      padding: 12px 18px;
+                      color: #fff;
+                      text-decoration: none;
+                      font-size: 1em;
+                      border-bottom: 1px solid #333;
+                      border-radius: 8px 8px 0 0;
+                    "
+                    >Settings</a
+                  >
+                  <a
+                    href="index.html"
+                    id="logout-link"
+                    style="
+                      display: block;
+                      padding: 12px 18px;
+                      color: #fff;
+                      text-decoration: none;
+                      font-size: 1em;
+                      border-radius: 0 0 8px 8px;
+                    "
+                    >Log Out</a
+                  >
+                </div>
+              </div>
+              <script>
+                // Dropdown for 3-dot menu
+                const menuBtn = document.getElementById('profile-menu-btn');
+                const dropdown = document.getElementById('profile-dropdown');
+                if (menuBtn && dropdown) {
+                  menuBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    dropdown.style.display =
+                      dropdown.style.display === 'block' ? 'none' : 'block';
+                  });
+                  document.addEventListener('click', function (e) {
+                    if (dropdown.style.display === 'block')
+                      dropdown.style.display = 'none';
+                  });
+                }
+              </script>
+            </span>
           </div>
         </div>
       </aside>
@@ -149,11 +252,12 @@
           style="
             max-width: 480px;
             width: 100%;
-            margin: 48px 0 0 0;
+            margin: 8px 0 0 0;
             display: flex;
             flex-direction: column;
             align-items: center;
           "
+          id="settings-form"
         >
           <h2
             style="
@@ -175,6 +279,7 @@
             "
           >
             <img
+              id="profile-pic-preview"
               src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=96&h=96&facepad=2"
               alt="Profile Picture"
               style="
@@ -186,13 +291,20 @@
                 background: #232323;
               "
             />
+            <input
+              type="file"
+              id="profile-pic-input"
+              accept="image/*"
+              style="display: none"
+            />
             <button
               type="button"
+              id="change-pic-btn"
               style="
                 margin-left: 18px;
-                background: #232323;
-                color: #7fff7f;
-                border: 1px solid #333;
+                background: #000;
+                color: #fff;
+                border: 1px solid #000;
                 border-radius: 8px;
                 padding: 8px 16px;
                 font-size: 1rem;
@@ -220,12 +332,13 @@
             style="
               width: 100%;
               border-radius: 8px;
-              border: none;
-              background: #18181b;
+              border: 1.5px solid #333;
+              background: #101012;
               color: #fff;
               padding: 12px;
               font-size: 1rem;
               margin-bottom: 18px;
+              transition: border 0.18s, background 0.18s;
             "
           />
           <label
@@ -245,20 +358,21 @@
             style="
               width: 100%;
               border-radius: 8px;
-              border: none;
-              background: #18181b;
+              border: 1.5px solid #333;
+              background: #101012;
               color: #fff;
               padding: 12px;
               font-size: 1rem;
               margin-bottom: 28px;
+              transition: border 0.18s, background 0.18s;
             "
           />
           <button
             type="submit"
             style="
               width: 100%;
-              background: #7fff7f;
-              color: #18181b;
+              background: #000;
+              color: #fff;
               border: none;
               border-radius: 8px;
               padding: 12px 0;
@@ -274,4 +388,121 @@
       </section>
     </main>
   </body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Dropdown for 3-dot menu (existing)
+      const menuBtn = document.getElementById('profile-menu-btn');
+      const dropdown = document.getElementById('profile-dropdown');
+      if (menuBtn && dropdown) {
+        menuBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          dropdown.style.display =
+            dropdown.style.display === 'block' ? 'none' : 'block';
+        });
+        document.addEventListener('click', function (e) {
+          if (dropdown.style.display === 'block')
+            dropdown.style.display = 'none';
+        });
+      }
+
+      // Profile picture upload and persistence
+      const picInput = document.getElementById('profile-pic-input');
+      const picPreview = document.getElementById('profile-pic-preview');
+      const changePicBtn = document.getElementById('change-pic-btn');
+      const profileForm = document.getElementById('settings-form');
+      const nameInput = document.getElementById('settings-name');
+      const usernameInput = document.getElementById('settings-username');
+
+      function loadProfilePic() {
+        const savedPic = localStorage.getItem('chatcard_profile_pic');
+        if (savedPic) {
+          picPreview.src = savedPic;
+        }
+        // Also update sidebar/profile menu pic if present
+        const sidebarPic = document.getElementById('sidebar-profile-pic');
+        if (sidebarPic && sidebarPic !== picPreview && savedPic) {
+          sidebarPic.src = savedPic;
+        }
+      }
+      loadProfilePic();
+
+      // Load name and username from localStorage
+      function loadProfileName() {
+        const savedName = localStorage.getItem('chatcard_profile_name');
+        if (nameInput && savedName) nameInput.value = savedName;
+        const savedUsername = localStorage.getItem('chatcard_profile_username');
+        if (usernameInput && savedUsername) usernameInput.value = savedUsername;
+        // Update sidebar name
+        const sidebarName = document.getElementById('sidebar-profile-name');
+        const savedEmail = localStorage.getItem('chatcard_profile_email');
+        if (sidebarName) {
+          if (savedName && savedName.trim()) {
+            sidebarName.textContent = savedName;
+          } else if (savedEmail && savedEmail.trim()) {
+            sidebarName.textContent = savedEmail.split('@')[0];
+          } else {
+            sidebarName.textContent = 'Your Name';
+          }
+        }
+      }
+      loadProfileName();
+
+      if (changePicBtn && picInput && picPreview) {
+        changePicBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          picInput.click();
+        });
+        picInput.addEventListener('change', function (e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (evt) {
+              picPreview.src = evt.target.result;
+              localStorage.setItem('chatcard_profile_pic', evt.target.result);
+              // Also update sidebar/profile menu pic if present
+              const sidebarPic = document.getElementById('sidebar-profile-pic');
+              if (sidebarPic && sidebarPic !== picPreview) {
+                sidebarPic.src = evt.target.result;
+              }
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+
+      // Save name and username on form submit
+      if (profileForm) {
+        profileForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          const nameVal = nameInput ? nameInput.value.trim() : '';
+          const usernameVal = usernameInput ? usernameInput.value.trim() : '';
+          if (nameVal) {
+            localStorage.setItem('chatcard_profile_name', nameVal);
+          } else {
+            localStorage.removeItem('chatcard_profile_name');
+          }
+          if (usernameVal) {
+            localStorage.setItem('chatcard_profile_username', usernameVal);
+          } else {
+            localStorage.removeItem('chatcard_profile_username');
+          }
+          // Update sidebar name immediately
+          loadProfileName();
+          // Optionally show a success message
+          if (profileForm.querySelector('.profile-success-msg')) {
+            profileForm.querySelector('.profile-success-msg').remove();
+          }
+          const msg = document.createElement('div');
+          msg.className = 'profile-success-msg';
+          msg.style.cssText =
+            'color:#7fff7f; margin:12px 0 0 0; font-size:1.01rem;';
+          msg.textContent = 'Profile updated!';
+          profileForm.appendChild(msg);
+          setTimeout(() => {
+            if (msg.parentNode) msg.parentNode.removeChild(msg);
+          }, 1800);
+        });
+      }
+    });
+  </script>
 </html>

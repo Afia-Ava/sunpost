@@ -1,2 +1,2 @@
 # chatcard
-your brain’s business card. drop your ai chats, get a vibe check, and share the unfiltered you.
+Understand yourself. Share your vibe. Let others see the real you.

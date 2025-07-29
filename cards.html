@@ -62,7 +62,7 @@
           "
         >
           <a
-            href="#getcard"
+            href="cards.html"
             class="sidebar-link left-nav-link selected"
             id="getcard-link"
             >Get Card</a
@@ -79,59 +79,6 @@
             id="inquiry-link"
             >Inquiry</a
           >
-          <script>
-            // Sidebar navigation: only toggle static DOM sections
-            const getCardLink = document.getElementById('getcard-link');
-            const requestCardLink = document.getElementById('requestcard-link');
-            const inquiryLink = document.getElementById('inquiry-link');
-            function showPage(page) {
-              const getCardContent =
-                document.getElementById('get-card-content');
-              const requestCardContent = document.getElementById(
-                'request-card-content'
-              );
-              const inquiryContent = document.getElementById('inquiry-content');
-              // Remove 'selected' from all links first
-              getCardLink.classList.remove('selected');
-              requestCardLink.classList.remove('selected');
-              inquiryLink.classList.remove('selected');
-              if (page === 'getcard') {
-                getCardContent.style.display = '';
-                requestCardContent.style.display = 'none';
-                inquiryContent.style.display = 'none';
-                getCardLink.classList.add('selected');
-              } else if (page === 'requestcard') {
-                getCardContent.style.display = 'none';
-                requestCardContent.style.display = '';
-                inquiryContent.style.display = 'none';
-                requestCardLink.classList.add('selected');
-              } else if (page === 'inquiry') {
-                getCardContent.style.display = 'none';
-                requestCardContent.style.display = 'none';
-                inquiryContent.style.display = '';
-                inquiryLink.classList.add('selected');
-              }
-            }
-            getCardLink.addEventListener('click', function (e) {
-              e.preventDefault();
-              showPage('getcard');
-            });
-            requestCardLink.addEventListener('click', function (e) {
-              e.preventDefault();
-              showPage('requestcard');
-            });
-            // Removed event handler for Inquiry link so it navigates to inquiry.html
-            document.addEventListener('DOMContentLoaded', function () {
-              // Show Get Card by default
-              showPage('getcard');
-              const backBtn = document.getElementById('back-btn');
-              if (backBtn) {
-                backBtn.addEventListener('click', function () {
-                  showPage('getcard');
-                });
-              }
-            });
-          </script>
         </nav>
         <div style="flex: 1"></div>
         <div
@@ -156,8 +103,9 @@
             "
           >
             <img
+              id="sidebar-profile-pic"
               src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=256&h=256&facepad=2"
-              alt="Cute Animal"
+              alt="Profile Picture"
               style="
                 width: 38px;
                 height: 38px;
@@ -166,14 +114,36 @@
               "
             />
             <span
+              id="sidebar-profile-name"
               style="
                 color: #fff;
                 font-size: 1.08rem;
                 font-weight: 500;
                 white-space: nowrap;
               "
-              >Afia Khanom Ava</span
+              >Your Name</span
             >
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                var sidebarPic = document.getElementById('sidebar-profile-pic');
+                var savedPic = localStorage.getItem('chatcard_profile_pic');
+                if (sidebarPic && savedPic) sidebarPic.src = savedPic;
+                var sidebarName = document.getElementById(
+                  'sidebar-profile-name'
+                );
+                var savedName = localStorage.getItem('chatcard_profile_name');
+                var savedEmail = localStorage.getItem('chatcard_profile_email');
+                if (sidebarName) {
+                  if (savedName && savedName.trim()) {
+                    sidebarName.textContent = savedName;
+                  } else if (savedEmail && savedEmail.includes('@')) {
+                    sidebarName.textContent = savedEmail.split('@')[0];
+                  } else {
+                    sidebarName.textContent = 'Your Name';
+                  }
+                }
+              });
+            </script>
             <span style="margin-left: auto; display: flex; align-items: center">
               <div style="position: relative">
                 <button
@@ -272,6 +242,31 @@
                     window.location.href = 'settings.html';
                   });
                 }
+                // Load profile photo and name/email for sidebar
+                document.addEventListener('DOMContentLoaded', function () {
+                  var sidebarPic = document.getElementById(
+                    'sidebar-profile-pic'
+                  );
+                  var savedPic = localStorage.getItem('chatcard_profile_pic');
+                  if (sidebarPic && savedPic) sidebarPic.src = savedPic;
+                  var sidebarName = document.getElementById(
+                    'sidebar-profile-name'
+                  );
+                  // Prefer name from sign up/settings, fallback to email before @, else 'Your Name'
+                  var savedName = localStorage.getItem('chatcard_profile_name');
+                  var savedEmail = localStorage.getItem(
+                    'chatcard_profile_email'
+                  );
+                  if (sidebarName) {
+                    if (savedName && savedName.trim()) {
+                      sidebarName.textContent = savedName;
+                    } else if (savedEmail && savedEmail.includes('@')) {
+                      sidebarName.textContent = savedEmail.split('@')[0];
+                    } else {
+                      sidebarName.textContent = 'Your Name';
+                    }
+                  }
+                });
               </script>
             </span>
           </div>
@@ -880,7 +875,6 @@
               "
             ></span>
             <script>
-              // Generate shareable link for personality card inquiry
               const genLinkBtn = document.getElementById('generate-link-btn');
               const shareLinkContainer = document.getElementById(
                 'share-link-container'
