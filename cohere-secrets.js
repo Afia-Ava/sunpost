@@ -1,0 +1,1 @@
+exports.COHERE_API_KEY = 'gGVJmpuRycESj380L8qmTwDI07uIZbJbS2pXLQvw';

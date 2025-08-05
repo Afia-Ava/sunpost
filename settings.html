@@ -214,7 +214,6 @@
                 </div>
               </div>
               <script>
-                // Dropdown for 3-dot menu
                 const menuBtn = document.getElementById('profile-menu-btn');
                 const dropdown = document.getElementById('profile-dropdown');
                 if (menuBtn && dropdown) {
@@ -390,7 +389,6 @@
   </body>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      // Dropdown for 3-dot menu (existing)
       const menuBtn = document.getElementById('profile-menu-btn');
       const dropdown = document.getElementById('profile-dropdown');
       if (menuBtn && dropdown) {
@@ -405,7 +403,6 @@
         });
       }
 
-      // Profile picture upload and persistence
       const picInput = document.getElementById('profile-pic-input');
       const picPreview = document.getElementById('profile-pic-preview');
       const changePicBtn = document.getElementById('change-pic-btn');
@@ -418,7 +415,6 @@
         if (savedPic) {
           picPreview.src = savedPic;
         }
-        // Also update sidebar/profile menu pic if present
         const sidebarPic = document.getElementById('sidebar-profile-pic');
         if (sidebarPic && sidebarPic !== picPreview && savedPic) {
           sidebarPic.src = savedPic;
@@ -426,13 +422,11 @@
       }
       loadProfilePic();
 
-      // Load name and username from localStorage
       function loadProfileName() {
         const savedName = localStorage.getItem('chatcard_profile_name');
         if (nameInput && savedName) nameInput.value = savedName;
         const savedUsername = localStorage.getItem('chatcard_profile_username');
         if (usernameInput && savedUsername) usernameInput.value = savedUsername;
-        // Update sidebar name
         const sidebarName = document.getElementById('sidebar-profile-name');
         const savedEmail = localStorage.getItem('chatcard_profile_email');
         if (sidebarName) {
@@ -459,7 +453,6 @@
             reader.onload = function (evt) {
               picPreview.src = evt.target.result;
               localStorage.setItem('chatcard_profile_pic', evt.target.result);
-              // Also update sidebar/profile menu pic if present
               const sidebarPic = document.getElementById('sidebar-profile-pic');
               if (sidebarPic && sidebarPic !== picPreview) {
                 sidebarPic.src = evt.target.result;
@@ -470,7 +463,6 @@
         });
       }
 
-      // Save name and username on form submit
       if (profileForm) {
         profileForm.addEventListener('submit', function (e) {
           e.preventDefault();
@@ -486,9 +478,7 @@
           } else {
             localStorage.removeItem('chatcard_profile_username');
           }
-          // Update sidebar name immediately
           loadProfileName();
-          // Optionally show a success message
           if (profileForm.querySelector('.profile-success-msg')) {
             profileForm.querySelector('.profile-success-msg').remove();
           }

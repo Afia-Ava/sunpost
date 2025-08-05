@@ -135,13 +135,11 @@
             >Your Name</span
           >
           <script>
-            // Load profile photo and name/email for sidebar
             document.addEventListener('DOMContentLoaded', function () {
               var sidebarPic = document.getElementById('sidebar-profile-pic');
               var savedPic = localStorage.getItem('chatcard_profile_pic');
               if (sidebarPic && savedPic) sidebarPic.src = savedPic;
               var sidebarName = document.getElementById('sidebar-profile-name');
-              // Prefer name from sign up/settings, fallback to email before @, else 'Your Name'
               var savedName = localStorage.getItem('chatcard_profile_name');
               var savedEmail = localStorage.getItem('chatcard_profile_email');
               if (sidebarName) {
@@ -225,7 +223,6 @@
                 </div>
               </div>
               <script>
-                // Load profile photo from localStorage for sidebar
                 document.addEventListener('DOMContentLoaded', function () {
                   var sidebarPic = document.getElementById(
                     'sidebar-profile-pic'
@@ -235,7 +232,6 @@
                     sidebarPic.src = savedPic;
                   }
                 });
-                // Dropdown for 3-dot menu
                 const menuBtn = document.getElementById('profile-menu-btn');
                 const dropdown = document.getElementById('profile-dropdown');
                 if (menuBtn && dropdown) {

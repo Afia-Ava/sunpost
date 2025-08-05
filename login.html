@@ -142,7 +142,6 @@
         auth.createUserWithEmailAndPassword(email, password)
           .then(function (userCredential) {
             userCredential.user.updateProfile({ displayName: username });
-            // Save username and email to localStorage for sidebar/profile
             localStorage.setItem('chatcard_profile_name', username);
             localStorage.setItem('chatcard_profile_email', email);
             showPopup('Account created! You are signed in.');
