@@ -531,20 +531,8 @@
                       body: JSON.stringify({ memory }),
                     }
                   );
-                  let data;
-                  try {
-                    data = await res.json();
-                  } catch (jsonErr) {
-                    data = { card: '', error: 'Invalid JSON from backend' };
-                  }
-                  if (!res.ok || !data.card) {
-                    modal.innerHTML =
-                      '<div style="color:#ffbdbd;">Error: ' +
-                      (data.error || 'AI backend error') +
-                      '<br><br><span style="color:#bdbdbd; font-size:0.98em;">Check backend terminal for details.</span></div>';
-                    console.error('AI backend error:', data.error);
-                    return;
-                  }
+                  if (!res.ok) throw new Error('AI backend error');
+                  const data = await res.json();
                   modal.innerHTML =
                     '<b>Your Personality Card</b><br><br>' +
                     '<div style="white-space:pre-line; text-align:left; font-size:1.08em;">' +
@@ -559,8 +547,7 @@
                   modal.innerHTML =
                     '<div style="color:#ffbdbd;">Error: ' +
                     (e.message || 'Could not generate card.') +
-                    '<br><br><span style="color:#bdbdbd; font-size:0.98em;">Check backend terminal for details.</span></div>';
-                  console.error('AI backend error:', e);
+                    '</div>';
                 }
               });
             }
