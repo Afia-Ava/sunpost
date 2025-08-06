@@ -398,62 +398,192 @@
             >
               It’s quiet here for now.<br />
             </div>
+            <div
+              id="letter-modal"
+              style="
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(60, 47, 47, 0.18);
+                z-index: 1000;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <div
+                id="letter-modal-content"
+                style="
+                  background: #e9e5dc;
+                  border-radius: 18px;
+                  box-shadow: 0 2px 24px #cbbfad55;
+                  padding: 38px 32px;
+                  max-width: 480px;
+                  min-width: 320px;
+                  color: #3c2f2f;
+                  font-family: 'Georgia', 'Poppins', serif;
+                  position: relative;
+                "
+              >
+                <button
+                  id="close-modal-btn"
+                  style="
+                    position: absolute;
+                    top: 18px;
+                    right: 18px;
+                    background: #a8bba3;
+                    color: #3c2f2f;
+                    border: 1.5px solid #cbbfad;
+                    border-radius: 6px;
+                    font-weight: 700;
+                    font-size: 1.1rem;
+                    padding: 4px 12px;
+                    cursor: pointer;
+                  "
+                >
+                  Close
+                </button>
+                <div id="modal-letter-content"></div>
+              </div>
+            </div>
           </div>
           <script>
             document.addEventListener('DOMContentLoaded', function () {
+              function showLetterModal(letter) {
+                var modal = document.getElementById('letter-modal');
+                var modalContent = document.getElementById(
+                  'modal-letter-content'
+                );
+                modalContent.innerHTML =
+                  '<div style="font-weight:700; margin-bottom:8px; color:#3c2f2f;">From: ' +
+                  (letter.from || 'Anonymous') +
+                  (letter.fromEmail
+                    ? ' &lt;' + letter.fromEmail + '&gt;'
+                    : '') +
+                  '</div>' +
+                  '<div style="margin-bottom:10px; color:#3c2f2f; white-space:pre-line;">' +
+                  (letter.content || '') +
+                  '</div>' +
+                  '<div style="font-size:0.98rem; color:#a8bba3;">Sent: ' +
+                  (letter.sentAt
+                    ? new Date(letter.sentAt).toLocaleString()
+                    : '') +
+                  '</div>';
+                modal.style.display = 'flex';
+              }
+
               function loadInbox() {
                 var userEmail = localStorage.getItem('chatcard_profile_email');
-                if (!userEmail) return;
-                db.collection('letters')
-                  .where('to', '==', userEmail)
+                var inboxList = document.getElementById('inbox-list');
+                var inboxEmpty = document.getElementById('inbox-empty');
+                var inboxCards = inboxList.querySelectorAll(
+                  'div:not(#inbox-empty):not(#letter-modal)'
+                );
+                inboxCards.forEach(function (card) {
+                  card.remove();
+                });
+                inboxEmpty.style.display = 'none';
+                if (!userEmail || !userEmail.trim()) {
+                  inboxEmpty.style.display = 'block';
+                  inboxEmpty.innerHTML = 'You are not logged in.';
+                  return;
+                }
+                userEmail = userEmail.trim().toLowerCase();
+                var query = db
+                  .collection('letters')
+                  .where('to', '==', userEmail);
+                query
                   .orderBy('sentAt', 'desc')
                   .get()
                   .then(function (querySnapshot) {
-                    var inboxList = document.getElementById('inbox-list');
-                    var inboxEmpty = document.getElementById('inbox-empty');
-                    inboxList.innerHTML = '';
+                    var found = 0;
                     if (querySnapshot.empty) {
                       inboxEmpty.style.display = 'block';
-                      return;
+                      inboxEmpty.innerHTML =
+                        'It\'s quiet here for now.<br><span style="color:#a8bba3; font-size:0.95em;">(No letters found for ' +
+                        userEmail +
+                        ')</span>';
+                    } else {
+                      querySnapshot.forEach(function (doc) {
+                        var letter = doc.data();
+                        found++;
+                        var card = document.createElement('div');
+                        card.style.background = '#e9e5dc';
+                        card.style.borderRadius = '12px';
+                        card.style.boxShadow = '0 1px 8px #cbbfad33';
+                        card.style.padding = '22px 18px';
+                        card.style.marginBottom = '18px';
+                        card.style.width = '100%';
+                        card.style.maxWidth = '600px';
+                        card.style.fontFamily = "'Georgia', 'Poppins', serif";
+                        card.style.cursor = 'pointer';
+                        card.style.transition = 'box-shadow 0.18s';
+                        card.onmouseenter = function () {
+                          card.style.boxShadow = '0 2px 16px #a8bba344';
+                        };
+                        card.onmouseleave = function () {
+                          card.style.boxShadow = '0 1px 8px #cbbfad33';
+                        };
+                        card.innerHTML =
+                          '<div style="font-weight:700; margin-bottom:8px; color:#3c2f2f;">From: ' +
+                          (letter.from || 'Anonymous') +
+                          (letter.fromEmail
+                            ? ' &lt;' + letter.fromEmail + '&gt;'
+                            : '') +
+                          '</div>' +
+                          '<div style="margin-bottom:10px; color:#3c2f2f; white-space:pre-line;">' +
+                          (letter.content
+                            ? letter.content.length > 120
+                              ? letter.content.substring(0, 120) + '...'
+                              : letter.content
+                            : '') +
+                          '</div>' +
+                          '<div style="font-size:0.98rem; color:#a8bba3;">Sent: ' +
+                          (letter.sentAt
+                            ? new Date(letter.sentAt).toLocaleString()
+                            : '') +
+                          '</div>' +
+                          '<div style="margin-top:8px; text-align:right;"><span style="color:#3c2f2f; font-size:0.98rem; font-weight:600; text-decoration:underline; cursor:pointer;">View</span></div>';
+                        card.onclick = function () {
+                          showLetterModal(letter);
+                        };
+                        inboxList.appendChild(card);
+                      });
+                      if (found === 0) {
+                        inboxEmpty.style.display = 'block';
+                        inboxEmpty.innerHTML =
+                          'It\'s quiet here for now.<br><span style="color:#a8bba3; font-size:0.95em;">(No letters found for ' +
+                          userEmail +
+                          ')</span>';
+                      } else {
+                        inboxEmpty.style.display = 'none';
+                      }
                     }
-                    inboxEmpty.style.display = 'none';
-                    querySnapshot.forEach(function (doc) {
-                      var letter = doc.data();
-                      var card = document.createElement('div');
-                      card.style.background = '#e9e5dc';
-                      card.style.borderRadius = '12px';
-                      card.style.boxShadow = '0 1px 8px #cbbfad33';
-                      card.style.padding = '22px 18px';
-                      card.style.marginBottom = '18px';
-                      card.style.width = '100%';
-                      card.style.maxWidth = '600px';
-                      card.style.fontFamily = "'Georgia', 'Poppins', serif";
-                      card.innerHTML =
-                        '<div style="font-weight:700; margin-bottom:8px; color:#3c2f2f;">From: ' +
-                        (letter.from || 'Anonymous') +
-                        (letter.fromEmail
-                          ? ' &lt;' + letter.fromEmail + '&gt;'
-                          : '') +
-                        '</div>' +
-                        '<div style="margin-bottom:10px; color:#3c2f2f;">' +
-                        (letter.content || '') +
-                        '</div>' +
-                        '<div style="font-size:0.98rem; color:#a8bba3;">Sent: ' +
-                        (letter.sentAt
-                          ? new Date(letter.sentAt).toLocaleString()
-                          : '') +
-                        '</div>';
-                      inboxList.appendChild(card);
-                    });
                   })
                   .catch(function (err) {
-                    var inboxList = document.getElementById('inbox-list');
                     inboxList.innerHTML =
                       '<div style="color:red;">Error loading inbox: ' +
                       err.message +
                       '</div>';
                   });
               }
+
+              document.addEventListener('click', function (e) {
+                var modal = document.getElementById('letter-modal');
+                if (
+                  modal &&
+                  modal.style.display === 'flex' &&
+                  e.target === modal
+                ) {
+                  modal.style.display = 'none';
+                }
+              });
+              document.getElementById('close-modal-btn').onclick = function () {
+                document.getElementById('letter-modal').style.display = 'none';
+              };
+
               if (window.db) {
                 loadInbox();
               } else {
