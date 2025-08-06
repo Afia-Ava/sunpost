@@ -27,6 +27,7 @@ function render() {
 
 function renderLanding() {
   app.innerHTML = `
+    <div id="grain"></div>
     <nav class="top-navbar pill-navbar">
       <div class="pill-navbar-inner">
         <div class="pill-navbar-logo">
@@ -46,20 +47,16 @@ function renderLanding() {
       </div>
     </nav>
     <section class="main-hero">
-      <h1 class="hero-title big" style="margin-bottom:0.4em;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif;">Sunpost</h1>
-      <div class="hero-desc big" style="font-size:4vw;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif;">
-        Sunpost is a personality layer<br>
-        built on top of your AI chats.
+      <h1 class="hero-title big" style="margin-bottom:0.4em;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif; color: #23422a !important; text-shadow: none !important;">Sunpost</h1>
+      <div class="hero-desc big" style="font-size:4vw;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif; color: #23422a !important; text-shadow: none !important;">
+        Send letters like postcards from your mind.
       </div>
-      <div class="hero-desc sub-caption" style="font-size:1.25em;color:#fff;margin:-0.5em auto 0 auto;white-space:nowrap;filter:none;transition:none;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif;">
-        Understand yourself. Share your vibe. Let others see the real you.
+      <div class="hero-desc sub-caption" style="font-size:1.25em;color:#23422a !important;margin:-0.5em auto 0 auto;white-space:nowrap;filter:none;transition:none;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif; text-shadow: none !important;">
+        Capture a moment, a feeling, or a thought, and send it.
       </div>
-      <div class="hero-btn-row">
-        <a href="login.html" id="getCardBtn" style="text-decoration:none;">
-          <button style="background:#fff;color:#222;padding:12px 32px;border-radius:10px;font-size:1.1em;cursor:pointer;font-family:'Poppins',sans-serif;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.07);font-weight:600;">Get card</button>
-        </a>
-        <a href="login.html" id="requestCardBtn" style="text-decoration:none;">
-          <button style="background:#fff;color:#222;padding:12px 32px;border-radius:10px;font-size:1.1em;cursor:pointer;font-family:'Poppins',sans-serif;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.07);font-weight:600;">Request card</button>
+      <div style="display: flex; justify-content: center; margin-top: 2.2em;">
+        <a href="login.html" id="getStartedBtn" style="text-decoration:none;">
+          <button style="background:#fff;color:#222;padding:14px 48px;border-radius:12px;font-size:1.18rem;cursor:pointer;font-family:'Poppins',sans-serif;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.07);font-weight:700;">Get started</button>
         </a>
       </div>
     </section>

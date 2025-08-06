@@ -13,9 +13,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ChatCard — Reverse Mode</title>
     <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Force dark green for hero h1 and p, override any !important or external rules */
+      body #app main > h1 {
+        color: #23422a !important;
+        text-shadow: none !important;
+      }
+      body #app main > p {
+        color: #23422a !important;
+        text-shadow: none !important;
+      }
+    </style>
   </head>
-  <body>
+  <body style="background: #a8bba3">
     <div id="grain"></div>
+    <style>
+      #grain {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 1;
+        background-image: repeating-linear-gradient(
+            0deg,
+            rgba(85, 119, 85, 0.1) 0px,
+            rgba(105, 150, 105, 0.1) 1px,
+            transparent 1px,
+            transparent 32px
+          ),
+          repeating-linear-gradient(
+            90deg,
+            rgba(108, 148, 108, 0.1) 0px,
+            rgba(80, 110, 80, 0.1) 1px,
+            transparent 1px,
+            transparent 32px
+          ),
+          url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=');
+        mix-blend-mode: multiply;
+      }
+    </style>
     <div id="app">
       <main
         style="
@@ -31,45 +70,30 @@
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 32px;
-            color: #fff;
+            color: #23422a;
           "
         >
-          Chatcard is a personality layer built on top of your AI chats.
+          Send letters like postcards from your mind.
         </h1>
-        <p style="font-size: 1.18rem; color: #bdbdbd; margin-bottom: 36px">
-          Understand yourself. Share your vibe. Let others see the real you.
+        <p style="font-size: 1.18rem; color: #23422a; margin-bottom: 36px">
+          Capture a moment, a feeling, or a thought, and send it.
         </p>
-        <div style="display: flex; gap: 24px">
+        <div style="display: flex; justify-content: center">
           <a
             href="login.html"
-            id="get-card-btn"
+            id="get-started-btn"
             style="
               background: #fff;
               color: #18181b;
-              padding: 18px 38px;
+              padding: 18px 48px;
               font-size: 1.18rem;
-              font-weight: 600;
+              font-weight: 700;
               border-radius: 12px;
               text-decoration: none;
               box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
               transition: background 0.18s;
             "
-            >Get card</a
-          >
-          <a
-            href="login.html"
-            style="
-              background: #232323;
-              color: #fff;
-              padding: 18px 38px;
-              font-size: 1.18rem;
-              font-weight: 600;
-              border-radius: 12px;
-              text-decoration: none;
-              box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-              transition: background 0.18s;
-            "
-            >Request card</a
+            >Get started</a
           >
         </div>
       </main>
