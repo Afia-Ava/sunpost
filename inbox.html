@@ -228,8 +228,8 @@
                 var sidebarName = document.getElementById(
                   'sidebar-profile-name'
                 );
-                var savedName = localStorage.getItem('chatcard_profile_name');
-                var savedEmail = localStorage.getItem('chatcard_profile_email');
+                var savedName = localStorage.getItem('sunpost_profile_name');
+                var savedEmail = localStorage.getItem('sunpost_profile_email');
                 if (sidebarName) {
                   if (savedName && savedName.trim()) {
                     sidebarName.textContent = savedName;
@@ -475,7 +475,7 @@
               }
 
               function loadInbox() {
-                var userEmail = localStorage.getItem('chatcard_profile_email');
+                var userEmail = localStorage.getItem('sunpost_profile_email');
                 var inboxList = document.getElementById('inbox-list');
                 var inboxEmpty = document.getElementById('inbox-empty');
                 var inboxCards = inboxList.querySelectorAll(

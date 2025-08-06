@@ -98,8 +98,8 @@ function renderAuth() {
       state.users[u] = p;
       state.user = { username: u };
       state.authError = '';
-      state.page = 'dashboard';
-      render();
+      window.location.href = 'write.html';
+      return;
     } else {
       if (!state.users[u] || state.users[u] !== p) {
         state.authError = 'Invalid credentials.';
@@ -108,8 +108,8 @@ function renderAuth() {
       }
       state.user = { username: u };
       state.authError = '';
-      state.page = 'dashboard';
-      render();
+      window.location.href = 'write.html';
+      return;
     }
   };
 }

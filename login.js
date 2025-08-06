@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     alert(
       `${action} with ${email}. This is a demo! Replace with real authentication.`
     );
-    window.location.href = 'cards.html';
+    window.location.href = 'write.html';
   });
 
   function isValidEmail(email) {
