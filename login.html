@@ -6,69 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login / Signup</title>
     <link rel="stylesheet" href="login.css">
-    <style>
-      .pill-navbar {
-        background: #fff;
-        border-radius: 32px;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-        margin: 32px auto 0 auto;
-        max-width: 700px;
-        padding: 0 18px;
-        display: flex;
-        align-items: center;
-        min-height: 56px;
-        position: relative;
-        z-index: 10;
-      }
-      .pill-navbar-inner {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .pill-navbar-logo .logo-text {
-        font-family: 'Georgia', 'Poppins', serif;
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #23422a;
-        text-decoration: none;
-        letter-spacing: 0.5px;
-      }
-      .pill-navbar-links {
-        display: flex;
-        gap: 18px;
-      }
-      .pill-navbar .nav-link {
-        color: #23422a;
-        font-weight: 600;
-        font-family: 'Georgia', 'Poppins', serif;
-        font-size: 1.08rem;
-        text-decoration: none;
-        padding: 8px 18px;
-        border-radius: 18px;
-        transition: background 0.18s;
-      }
-      .pill-navbar .nav-link:hover {
-        background: #f5f1ea;
-        color: #23422a;
-      }
-      .pill-navbar-actions .login-btn {
-        background: #a8bba3;
-        color: #23422a;
-        font-weight: 700;
-        border-radius: 18px;
-        padding: 8px 24px;
-        font-size: 1.08rem;
-        border: none;
-        text-decoration: none;
-        transition: background 0.18s;
-        box-shadow: 0 1px 4px #cbbfad33;
-      }
-      .pill-navbar-actions .login-btn:hover {
-        background: #cbbfad;
-        color: #23422a;
-      }
-    </style>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script>
@@ -110,7 +47,6 @@
         </div>
         <div class="login-form-wrapper">
           <form class="login-form active" id="loginForm">
-            <h2 class="form-title">Login</h2>
             <div class="form-group">
               <label for="login-email">Email</label>
               <input type="email" id="login-email" required>
@@ -122,7 +58,6 @@
             <button type="submit" class="login-btn">Log In</button>
           </form>
           <form class="login-form signup-form" id="signupForm" style="display:none;">
-            <h2 class="form-title">Signup</h2>
             <div class="form-group">
               <label for="signup-username">Username</label>
               <input type="text" id="signup-username" required>
@@ -187,12 +122,10 @@
             var name = (user.displayName && user.displayName.trim()) ? user.displayName : (email.split('@')[0]);
             localStorage.setItem('sunpost_profile_name', name);
             localStorage.setItem('sunpost_profile_email', email);
-            showPopup('Signed in successfully!');
-            setTimeout(function () {
-              window.location.href = 'write.html';
-            }, 700);
+            window.location.href = 'write.html';
           })
-          .catch(function (err) {
+          .catch(function (err)
+          {
             showPopup(err.message, true);
           });
       });
@@ -211,10 +144,7 @@
             userCredential.user.updateProfile({ displayName: username });
             localStorage.setItem('sunpost_profile_name', username);
             localStorage.setItem('sunpost_profile_email', email);
-            showPopup('Account created! You are signed in.');
-            setTimeout(function () {
-              window.location.href = 'write.html';
-            }, 1200);
+            window.location.href = 'write.html';
           })
           .catch(function (err) {
             showPopup(err.message, true);

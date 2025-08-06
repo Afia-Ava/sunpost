@@ -41,22 +41,22 @@ function renderLanding() {
         </div>
         <div class="pill-navbar-actions">
           <div class="login-button-container">
-            <a href="login.html" class="login-btn">Log In</a>
+            <a href="login.html" class="login-btn" style="color:#14532d;">Log In</a>
           </div>
         </div>
       </div>
     </nav>
     <section class="main-hero">
       <h1 class="hero-title big" style="margin-bottom:0.4em;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif; color: #23422a !important; text-shadow: none !important;">Sunpost</h1>
-      <div class="hero-desc big" style="font-size:4vw;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif; color: #23422a !important; text-shadow: none !important;">
+      <div class="hero-desc big" style="font-size:3.6vw; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; color: #23422a; font-weight: 600; letter-spacing: -0.5px; text-shadow: none;">
         Send letters like postcards from your mind.
       </div>
       <div class="hero-desc sub-caption" style="font-size:1.25em;color:#23422a !important;margin:-0.5em auto 0 auto;white-space:nowrap;filter:none;transition:none;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif; text-shadow: none !important;">
         Capture a moment, a feeling, or a thought, and send it.
       </div>
       <div style="display: flex; justify-content: center; margin-top: 2.2em;">
-        <a href="login.html" id="getStartedBtn" style="text-decoration:none;">
-          <button style="background:#fff;color:#222;padding:14px 48px;border-radius:12px;font-size:1.18rem;cursor:pointer;font-family:'Poppins',sans-serif;border:none;box-shadow:0 2px 8px rgba(0,0,0,0.07);font-weight:700;">Get started</button>
+        <a href="login.html" id="getStartedBtn" style="text-decoration:none; background:#0d2412; border-radius:18px; box-shadow:0 4px 24px #0d2412; min-width:220px; max-width:320px; width:100%; display:flex; justify-content:center; align-items:center; padding: 0;">
+          <button style="background:#0d2412;color:#fff;padding:14px 28px;border-radius:12px;font-size:1.18rem;cursor:pointer;font-family:'Poppins',sans-serif;border:none;box-shadow:0 2px 8px #0d2412;font-weight:700;">Get started</button>
         </a>
       </div>
     </section>
@@ -355,258 +355,23 @@ function giveConsent() {
   goTo('upload');
 }
 
-function submitConvos() {
-  const memory = document.getElementById('convos').value.trim();
-  if (!memory) return alert('Please paste your ChatGPT chats.');
-  const summary = analyzeRequestPersonality(memory, state.selectedQuestions);
-  document.getElementById('requestSummaryCard').style.display = 'block';
-  document.getElementById('requestSummaryCard').innerHTML = summary;
-  function analyzeRequestPersonality(text, questions) {
-    const words = text
-      .toLowerCase()
-      .replace(/[^a-zA-Z0-9\s]/g, '')
-      .split(/\s+/);
-    const stopwords = [
-      'the',
-      'and',
-      'i',
-      'to',
-      'a',
-      'of',
-      'in',
-      'is',
-      'it',
-      'for',
-      'on',
-      'with',
-      'you',
-      'my',
-      'me',
-      'at',
-      'that',
-      'this',
-      'was',
-      'are',
-      'but',
-      'so',
-      'we',
-      'they',
-      'be',
-      'have',
-      'has',
-      'had',
-      'as',
-      'from',
-      'by',
-      'an',
-      'or',
-      'if',
-      'not',
-      'do',
-      'can',
-      'just',
-      'your',
-      'about',
-      'what',
-      'when',
-      'who',
-      'how',
-      'why',
-      'which',
-      'will',
-      'would',
-      'should',
-      'could',
-      'all',
-      'any',
-      'more',
-      'some',
-      'get',
-      'got',
-      'like',
-      'one',
-      'out',
-      'up',
-      'see',
-      'no',
-      'yes',
-      'too',
-      'very',
-      'also',
-      'because',
-      'than',
-      'then',
-      'now',
-      'were',
-      'been',
-      'did',
-      'them',
-      'their',
-      'our',
-      'us',
-      'he',
-      'she',
-      'him',
-      'her',
-      'his',
-      'hers',
-      'its',
-      'into',
-      'over',
-      'under',
-      'after',
-      'before',
-      'again',
-      'still',
-      'where',
-      'there',
-      'here',
-      'go',
-      'went',
-      'come',
-      'came',
-      'make',
-      'made',
-      'want',
-      'wanted',
-      'need',
-      'needed',
-      'use',
-      'used',
-      'say',
-      'said',
-      'tell',
-      'told',
-      'ask',
-      'asked',
-      'think',
-      'thought',
-      'feel',
-      'felt',
-      'know',
-      'knew',
-      'time',
-      'day',
-      'days',
-      'week',
-      'weeks',
-      'month',
-      'months',
-      'year',
-      'years',
-      'chat',
-      'gpt',
-      'ai',
-      'openai',
-      'memory',
-      'paste',
-      'copy',
-      'user',
-      'assistant',
-    ];
-    const freq = {};
-    words.forEach(w => {
-      if (w.length > 2 && !stopwords.includes(w)) {
-        freq[w] = (freq[w] || 0) + 1;
-      }
-    });
-    const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
-    const topTopics = sorted.slice(0, 3).map(x => x[0]);
+render();
 
-    let focusResults = '';
-    if (questions && questions.length) {
-      focusResults = questions
-        .map(q => {
-          const qWords = q
-            .toLowerCase()
-            .split(/\s+/)
-            .filter(w => w.length > 2 && !stopwords.includes(w));
-          const matches = qWords
-            .map(qw => ({ qw, freq: freq[qw] || 0 }))
-            .filter(x => x.freq > 0);
-          if (matches.length) {
-            return `<li><b>${q}:</b> Mentioned ${matches
-              .map(m => `'${m.qw}' (${m.freq}x)`)
-              .join(', ')}</li>`;
-          } else {
-            return `<li><b>${q}:</b> Not directly mentioned</li>`;
-          }
-        })
-        .join('');
-    }
-
-    const positiveWords = [
-      'happy',
-      'love',
-      'excited',
-      'great',
-      'good',
-      'fun',
-      'enjoy',
-      'awesome',
-      'amazing',
-      'cool',
-      'interesting',
-      'positive',
-      'success',
-      'win',
-      'helpful',
-      'creative',
-      'inspired',
-      'hope',
-      'peace',
-      'calm',
-      'relaxed',
-      'joy',
-      'smile',
-      'laugh',
-    ];
-    const negativeWords = [
-      'sad',
-      'angry',
-      'upset',
-      'bad',
-      'hate',
-      'problem',
-      'fail',
-      'failure',
-      'stress',
-      'stressed',
-      'anxious',
-      'anxiety',
-      'worry',
-      'worried',
-      'negative',
-      'cry',
-      'pain',
-      'hurt',
-      'fear',
-      'scared',
-      'bored',
-      'tired',
-      'confused',
-    ];
-    let pos = 0,
-      neg = 0;
-    words.forEach(w => {
-      if (positiveWords.includes(w)) pos++;
-      if (negativeWords.includes(w)) neg++;
-    });
-    let vibe = 'Balanced, thoughtful';
-    if (pos > neg) vibe = 'Positive, optimistic';
-    if (neg > pos) vibe = 'Introspective, honest';
-
-    return `
-    <b>Your Personality Summary</b><br><br>
-    <ul style="text-align:left; margin:0 auto; max-width:320px;">
-      ${focusResults}
-      <li><b>Most open about:</b> ${
-        topTopics.length ? topTopics.join(', ') : 'Various topics'
-      }</li>
-      <li><b>Vibe:</b> ${vibe}</li>
-    </ul>
-  `;
+function renderFooter() {
+  let footer = document.querySelector('.footer-note');
+  if (!footer) {
+    footer = document.createElement('footer');
+    footer.className = 'footer-note';
+    document.body.appendChild(footer);
   }
+  footer.style.background = '#0d2913';
+  footer.style.color = '#fff';
+  footer.innerHTML = '© 2025 ChatCard. All rights reserved.';
 }
 
+const origRender = render;
+render = function () {
+  origRender();
+  renderFooter();
+};
 render();
