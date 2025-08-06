@@ -399,6 +399,73 @@
               It’s quiet here for now.<br />
             </div>
           </div>
+          <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              function loadInbox() {
+                var userEmail = localStorage.getItem('chatcard_profile_email');
+                if (!userEmail) return;
+                db.collection('letters')
+                  .where('to', '==', userEmail)
+                  .orderBy('sentAt', 'desc')
+                  .get()
+                  .then(function (querySnapshot) {
+                    var inboxList = document.getElementById('inbox-list');
+                    var inboxEmpty = document.getElementById('inbox-empty');
+                    inboxList.innerHTML = '';
+                    if (querySnapshot.empty) {
+                      inboxEmpty.style.display = 'block';
+                      return;
+                    }
+                    inboxEmpty.style.display = 'none';
+                    querySnapshot.forEach(function (doc) {
+                      var letter = doc.data();
+                      var card = document.createElement('div');
+                      card.style.background = '#e9e5dc';
+                      card.style.borderRadius = '12px';
+                      card.style.boxShadow = '0 1px 8px #cbbfad33';
+                      card.style.padding = '22px 18px';
+                      card.style.marginBottom = '18px';
+                      card.style.width = '100%';
+                      card.style.maxWidth = '600px';
+                      card.style.fontFamily = "'Georgia', 'Poppins', serif";
+                      card.innerHTML =
+                        '<div style="font-weight:700; margin-bottom:8px; color:#3c2f2f;">From: ' +
+                        (letter.from || 'Anonymous') +
+                        (letter.fromEmail
+                          ? ' &lt;' + letter.fromEmail + '&gt;'
+                          : '') +
+                        '</div>' +
+                        '<div style="margin-bottom:10px; color:#3c2f2f;">' +
+                        (letter.content || '') +
+                        '</div>' +
+                        '<div style="font-size:0.98rem; color:#a8bba3;">Sent: ' +
+                        (letter.sentAt
+                          ? new Date(letter.sentAt).toLocaleString()
+                          : '') +
+                        '</div>';
+                      inboxList.appendChild(card);
+                    });
+                  })
+                  .catch(function (err) {
+                    var inboxList = document.getElementById('inbox-list');
+                    inboxList.innerHTML =
+                      '<div style="color:red;">Error loading inbox: ' +
+                      err.message +
+                      '</div>';
+                  });
+              }
+              if (window.db) {
+                loadInbox();
+              } else {
+                var checkDb = setInterval(function () {
+                  if (window.db) {
+                    clearInterval(checkDb);
+                    loadInbox();
+                  }
+                }, 200);
+              }
+            });
+          </script>
         </div>
       </section>
     </main>

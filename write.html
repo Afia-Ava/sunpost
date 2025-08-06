@@ -30,65 +30,7 @@
         font-weight: 600;
         transition: background 0.18s;
       }
-      .sidebar-link.selected,
-      .sidebar-link:hover {
-        background: #cbbfad !important;
-        color: #3c2f2f !important;
-      }
-      #sidebar-profile-pic {
-        border: 2.5px solid #cbbfad;
-        box-shadow: 0 2px 8px #cbbfad44;
-      }
-      #sidebar-profile-name {
-        color: #3c2f2f !important;
-      }
-      #profile-dropdown {
-        background: #e9e5dc !important;
-        border: 1.5px solid #cbbfad;
-        color: #3c2f2f !important;
-      }
-      #main-content {
-        background: #f5f1ea !important;
-        border-radius: 18px;
-        box-shadow: 0 2px 16px #cbbfad33;
-      }
-      h2 {
-        color: #3c2f2f !important;
-        font-family: 'Georgia', serif;
-        letter-spacing: 0.01em;
-      }
-      label,
-      p,
-      span,
-      input,
-      textarea,
-      button {
-        color: #3c2f2f !important;
-        font-family: 'Georgia', 'Poppins', serif;
-      }
-      textarea,
-      input {
-        background: #e9e5dc !important;
-        border: 1.5px solid #cbbfad;
-        color: #3c2f2f !important;
-        font-size: 1rem;
-      }
-      button {
-        background: #a8bba3 !important;
-        color: #3c2f2f !important;
-        border: 1.5px solid #cbbfad;
-        border-radius: 8px;
-        font-weight: 700;
-        font-family: 'Georgia', 'Poppins', serif;
-        box-shadow: 0 1px 4px #cbbfad33;
-        transition: background 0.18s;
-      }
-      button:hover {
-        background: #cbbfad !important;
-      }
-      #personality-modal,
-      #inquiry-personality-modal {
-        background: #e9e5dc !important;
+      .sidebar-link.selected {
         color: #3c2f2f !important;
         border: 2px solid #cbbfad;
         box-shadow: 0 4px 24px #a8bba344;
@@ -106,45 +48,23 @@
       #main-content:before {
         display: none !important;
       }
-      .envelope {
-        width: 60px;
-        height: 40px;
-        background: #cbbfad;
-        border: 2px solid #a8bba3;
-        border-radius: 6px 6px 12px 12px;
-        position: absolute;
-        top: 24px;
-        right: 32px;
-        box-shadow: 0 2px 8px #a8bba344;
-        z-index: 10;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .envelope:after {
-        content: '';
-        display: block;
-        width: 44px;
-        height: 18px;
-        background: #f5f1ea;
-        border-radius: 0 0 12px 12px;
-        position: absolute;
-        left: 8px;
-        top: 18px;
-        border-bottom: 2px solid #a8bba3;
-      }
-      .wax-seal {
-        width: 18px;
-        height: 18px;
-        background: #a8bba3;
-        border-radius: 50%;
-        border: 2px solid #3c2f2f;
-        position: absolute;
-        left: 21px;
-        top: 28px;
-        box-shadow: 0 1px 4px #3c2f2f33;
-      }
     </style>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: 'AIzaSyAoea1mOHxpnAt9yJ9QmeVwuXARiuxZeco',
+        authDomain: 'thechatcard.firebaseapp.com',
+        projectId: 'thechatcard',
+        storageBucket: 'thechatcard.appspot.com',
+        messagingSenderId: '623571205943',
+        appId: '1:623571205943:web:fbdd5db249e594a6e0a4b2',
+      };
+      if (!window.firebase || !window.firebase.apps.length) {
+        window.firebaseApp = firebase.initializeApp(firebaseConfig);
+      }
+      window.db = firebase.firestore();
+    </script>
   </head>
   <body>
     <main style="display: flex; min-height: 100vh">
@@ -315,9 +235,9 @@
                     position: absolute;
                     right: 0;
                     bottom: 38px;
-                    background: #232323;
+                    background: #e9e5dc;
                     border-radius: 8px;
-                    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+                    box-shadow: 0 2px 12px #a8bba344;
                     min-width: 140px;
                     z-index: 10;
                   "
@@ -331,7 +251,7 @@
                       color: #3c2f2f;
                       text-decoration: none;
                       font-size: 1em;
-                      border-bottom: 1px solid #333;
+                      border-bottom: 1px solid #cbbfad;
                       border-radius: 8px 8px 0 0;
                       font-weight: 600;
                     "
@@ -411,142 +331,18 @@
       </aside>
       <section
         id="main-content"
-        style="flex: 1; min-height: 60vh; margin-left: 260px; padding: 0"
+        style="
+          flex: 1;
+          min-height: 100vh;
+          margin-left: 260px;
+          padding: 0;
+          background: #f5f1ea;
+        "
       >
-        <div id="get-card-content" style="margin: 0 0 0 48px; max-width: 480px">
-          <div
-            id="inquiry-content"
-            style="display: none; margin: 0 0 0 48px; max-width: 480px"
-          >
-            <h2
-              style="
-                font-size: 1.5rem;
-                font-weight: 700;
-                margin-bottom: 18px;
-                color: #fff;
-              "
-            >
-              Personality Card Requests
-            </h2>
-            <div
-              id="inquiry-request-box"
-              style="
-                background: #232323;
-                border-radius: 12px;
-                box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-                padding: 22px 18px;
-                margin-bottom: 24px;
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-              "
-            >
-              <span style="font-size: 1.08rem; color: #fff; margin-bottom: 10px"
-                ><b>Afia</b> has requested a personality card from you.</span
-              >
-              <button
-                id="fill-inquiry-btn"
-                style="
-                  background: #000;
-                  color: #fff;
-                  border: none;
-                  border-radius: 8px;
-                  padding: 10px 18px;
-                  font-size: 1rem;
-                  font-weight: 600;
-                  cursor: pointer;
-                "
-              >
-                Fill Out & Send
-              </button>
-            </div>
-            <form id="inquiry-gpt-form" style="display: none">
-              <label
-                for="gpt-memory"
-                style="
-                  display: block;
-                  margin-bottom: 8px;
-                  color: #bdbdbd;
-                  font-size: 1.01rem;
-                "
-                >Paste your ChatGPT Memory:</label
-              >
-              <textarea
-                id="gpt-memory"
-                rows="6"
-                style="
-                  width: 100%;
-                  border-radius: 8px;
-                  border: none;
-                  background: #050507;
-                  color: #fff;
-                  padding: 12px;
-                  font-size: 1rem;
-                  margin-bottom: 18px;
-                  resize: vertical;
-                "
-                required
-              ></textarea>
-              <div style="display: flex; gap: 10px">
-                <button
-                  type="button"
-                  id="see-card-btn"
-                  style="
-                    flex: 1;
-                    background: #232323;
-                    color: #fff;
-                    border: none;
-                    border-radius: 8px;
-                    padding: 12px 0;
-                    font-size: 1.08rem;
-                    font-weight: 600;
-                    cursor: pointer;
-                    margin-bottom: 0;
-                  "
-                >
-                  See Your Card
-                </button>
-                <button
-                  type="submit"
-                  style="
-                    flex: 1;
-                    background: #000;
-                    color: #fff;
-                    border: none;
-                    border-radius: 8px;
-                    padding: 12px 0;
-                    font-size: 1.08rem;
-                    font-weight: 600;
-                    cursor: pointer;
-                  "
-                >
-                  Send to Afia
-                </button>
-              </div>
-              <div
-                id="gpt-inquiry-success"
-                style="color: #7fff7f; margin-top: 18px; display: none"
-              ></div>
-            </form>
-            <div
-              id="inquiry-personality-modal"
-              style="
-                display: none;
-                position: fixed;
-                top: 48px;
-                right: 48px;
-                max-width: 420px;
-                background: #232323;
-                border-radius: 16px;
-                box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
-                padding: 32px 28px;
-                color: #fff;
-                z-index: 100;
-                min-height: 120px;
-                font-size: 1.08rem;
-              "
-            ></div>
-          </div>
+        <div
+          id="get-card-content"
+          style="margin: 0 0 0 48px; max-width: 480px; background: #f5f1ea"
+        >
           <h2
             style="
               font-size: 1.5rem;
@@ -554,7 +350,6 @@
               margin-top: 10px;
               margin-bottom: 14px;
               color: #3c2f2f;
-              text-transform: lowercase;
             "
           >
             Send a letter
@@ -637,185 +432,61 @@
           >
             Seal & Send
           </button>
-        </div>
-        <div
-          id="request-card-content"
-          style="display: none; margin: 0 0 0 48px; max-width: 480px"
-        >
-          <h2
-            style="
-              font-size: 1.5rem;
-              font-weight: 700;
-              margin-bottom: 18px;
-              color: #fff;
-            "
-          >
-            Request a Personality Card
-          </h2>
-          <label
-            for="recipient-name"
-            style="
-              display: block;
-              margin-bottom: 8px;
-              color: #bdbdbd;
-              font-size: 1.01rem;
-            "
-            >Enter recipient's name:</label
-          >
-          <input
-            id="recipient-name"
-            type="text"
-            placeholder="e.g. John Doe"
-            style="
-              width: 100%;
-              border-radius: 8px;
-              border: none;
-              background: #050507;
-              color: #fff;
-              padding: 12px;
-              font-size: 1rem;
-              margin-bottom: 18px;
-            "
-          />
-          <label
-            for="recipient-email"
-            style="
-              display: block;
-              margin-bottom: 8px;
-              color: #bdbdbd;
-              font-size: 1.01rem;
-            "
-            >Enter recipient's email:</label
-          >
-          <input
-            id="recipient-email"
-            type="email"
-            placeholder="someone@email.com"
-            style="
-              width: 100%;
-              border-radius: 8px;
-              border: none;
-              background: #050507;
-              color: #fff;
-              padding: 12px;
-              font-size: 1rem;
-              margin-bottom: 18px;
-            "
-          />
-          <label
-            for="custom-questions"
-            style="
-              display: block;
-              margin-bottom: 8px;
-              color: #bdbdbd;
-              font-size: 1.01rem;
-            "
-            >Add Custom Questions (comma separated):</label
-          >
-          <input
-            id="custom-questions"
-            type="text"
-            placeholder="e.g. hobbies, work style, favorite books"
-            style="
-              width: 100%;
-              border-radius: 8px;
-              border: none;
-              background: #050507;
-              color: #fff;
-              padding: 12px;
-              font-size: 1rem;
-              margin-bottom: 18px;
-            "
-          />
-          <div style="display: flex; gap: 10px; margin-bottom: 18px">
-            <button
-              id="generate-link-btn"
-              style="
-                flex: 1;
-                background: #000;
-                color: #fff;
-                border: none;
-                border-radius: 8px;
-                padding: 12px 0;
-                font-size: 1.08rem;
-                font-weight: 600;
-                cursor: pointer;
-                transition: background 0.18s;
-              "
-            >
-              Generate Shareable Link
-            </button>
-            <span
-              id="share-link-container"
-              style="
-                display: none;
-                flex: 1;
-                align-items: center;
-                margin-left: 10px;
-              "
-            ></span>
-            <script>
-              const genLinkBtn = document.getElementById('generate-link-btn');
-              const shareLinkContainer = document.getElementById(
-                'share-link-container'
-              );
-              if (genLinkBtn && shareLinkContainer) {
-                genLinkBtn.addEventListener('click', function () {
-                  const name = document
-                    .getElementById('recipient-name')
+          <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              document
+                .getElementById('generate-card-btn')
+                .addEventListener('click', async function () {
+                  const recipientEmail = document
+                    .getElementById('recipient-email-main')
                     .value.trim();
-                  const email = document
-                    .getElementById('recipient-email')
+                  const letterContent = document
+                    .getElementById('chatgpt-memory')
                     .value.trim();
-                  const questions = document
-                    .getElementById('custom-questions')
-                    .value.trim();
-                  if (!name || !email) {
-                    alert('Please enter both name and email.');
+                  if (!recipientEmail || !letterContent) {
+                    alert(
+                      'Please enter a recipient email and write your letter.'
+                    );
                     return;
                   }
-                  const params = new URLSearchParams({
-                    name,
-                    email,
-                    questions,
-                  });
-                  const base =
-                    window.location.origin +
-                    window.location.pathname.replace('cards.html', '') +
-                    'inquiry.html';
-                  const link = base + '?' + params.toString();
-                  shareLinkContainer.style.display = 'flex';
-                  shareLinkContainer.innerHTML = `<input type="text" value="${link}" readonly style="width:calc(100% - 60px); background:#18181b; color:#fff; border:none; border-radius:6px; padding:6px 10px; font-size:0.98rem; margin-right:6px;" id="share-link-input"><button style="background:#232323; color:#fff; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:0.98rem;" id="copy-link-btn">Copy</button>`;
-                  document.getElementById('copy-link-btn').onclick =
-                    function () {
-                      const inp = document.getElementById('share-link-input');
-                      inp.select();
-                      document.execCommand('copy');
-                      this.textContent = 'Copied!';
-                      setTimeout(() => {
-                        this.textContent = 'Copy';
-                      }, 1200);
-                    };
+                  let senderName =
+                    localStorage.getItem('sunpost_profile_name') ||
+                    localStorage.getItem('chatcard_profile_name') ||
+                    '';
+                  let senderEmail =
+                    localStorage.getItem('sunpost_profile_email') ||
+                    localStorage.getItem('chatcard_profile_email') ||
+                    '';
+                  if (!senderName && senderEmail)
+                    senderName = senderEmail.split('@')[0];
+                  try {
+                    await db.collection('letters').add({
+                      to: recipientEmail,
+                      from: senderName || 'Anonymous',
+                      fromEmail: senderEmail || '',
+                      content: letterContent,
+                      sentAt: new Date().toISOString(),
+                      opened: false,
+                    });
+                    fetch(
+                      'https://your-backend-endpoint/send-inbox-notification',
+                      {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          to: recipientEmail,
+                          from: senderName || 'Anonymous',
+                        }),
+                      }
+                    );
+                    alert('Letter sent! The recipient will be notified.');
+                    document.getElementById('chatgpt-memory').value = '';
+                  } catch (err) {
+                    alert('Error sending letter: ' + err.message);
+                  }
                 });
-              }
-            </script>
-            <button
-              style="
-                flex: 1;
-                background: #000;
-                color: #fff;
-                border: none;
-                border-radius: 8px;
-                padding: 12px 0;
-                font-size: 1.08rem;
-                font-weight: 600;
-                cursor: pointer;
-                transition: background 0.18s;
-              "
-            >
-              Send Invite
-            </button>
-          </div>
+            });
+          </script>
         </div>
       </section>
     </main>
