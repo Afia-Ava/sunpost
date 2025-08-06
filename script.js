@@ -30,7 +30,7 @@ function renderLanding() {
     <nav class="top-navbar pill-navbar">
       <div class="pill-navbar-inner">
         <div class="pill-navbar-logo">
-          <a href="index.html" class="logo-text" style="text-decoration:none;">chatcard</a>
+          <a href="index.html" class="logo-text" style="text-decoration:none;">sunpost</a>
         </div>
         <div class="pill-navbar-links">
           <a href="about.html" class="nav-link">About</a>
@@ -46,9 +46,9 @@ function renderLanding() {
       </div>
     </nav>
     <section class="main-hero">
-      <h1 class="hero-title big" style="margin-bottom:0.4em;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif;">ChatCard</h1>
+      <h1 class="hero-title big" style="margin-bottom:0.4em;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif;">Sunpost</h1>
       <div class="hero-desc big" style="font-size:4vw;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif;">
-        Chatcard is a personality layer<br>
+        Sunpost is a personality layer<br>
         built on top of your AI chats.
       </div>
       <div class="hero-desc sub-caption" style="font-size:1.25em;color:#fff;margin:-0.5em auto 0 auto;white-space:nowrap;filter:none;transition:none;font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif;">
@@ -125,7 +125,7 @@ function renderDashboard() {
         <button onclick="logout()" style="background:#eee;color:#222;font-size:0.95em;padding:7px 16px;">Log Out</button>
       </div>
       <h2 style="margin:18px 0 10px 0;">Dashboard</h2>
-      <button onclick="goTo('create')">Request a ChatCard</button>
+      <button onclick="goTo('create')">Request a Sunpost</button>
     </div>
   `;
 }
@@ -134,7 +134,7 @@ function renderCreate() {
   app.innerHTML = `
     <div class="card" style="max-width:700px;">
       <div style="display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-weight:600;">Create ChatCard Request</div>
+        <div style="font-weight:600;">Create Sunpost Request</div>
         <button onclick="goTo('dashboard')" style="background:#eee;color:#222;font-size:0.95em;padding:7px 16px;">Back</button>
       </div>
       <div style="display:flex;gap:24px;">
@@ -204,7 +204,7 @@ function removeSelectedQ(i) {
 function renderCreate() {
   app.innerHTML = `
     <div class="card">
-      <h3>Create a ChatCard Request</h3>
+      <h3>Create a Sunpost Request</h3>
       <label>Custom Questions</label>
       <textarea id="customQ" rows="3" placeholder="Write your own questions...">${
         state.customQuestions

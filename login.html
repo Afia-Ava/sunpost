@@ -11,9 +11,9 @@
     <script>
       window.firebaseConfig = {
         apiKey: 'AIzaSyAoea1mOHxpnAt9yJ9QmeVwuXARiuxZeco',
-        authDomain: 'thechatcard.firebaseapp.com',
-        projectId: 'thechatcard',
-        storageBucket: 'thechatcard.appspot.com',
+        authDomain: 'thesunpost.firebaseapp.com',
+        projectId: 'thesunpost',
+        storageBucket: 'thesunpost.appspot.com',
         messagingSenderId: '623571205943',
         appId: '1:623571205943:web:defaultappid',
       };
@@ -24,7 +24,7 @@
     <nav class="top-navbar pill-navbar">
       <div class="pill-navbar-inner">
         <div class="pill-navbar-logo">
-          <a href="index.html" class="logo-text">chatcard</a>
+          <a href="index.html" class="logo-text">sunpost</a>
         </div>
         <div class="pill-navbar-links">
           <a href="about.html" class="nav-link">About</a>
@@ -142,8 +142,8 @@
         auth.createUserWithEmailAndPassword(email, password)
           .then(function (userCredential) {
             userCredential.user.updateProfile({ displayName: username });
-            localStorage.setItem('chatcard_profile_name', username);
-            localStorage.setItem('chatcard_profile_email', email);
+            localStorage.setItem('sunpost_profile_name', username);
+            localStorage.setItem('sunpost_profile_email', email);
             showPopup('Account created! You are signed in.');
             setTimeout(function () {
               window.location.href = 'cards.html';
@@ -176,6 +176,6 @@
     </script>
   </body>
     <div style="height: 48px;"></div>
-    <footer class="footer-note">© 2025 ChatCard. All rights reserved.</footer>
+    <footer class="footer-note">© 2025 Sunpost. All rights reserved.</footer>
   </body>
 </html>

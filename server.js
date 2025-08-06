@@ -61,33 +61,27 @@ app.post('/generate-card', async (req, res) => {
       data = JSON.parse(text);
     } catch (err) {
       console.error('Non-JSON response from Hugging Face:', text);
-      return res
-        .status(502)
-        .json({
-          card: '',
-          error: 'Hugging Face API returned invalid response.',
-        });
+      return res.status(502).json({
+        card: '',
+        error: 'Hugging Face API returned invalid response.',
+      });
     }
     console.log('Hugging Face API response:', data);
     if (!response.ok) {
       if (data.error) {
         if (data.error.includes('loading')) {
-          return res
-            .status(503)
-            .json({
-              card: '',
-              error:
-                'The AI model is still loading. Please wait a minute and try again.',
-            });
+          return res.status(503).json({
+            card: '',
+            error:
+              'The AI model is still loading. Please wait a minute and try again.',
+          });
         }
         if (data.error.includes('rate limit')) {
-          return res
-            .status(429)
-            .json({
-              card: '',
-              error:
-                'Hugging Face API rate limit reached. Please try again later.',
-            });
+          return res.status(429).json({
+            card: '',
+            error:
+              'Hugging Face API rate limit reached. Please try again later.',
+          });
         }
         return res.status(502).json({ card: '', error: data.error });
       }
@@ -114,5 +108,5 @@ app.post('/generate-card', async (req, res) => {
 });
 
 app.listen(3001, () =>
-  console.log('ChatCard AI backend running on http://localhost:3001')
+  console.log('Sunpost AI backend running on http://localhost:3001')
 );
