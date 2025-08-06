@@ -214,11 +214,9 @@
                 var sidebarPic = document.getElementById('sidebar-profile-pic');
                 var savedPic = localStorage.getItem('chatcard_profile_pic');
                 if (sidebarPic && savedPic) sidebarPic.src = savedPic;
-                var sidebarName = document.getElementById(
-                  'sidebar-profile-name'
-                );
-                var savedName = localStorage.getItem('chatcard_profile_name');
-                var savedEmail = localStorage.getItem('chatcard_profile_email');
+                var sidebarName = document.getElementById('sidebar-profile-name');
+                var savedName = localStorage.getItem('sunpost_profile_name');
+                var savedEmail = localStorage.getItem('sunpost_profile_email');
                 if (sidebarName) {
                   if (savedName && savedName.trim()) {
                     sidebarName.textContent = savedName;
@@ -333,7 +331,7 @@
         id="main-content"
         style="flex: 1; min-height: 60vh; margin-left: 260px; padding: 0"
       >
-        <div id="archive-content" style="margin: 0 0 0 48px; max-width: 480px">
+        <div id="archive-content" style="margin: 0 48px 0 48px; max-width: 1100px;">
           <h2
             style="
               font-size: 1.5rem;
@@ -349,47 +347,137 @@
           </p>
           <div
             id="archive-list"
-            style="min-height: 120px; color: #3c2f2f; font-size: 1.01rem"
+            style="
+              min-height: 120px;
+              color: #3c2f2f;
+              font-size: 1.01rem;
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              gap: 28px 22px;
+              max-width: 1100px;
+              margin-bottom: 60px;
+              box-sizing: border-box;
+              padding-right: 18px;
+            "
           >
-            <!-- Archive items will be listed here -->
-            <div
-              style="
-                background: #e9e5dc;
-                border-radius: 12px;
-                box-shadow: 0 1px 6px #cbbfad33;
-                padding: 22px 18px;
-                margin-bottom: 18px;
-              "
-            >
-              <span
-                style="
-                  font-size: 1.08rem;
-                  color: #3c2f2f;
-                  margin-bottom: 10px;
-                  display: block;
-                "
-                ><b>Sample Archive Item</b></span
-              >
-              <span style="color: #a8bba3; font-size: 0.95rem"
-                >Date: 2025-08-05</span
-              ><br />
-              <button
-                style="
-                  background: #a8bba3;
-                  color: #3c2f2f;
-                  border: 1.5px solid #cbbfad;
-                  border-radius: 8px;
-                  padding: 10px 18px;
-                  font-size: 1rem;
-                  font-weight: 600;
-                  cursor: pointer;
-                  margin-top: 10px;
-                "
-              >
-                View
-              </button>
-            </div>
-            <!-- Add more archive items dynamically as needed -->
+            <div id="archive-empty" style="background: #e9e5dc; border-radius: 16px; box-shadow: 0 1px 12px #cbbfad33; padding: 32px 48px; margin-top: 64px; margin-bottom: 18px; text-align: center; color: #3c2f2f; width: 100%; max-width: 480px; min-width: 320px; box-sizing: border-box; align-self: center; font-size: 1.13rem; font-family: 'Georgia', 'Poppins', serif; display: none; grid-column: 1 / -1;">No sent letters found.</div>
+          </div>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script>
+      const script = document.createElement('script');
+      script.src = 'firebase-secrets.js';
+      script.onload = function () {
+        firebase.initializeApp(window.firebaseConfig);
+        window.db = firebase.firestore();
+        loadArchive();
+      };
+      document.head.appendChild(script);
+
+      function loadArchive() {
+        var userEmail = localStorage.getItem('sunpost_profile_email');
+        var archiveList = document.getElementById('archive-list');
+        var archiveEmpty = document.getElementById('archive-empty');
+        Array.from(archiveList.children).forEach(function (child) {
+          if (child.id !== 'archive-empty') child.remove();
+        });
+        archiveEmpty.style.display = 'none';
+        if (!userEmail || !userEmail.trim()) {
+          archiveEmpty.style.display = 'block';
+          archiveEmpty.innerHTML = 'You are not logged in.';
+          return;
+        }
+        userEmail = userEmail.trim().toLowerCase();
+        var query = db.collection('letters').where('fromEmail', '==', userEmail);
+        query.orderBy('sentAt', 'desc').get().then(function (querySnapshot) {
+          var found = 0;
+          if (querySnapshot.empty) {
+            archiveEmpty.style.display = 'block';
+            archiveEmpty.innerHTML = 'No sent letters found.';
+          } else {
+            querySnapshot.forEach(function (doc) {
+              var letter = doc.data();
+              found++;
+              var card = document.createElement('div');
+              card.style.background = '#e9e5dc';
+              card.style.borderRadius = '12px';
+              card.style.boxShadow = '0 1px 6px #cbbfad33';
+              card.style.padding = '22px 18px';
+              card.style.fontFamily = "'Georgia', 'Poppins', serif";
+              card.style.display = 'flex';
+              card.style.flexDirection = 'column';
+              card.style.justifyContent = 'space-between';
+              card.style.height = '180px';
+              card.style.minWidth = '0';
+              card.innerHTML =
+                '<span style="font-size:1.08rem;color:#3c2f2f;margin-bottom:10px;display:block;"><b>To: ' +
+                (letter.to || 'Unknown') +
+                '</b></span>' +
+                '<span style="color:#a8bba3;font-size:0.95rem;">Date: ' +
+                (letter.sentAt ? new Date(letter.sentAt).toLocaleString() : '') +
+                '</span><br />' +
+                '<button class="archive-view-btn" style="background:#a8bba3;color:#3c2f2f;border:1.5px solid #cbbfad;border-radius:8px;padding:10px 18px;font-size:1rem;font-weight:600;cursor:pointer;margin-top:auto;">View</button>';
+              archiveList.appendChild(card);
+              card.querySelector('.archive-view-btn').addEventListener('click', function () {
+                showArchiveModal(letter);
+              });
+            });
+            if (found === 0) {
+              archiveEmpty.style.display = 'block';
+              archiveEmpty.innerHTML = 'No sent letters found.';
+            } else {
+              archiveEmpty.style.display = 'none';
+            }
+          }
+        }).catch(function (err) {
+          archiveList.innerHTML = '<div style="color:red;">Error loading archive: ' + err.message + '</div>';
+        });
+      }
+
+      function showArchiveModal(letter) {
+        var modal = document.getElementById('archive-modal');
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = 'archive-modal';
+          modal.style.position = 'fixed';
+          modal.style.top = '0';
+          modal.style.left = '0';
+          modal.style.width = '100vw';
+          modal.style.height = '100vh';
+          modal.style.background = 'rgba(245,241,234,0.96)';
+          modal.style.zIndex = '1000';
+          modal.style.display = 'flex';
+          modal.style.justifyContent = 'center';
+          modal.style.alignItems = 'center';
+          var modalContent = document.createElement('div');
+          modalContent.id = 'archive-modal-content';
+          modalContent.style.background = '#e9e5dc';
+          modalContent.style.borderRadius = '18px';
+          modalContent.style.boxShadow = '0 2px 24px #cbbfad55';
+          modalContent.style.padding = '38px 32px';
+          modalContent.style.maxWidth = '480px';
+          modalContent.style.minWidth = '320px';
+          modalContent.style.color = '#3c2f2f';
+          modalContent.style.fontFamily = "'Georgia', 'Poppins', serif";
+          modalContent.style.position = 'relative';
+          modal.appendChild(modalContent);
+          document.body.appendChild(modal);
+        }
+        var modalContent = document.getElementById('archive-modal-content');
+        modalContent.innerHTML =
+          '<button id="close-archive-modal-btn" style="position:absolute;top:18px;right:18px;background:#a8bba3;color:#3c2f2f;border:1.5px solid #cbbfad;border-radius:6px;font-weight:700;font-size:1.1rem;padding:4px 12px;cursor:pointer;">Close</button>' +
+          '<div style="font-weight:700; margin-bottom:8px; color:#3c2f2f;">To: ' + (letter.to || 'Unknown') + '</div>' +
+          '<div style="margin-bottom:10px; color:#3c2f2f; white-space:pre-line;">' + (letter.content || '') + '</div>' +
+          '<div style="font-size:0.98rem; color:#a8bba3;">Sent: ' + (letter.sentAt ? new Date(letter.sentAt).toLocaleString() : '') + '</div>';
+        modal.style.display = 'flex';
+        document.getElementById('close-archive-modal-btn').onclick = function () {
+          modal.style.display = 'none';
+        };
+        modal.onclick = function (e) {
+          if (e.target === modal) modal.style.display = 'none';
+        };
+      }
+    </script>
           </div>
         </div>
       </section>
