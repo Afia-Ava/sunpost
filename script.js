@@ -8,10 +8,6 @@ let state = {
   users: {},
   customQuestions: '',
   selectedQuestions: [],
-  requestLink: '',
-  consentGiven: false,
-  pastedConvos: '',
-  report: null,
 };
 
 function render() {
@@ -20,73 +16,6 @@ function render() {
   else if (state.page === 'auth') renderAuth();
   else if (state.page === 'dashboard') renderDashboard();
   else if (state.page === 'create') renderCreate();
-  else if (state.page === 'link') renderLink();
-  else if (state.page === 'submitted') renderSubmitted();
-  else if (state.page === 'report') renderReport();
-
-  function renderSubmitted() {
-    app.innerHTML = `
-    <div class="card center">
-      <h3>Submitted!</h3>
-      <p class="small">Thanks! The requester will get your ChatCard soon.</p>
-      <button onclick="goTo('home')">Back to Home</button>
-    </div>
-  `;
-  }
-
-  function renderReport() {
-    app.innerHTML = `
-    <div class="card">
-      <h3>Secret ChatCard Report</h3>
-      <div style="background:#f6f7fb;padding:16px;border-radius:8px;">
-        <b>AI Analysis:</b>
-        <ul>
-          <li>Most open about: Creativity, late-night thoughts</li>
-          <li>Biggest fear: Not being understood</li>
-          <li>Vibe: Playful, introspective, honest</li>
-        </ul>
-      </div>
-      <button onclick="goTo('home')">Keep Private</button>
-      <button onclick="alert('Shared!')" style="background:#eee;color:#222;">Share Back</button>
-      <button onclick="goTo('home')" style="background:#f33;color:#fff;">Delete</button>
-    </div>
-  `;
-  }
-
-  function renderLink() {
-    app.innerHTML = `
-    <div class="card">
-      <h3>ChatCard Request</h3>
-      <p class="small">Share this link with your friend/date/interviewer:</p>
-      <input readonly value="https://chatcard.link/request/abc123" />
-      <hr />
-      <p>When someone opens the link:</p>
-      <ol>
-        <li>They consent to share their AI convos</li>
-        <li>They can connect their ChatGPT (mock) or paste convos</li>
-        <li>AI analyzes and generates a secret ChatCard</li>
-      </ol>
-      <button onclick="goTo('consent')">Open as recipient</button>
-      <button onclick="goTo('dashboard')" style="background:#eee;color:#222;">Back</button>
-    </div>
-  `;
-  }
-
-  function renderConsent() {
-    app.innerHTML = `
-    <div class="card">
-      <h3>Consent Required</h3>
-      <p>Do you agree to share your AI convos for analysis?</p>
-      <button onclick="giveConsent()">I Consent</button>
-      <button onclick="goTo('home')" style="background:#eee;color:#222;">Back</button>
-    </div>
-  `;
-  }
-
-  function giveConsent() {
-    state.consentGiven = true;
-    goTo('upload');
-  }
 }
 
 function renderLanding() {
@@ -284,11 +213,8 @@ function goTo(page, mode) {
     render();
     return;
   }
-  if (page === 'consent') renderConsent();
-  else {
-    state.page = page;
-    render();
-  }
+  state.page = page;
+  render();
 }
 
 function logout() {
@@ -318,10 +244,6 @@ function generateLink() {
   state.requestLink = 'https://chatcard.link/request/abc123';
   state.page = 'link';
   render();
-}
-
-function giveConsent() {
-  state.consentGiven = true;
 }
 
 render();
