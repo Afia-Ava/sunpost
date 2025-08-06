@@ -13,8 +13,8 @@
         color: #3c2f2f;
         min-height: 100vh;
         font-family: 'Georgia', 'Poppins', 'Inter', serif;
-        letter-spacing: 0.01em;
-      }
+              grid-template-columns: repeat(3, 1fr);
+              justify-items: center;
       aside {
         background: #a8bba3 !important;
         border-right: 4px solid #cbbfad;
@@ -370,13 +370,13 @@
               font-size: 1.01rem;
               display: grid;
               grid-template-columns: repeat(3, 1fr);
-              gap: 32px 28px;
-              justify-items: center;
-              align-items: start;
-              width: 100%;
-              max-width: 900px;
-              margin: 0 auto;
+              gap: 28px 22px;
+              max-width: 1100px;
+              margin-bottom: 60px;
               box-sizing: border-box;
+              padding-right: 18px;
+              margin-left: 0;
+              margin-right: 0;
             "
           >
             <div
@@ -520,10 +520,20 @@
                         card.style.boxShadow = '0 1px 6px #cbbfad33';
                         card.style.padding = '22px 18px';
                         card.style.fontFamily = "'Georgia', 'Poppins', serif";
-                        card.style.width = '100%';
-                        card.style.maxWidth = '260px';
-                        card.style.minWidth = '0';
+                        card.style.background = '#e9e5dc';
+                        card.style.borderRadius = '12px';
+                        card.style.boxShadow = '0 1px 6px #cbbfad33';
+                        card.style.maxWidth = '320px';
+                        card.style.width = '320px';
+                        card.style.maxWidth = '320px';
+                        card.style.minWidth = '320px';
+                        card.style.height = '180px';
                         card.style.boxSizing = 'border-box';
+                        card.style.display = 'flex';
+                        card.style.flexDirection = 'column';
+                        card.style.justifyContent = 'space-between';
+                        card.style.padding = '22px 18px';
+                        card.style.fontFamily = "'Georgia', 'Poppins', serif";
                         card.innerHTML =
                           '<span style="font-size:1.08rem;color:#3c2f2f;margin-bottom:10px;display:block;"><b>From: ' +
                           (letter.from || 'Anonymous') +
