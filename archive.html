@@ -3,29 +3,101 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inquiry | ChatCard</title>
+    <title>Archive | Sunpost</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="login.css" />
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-    <script>
-      const script = document.createElement('script');
-      script.src = 'firebase-secrets.js';
-      script.onload = function () {
-        firebase.initializeApp(window.firebaseConfig);
-        window.db = firebase.firestore();
-      };
-      document.head.appendChild(script);
-    </script>
+    <style>
+      body {
+        background: #f5f1ea;
+        color: #3c2f2f;
+        min-height: 100vh;
+        font-family: 'Georgia', 'Poppins', 'Inter', serif;
+        letter-spacing: 0.01em;
+      }
+      #grain {
+        display: none;
+      }
+      aside {
+        background: #a8bba3 !important;
+        border-right: 4px solid #cbbfad;
+        box-shadow: none !important;
+      }
+      .sidebar-link {
+        color: #3c2f2f !important;
+        background: #e9e5dc !important;
+        border-radius: 8px;
+        margin-bottom: 2px;
+        font-weight: 600;
+        transition: background 0.18s;
+      }
+      .sidebar-link.selected,
+      .sidebar-link:hover {
+        background: #cbbfad !important;
+        color: #3c2f2f !important;
+      }
+      #sidebar-profile-pic {
+        border: 2.5px solid #cbbfad;
+        box-shadow: 0 2px 8px #cbbfad44;
+      }
+      #sidebar-profile-name {
+        color: #3c2f2f !important;
+      }
+      #profile-dropdown {
+        background: #e9e5dc !important;
+        border: 1.5px solid #cbbfad;
+        color: #3c2f2f !important;
+      }
+      #main-content {
+        background: #f5f1ea !important;
+        border-radius: 18px;
+        box-shadow: none !important;
+        margin: 0;
+        padding: 0;
+        border: none;
+      }
+      h2 {
+        color: #3c2f2f !important;
+        font-family: 'Georgia', serif;
+        letter-spacing: 0.01em;
+      }
+      label,
+      p,
+      span,
+      input,
+      textarea,
+      button {
+        color: #3c2f2f !important;
+        font-family: 'Georgia', 'Poppins', serif;
+      }
+      textarea,
+      input {
+        background: #e9e5dc !important;
+        border: 1.5px solid #cbbfad;
+        color: #3c2f2f !important;
+        font-size: 1rem;
+      }
+      button {
+        background: #a8bba3 !important;
+        color: #3c2f2f !important;
+        border: 1.5px solid #cbbfad;
+        border-radius: 8px;
+        font-weight: 700;
+        font-family: 'Georgia', 'Poppins', serif;
+        box-shadow: 0 1px 4px #cbbfad33;
+        transition: background 0.18s;
+      }
+      button:hover {
+        background: #cbbfad !important;
+      }
+    </style>
   </head>
-  <body style="background: #18181b; color: #fff; min-height: 100vh">
+  <body>
     <div id="grain"></div>
     <div style="height: 120px"></div>
     <main style="display: flex; min-height: 100vh">
       <aside
         style="
           width: 260px;
-          background: #232323;
           min-height: 100vh;
           height: 100vh;
           border-radius: 0;
@@ -37,6 +109,9 @@
           display: flex;
           flex-direction: column;
           align-items: center;
+          background: #a8bba3 !important;
+          border-right: 4px solid #cbbfad;
+          box-shadow: 2px 0 12px #a8bba344;
         "
       >
         <div
@@ -50,15 +125,15 @@
         >
           <span
             style="
-              font-family: 'Poppins', 'Inter', 'Segoe UI', Arial, sans-serif;
+              font-family: 'Georgia', 'Poppins', serif;
               font-size: 2.1rem;
               font-weight: 700;
-              color: #fff;
+              color: #3c2f2f;
               letter-spacing: 0.5px;
-              text-shadow: 0 2px 8px rgba(0, 0, 0, 0.13);
               margin-left: 16px;
+              text-shadow: none;
             "
-            >chatcard</span
+            >sunpost</span
           >
         </div>
         <nav
@@ -73,22 +148,22 @@
           "
         >
           <a
-            href="cards.html"
+            href="write.html"
             class="sidebar-link left-nav-link"
-            id="getcard-link"
-            >Get Card</a
+            id="write-link"
+            >Write</a
           >
           <a
-            href="reqcard.html"
+            href="inbox.html"
             class="sidebar-link left-nav-link"
-            id="requestcard-link"
-            >Request Card</a
+            id="inbox-link"
+            >Inbox</a
           >
           <a
-            href="#"
+            href="archive.html"
             class="sidebar-link left-nav-link selected"
-            id="inquiry-link"
-            >Inquiry</a
+            id="archive-link"
+            >Archive</a
           >
         </nav>
         <div style="flex: 1"></div>
@@ -106,11 +181,11 @@
               display: flex;
               align-items: center;
               width: 90%;
-              background: #232323;
-              border-radius: 10px;
-              padding: 10px 14px;
+              background: none;
+              border-radius: 0;
+              padding: 0;
               gap: 12px;
-              box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+              box-shadow: none;
             "
           >
             <img
@@ -127,7 +202,7 @@
             <span
               id="sidebar-profile-name"
               style="
-                color: #fff;
+                color: #3c2f2f;
                 font-size: 1.08rem;
                 font-weight: 500;
                 white-space: nowrap;
@@ -171,14 +246,14 @@
                     height="22"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="#bdbdbd"
+                    stroke="#3c5c3c"
                     stroke-width="2.1"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   >
-                    <circle cx="12" cy="6" r="1.5" />
-                    <circle cx="12" cy="12" r="1.5" />
-                    <circle cx="12" cy="18" r="1.5" />
+                    <circle cx="12" cy="6" r="1.5" fill="#3c5c3c" />
+                    <circle cx="12" cy="12" r="1.5" fill="#3c5c3c" />
+                    <circle cx="12" cy="18" r="1.5" fill="#3c5c3c" />
                   </svg>
                 </button>
                 <div
@@ -201,11 +276,12 @@
                     style="
                       display: block;
                       padding: 12px 18px;
-                      color: #fff;
+                      color: #3c2f2f;
                       text-decoration: none;
                       font-size: 1em;
                       border-bottom: 1px solid #333;
                       border-radius: 8px 8px 0 0;
+                      font-weight: 600;
                     "
                     >Settings</a
                   >
@@ -215,10 +291,11 @@
                     style="
                       display: block;
                       padding: 12px 18px;
-                      color: #fff;
+                      color: #3c2f2f;
                       text-decoration: none;
                       font-size: 1em;
                       border-radius: 0 0 8px 8px;
+                      font-weight: 600;
                     "
                     >Log Out</a
                   >
@@ -254,113 +331,66 @@
       </aside>
       <section
         id="main-content"
-        style="
-          flex: 1;
-          background: #18181b;
-          border-radius: 18px;
-          min-height: 60vh;
-          box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
-          margin-left: 260px;
-          padding: 38px 0 0 0;
-        "
+        style="flex: 1; min-height: 60vh; margin-left: 260px; padding: 0"
       >
-        <div id="inquiry-content" style="margin: 0 0 0 48px; max-width: 480px">
+        <div id="archive-content" style="margin: 0 0 0 48px; max-width: 480px">
           <h2
             style="
               font-size: 1.5rem;
               font-weight: 700;
               margin-bottom: 18px;
-              color: #fff;
+              color: #3c2f2f;
             "
           >
-            Personality Card Requests
+            Archive
           </h2>
-          <div id="email-prompt" style="margin-bottom: 18px">
-            <label for="user-email" style="color: #bdbdbd; font-size: 1.01rem"
-              >Enter your email to see your requests:</label
-            >
-            <input
-              id="user-email"
-              type="email"
-              placeholder="your@email.com"
+          <p style="margin-bottom: 18px; color: #3c2f2f; font-size: 1.08rem">
+            All the letters you’ve sent and received
+          </p>
+          <div
+            id="archive-list"
+            style="min-height: 120px; color: #3c2f2f; font-size: 1.01rem"
+          >
+            <!-- Archive items will be listed here -->
+            <div
               style="
-                width: 70%;
-                border-radius: 8px;
-                border: none;
-                background: #050507;
-                color: #fff;
-                padding: 8px;
-                font-size: 1rem;
-                margin: 0 8px 0 0;
-              "
-            />
-            <button
-              id="load-inquiries-btn"
-              style="
-                background: #000;
-                color: #fff;
-                border: none;
-                border-radius: 8px;
-                padding: 8px 16px;
-                font-size: 1rem;
-                font-weight: 600;
-                cursor: pointer;
+                background: #e9e5dc;
+                border-radius: 12px;
+                box-shadow: 0 1px 6px #cbbfad33;
+                padding: 22px 18px;
+                margin-bottom: 18px;
               "
             >
-              Load
-            </button>
+              <span
+                style="
+                  font-size: 1.08rem;
+                  color: #3c2f2f;
+                  margin-bottom: 10px;
+                  display: block;
+                "
+                ><b>Sample Archive Item</b></span
+              >
+              <span style="color: #a8bba3; font-size: 0.95rem"
+                >Date: 2025-08-05</span
+              ><br />
+              <button
+                style="
+                  background: #a8bba3;
+                  color: #3c2f2f;
+                  border: 1.5px solid #cbbfad;
+                  border-radius: 8px;
+                  padding: 10px 18px;
+                  font-size: 1rem;
+                  font-weight: 600;
+                  cursor: pointer;
+                  margin-top: 10px;
+                "
+              >
+                View
+              </button>
+            </div>
+            <!-- Add more archive items dynamically as needed -->
           </div>
-          <div id="inquiry-requests-list"></div>
-          <script>
-            document.getElementById('load-inquiries-btn').onclick =
-              async function () {
-                const email = document
-                  .getElementById('user-email')
-                  .value.trim()
-                  .toLowerCase();
-                const listDiv = document.getElementById(
-                  'inquiry-requests-list'
-                );
-                listDiv.innerHTML = '';
-                if (!email) {
-                  alert('Please enter your email.');
-                  return;
-                }
-                listDiv.innerHTML =
-                  '<span style="color:#bdbdbd;">Loading...</span>';
-                try {
-                  const qSnap = await db
-                    .collection('inquiries')
-                    .where('recipientEmail', '==', email)
-                    .orderBy('sentAt', 'desc')
-                    .get();
-                  if (qSnap.empty) {
-                    listDiv.innerHTML =
-                      '<span style="color:#bdbdbd;">No requests found for this email.</span>';
-                    return;
-                  }
-                  let html = '';
-                  qSnap.forEach(doc => {
-                    const d = doc.data();
-                    html += `<div style="background:#232323; border-radius:12px; box-shadow:0 1px 6px rgba(0,0,0,0.1); padding:22px 18px; margin-bottom:18px;">
-                    <span style="font-size:1.08rem; color:#fff; margin-bottom:10px; display:block;"><b>${
-                      d.recipientName || 'Someone'
-                    }</b> has requested a personality card from you.</span>
-                    <span style="color:#bdbdbd; font-size:0.95rem;">Sent: ${
-                      d.sentAt ? new Date(d.sentAt).toLocaleString() : ''
-                    }</span><br>
-                    <button style="background:#000; color:#fff; border:none; border-radius:8px; padding:10px 18px; font-size:1rem; font-weight:600; cursor:pointer; margin-top:10px;">Fill Out & Send</button>
-                  </div>`;
-                  });
-                  listDiv.innerHTML = html;
-                } catch (err) {
-                  listDiv.innerHTML =
-                    '<span style="color:#f77;">Error loading requests: ' +
-                    err.message +
-                    '</span>';
-                }
-              };
-          </script>
         </div>
       </section>
     </main>

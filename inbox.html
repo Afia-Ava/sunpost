@@ -50,7 +50,10 @@
       #main-content {
         background: #f5f1ea !important;
         border-radius: 18px;
-        box-shadow: 0 2px 16px #cbbfad33;
+        box-shadow: none !important;
+        margin: 0;
+        padding: 0;
+        border: none;
       }
       h2 {
         color: #3c2f2f !important;
@@ -158,19 +161,19 @@
           <a
             href="write.html"
             class="sidebar-link left-nav-link"
-            id="getcard-link"
+            id="write-link"
             >Write</a
           >
           <a
             href="inbox.html"
             class="sidebar-link left-nav-link selected"
-            id="requestcard-link"
+            id="inbox-link"
             >Inbox</a
           >
           <a
-            href="inquiry.html"
+            href="archive.html"
             class="sidebar-link left-nav-link"
-            id="inquiry-link"
+            id="archive-link"
             >Archive</a
           >
         </nav>
@@ -341,225 +344,60 @@
         id="main-content"
         style="flex: 1; min-height: 60vh; margin-left: 260px; padding: 0"
       >
-        <div
-          id="request-card-content"
-          style="margin: 0 0 0 48px; max-width: 480px"
-        >
+        <div id="inbox-content" style="margin: 0 0 0 48px; max-width: 900px">
           <h2
             style="
               font-size: 1.5rem;
               font-weight: 700;
-              margin-bottom: 18px;
+              margin-bottom: 10px;
               color: #3c2f2f;
             "
           >
-            Request a Personality Card
+            Inbox
           </h2>
-          <label
-            for="recipient-name"
+          <div
             style="
-              display: block;
-              margin-bottom: 8px;
-              color: #3c2f2f;
-              font-size: 1.01rem;
-              font-weight: 600;
-            "
-            >Enter recipient's name:</label
-          >
-          <input
-            id="recipient-name"
-            type="text"
-            placeholder="e.g. John Doe"
-            style="
-              width: 100%;
-              border-radius: 8px;
-              border: 1.5px solid #cbbfad;
-              background: #e9e5dc;
-              color: #3c2f2f;
-              padding: 12px;
-              font-size: 1rem;
               margin-bottom: 18px;
+              color: #3c2f2f;
+              font-size: 1.08rem;
               font-family: 'Georgia', 'Poppins', serif;
             "
-          />
-          <label
-            for="recipient-email"
+          >
+            You’ve got mail, little letters that found their way to you.<br />
+          </div>
+          <div
+            id="inbox-list"
             style="
-              display: block;
-              margin-bottom: 8px;
+              min-height: 120px;
               color: #3c2f2f;
               font-size: 1.01rem;
-              font-weight: 600;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
             "
-            >Enter recipient's email:</label
           >
-          <input
-            id="recipient-email"
-            type="email"
-            placeholder="someone@email.com"
-            style="
-              width: 100%;
-              border-radius: 8px;
-              border: 1.5px solid #cbbfad;
-              background: #e9e5dc;
-              color: #3c2f2f;
-              padding: 12px;
-              font-size: 1rem;
-              margin-bottom: 18px;
-              font-family: 'Georgia', 'Poppins', serif;
-            "
-          />
-          <label
-            for="custom-questions"
-            style="
-              display: block;
-              margin-bottom: 8px;
-              color: #3c2f2f;
-              font-size: 1.01rem;
-              font-weight: 600;
-            "
-            >Add Custom Topics (comma separated):</label
-          >
-          <input
-            id="custom-questions"
-            type="text"
-            placeholder="e.g. hobbies, work style, favorite books"
-            style="
-              width: 100%;
-              border-radius: 8px;
-              border: 1.5px solid #cbbfad;
-              background: #e9e5dc;
-              color: #3c2f2f;
-              padding: 12px;
-              font-size: 1rem;
-              margin-bottom: 18px;
-              font-family: 'Georgia', 'Poppins', serif;
-            "
-          />
-          <div style="display: flex; gap: 10px; margin-bottom: 18px">
-            <button
-              id="generate-link-btn"
+            <div
+              id="inbox-empty"
               style="
-                flex: 1;
-                background: #a8bba3;
+                background: #e9e5dc;
+                border-radius: 16px;
+                box-shadow: 0 1px 12px #cbbfad33;
+                padding: 32px 48px;
+                margin-top: 64px;
+                margin-bottom: 18px;
+                text-align: center;
                 color: #3c2f2f;
-                border: 1.5px solid #cbbfad;
-                border-radius: 8px;
-                padding: 12px 0;
-                font-size: 1.08rem;
-                font-weight: 700;
-                cursor: pointer;
-                transition: background 0.18s;
+                width: 100%;
+                max-width: calc(100vw - 280px);
+                min-width: 320px;
+                box-sizing: border-box;
+                align-self: center;
+                font-size: 1.13rem;
                 font-family: 'Georgia', 'Poppins', serif;
-                box-shadow: 0 1px 4px #cbbfad33;
               "
             >
-              Generate Shareable Link
-            </button>
-            <span
-              id="share-link-container"
-              style="
-                display: none;
-                flex: 1;
-                align-items: center;
-                margin-left: 10px;
-              "
-            ></span>
-            <script>
-              const genLinkBtn = document.getElementById('generate-link-btn');
-              const shareLinkContainer = document.getElementById(
-                'share-link-container'
-              );
-              if (genLinkBtn && shareLinkContainer) {
-                genLinkBtn.addEventListener('click', function () {
-                  const name = document
-                    .getElementById('recipient-name')
-                    .value.trim();
-                  const email = document
-                    .getElementById('recipient-email')
-                    .value.trim();
-                  const questions = document
-                    .getElementById('custom-questions')
-                    .value.trim();
-                  if (!name || !email) {
-                    alert('Please enter both name and email.');
-                    return;
-                  }
-                  const params = new URLSearchParams({
-                    name,
-                    email,
-                    questions,
-                  });
-                  const base =
-                    window.location.origin +
-                    window.location.pathname.replace('cards.html', '') +
-                    'inquiry.html';
-                  const link = base + '?' + params.toString();
-                  shareLinkContainer.style.display = 'flex';
-                  shareLinkContainer.innerHTML = `<input type="text" value="${link}" readonly style="width:calc(100% - 60px); background:#18181b; color:#fff; border:none; border-radius:6px; padding:6px 10px; font-size:0.98rem; margin-right:6px;" id="share-link-input"><button style="background:#232323; color:#fff; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:0.98rem;" id="copy-link-btn">Copy</button>`;
-                  document.getElementById('copy-link-btn').onclick =
-                    function () {
-                      const inp = document.getElementById('share-link-input');
-                      inp.select();
-                      document.execCommand('copy');
-                      this.textContent = 'Copied!';
-                      setTimeout(() => {
-                        this.textContent = 'Copy';
-                      }, 1200);
-                    };
-                });
-              }
-            </script>
-            <button
-              id="send-invite-btn"
-              style="
-                flex: 1;
-                background: #a8bba3;
-                color: #3c2f2f;
-                border: 1.5px solid #cbbfad;
-                border-radius: 8px;
-                padding: 12px 0;
-                font-size: 1.08rem;
-                font-weight: 700;
-                cursor: pointer;
-                transition: background 0.18s;
-                font-family: 'Georgia', 'Poppins', serif;
-                box-shadow: 0 1px 4px #cbbfad33;
-              "
-            >
-              Send Invite
-            </button>
-            <script>
-              const sendInviteBtn = document.getElementById('send-invite-btn');
-              if (sendInviteBtn) {
-                sendInviteBtn.addEventListener('click', async function () {
-                  const name = document
-                    .getElementById('recipient-name')
-                    .value.trim();
-                  const email = document
-                    .getElementById('recipient-email')
-                    .value.trim();
-                  const questions = document
-                    .getElementById('custom-questions')
-                    .value.trim();
-                  if (!name || !email) {
-                    alert('Please enter both name and email.');
-                    return;
-                  }
-                  try {
-                    await db.collection('inquiries').add({
-                      recipientName: name,
-                      recipientEmail: email,
-                      questions: questions,
-                      sentAt: new Date().toISOString(),
-                    });
-                    alert('Invite sent!');
-                  } catch (err) {
-                    alert('Error sending invite: ' + err.message);
-                  }
-                });
-              }
-            </script>
+              It’s quiet here for now.<br />
+            </div>
           </div>
         </div>
       </section>
