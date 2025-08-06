@@ -1,14 +1,11 @@
-# chatcard
-understand yourself. share your vibe. let others see the real you.
+# sunpost
+Send letters like postcards from your mind.
 
+Functionality:<br>
+- Write letters and send it<br>
+- Recipient gets notified through email<br>
+- Recipient has to use their password to view the letter<br>
+- Check all your past sent letters in archive
 
-Chatcard helps you:
+![Sunpost Preview](./asset/sunpost.png)
 
-Visualize your personality traits, quirks, and language habits
-
-Share your vibe with friends, communities, or the world
-
-Reflect on your growth over time
-
-
-![ChatCard Preview](./asset/chatcard-landing.png)
