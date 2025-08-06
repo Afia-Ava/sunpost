@@ -433,7 +433,76 @@
           >
             Seal & Send
           </button>
+          <div
+            id="letter-sent-modal"
+            style="
+              display: none;
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100vw;
+              height: 100vh;
+              background: rgba(60, 47, 47, 0.18);
+              z-index: 1000;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <div
+              style="
+                background: #f5f1ea;
+                border-radius: 16px;
+                box-shadow: 0 4px 32px #a8bba344;
+                padding: 36px 32px 28px 32px;
+                max-width: 340px;
+                text-align: center;
+                border: 2px solid #cbbfad;
+              "
+            >
+              <div
+                style="font-size: 2.2rem; color: #a8bba3; margin-bottom: 10px"
+              >
+                ✉️
+              </div>
+              <div
+                id="letter-sent-modal-message"
+                style="
+                  font-size: 1.12rem;
+                  color: #3c2f2f;
+                  font-weight: 600;
+                  margin-bottom: 18px;
+                "
+              >
+                Letter Sent! The recipient will be notified.
+              </div>
+              <button
+                id="close-letter-sent-modal"
+                style="
+                  background: #a8bba3;
+                  color: #3c2f2f;
+                  border: none;
+                  border-radius: 8px;
+                  padding: 10px 28px;
+                  font-size: 1rem;
+                  font-weight: 600;
+                  cursor: pointer;
+                "
+              >
+                OK
+              </button>
+            </div>
+          </div>
           <script>
+            (function () {
+              var script = document.createElement('script');
+              script.src =
+                'https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js';
+              script.onload = function () {
+                emailjs.init('oesbudg4uybAuA3Ux');
+              };
+              document.head.appendChild(script);
+            })();
+
             document.addEventListener('DOMContentLoaded', function () {
               document
                 .getElementById('generate-card-btn')
@@ -445,8 +514,9 @@
                     .getElementById('chatgpt-memory')
                     .value.trim();
                   if (!recipientEmail || !letterContent) {
-                    alert(
-                      'Please enter a recipient email and write your letter.'
+                    showLetterSentModal(
+                      'Please enter a recipient email and write your letter.',
+                      true
                     );
                     return;
                   }
@@ -469,23 +539,53 @@
                       sentAt: new Date().toISOString(),
                       opened: false,
                     });
-                    fetch(
-                      'https://your-backend-endpoint/send-inbox-notification',
-                      {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          to: recipientEmail,
+                    if (window.emailjs) {
+                      emailjs
+                        .send('sunpost', 'template_1pjd01l', {
+                          to_email: recipientEmail,
                           from: senderName || 'Anonymous',
-                        }),
-                      }
-                    );
-                    alert('Letter sent! The recipient will be notified.');
+                        })
+                        .then(
+                          function () {},
+                          function (error) {
+                            console.error('EmailJS error:', error);
+                          }
+                        );
+                    }
                     document.getElementById('chatgpt-memory').value = '';
+                    showLetterSentModal(
+                      'Letter sent! The recipient will be notified.'
+                    );
                   } catch (err) {
-                    alert('Error sending letter: ' + err.message);
+                    showLetterSentModal(
+                      'Error sending letter: ' + err.message,
+                      true
+                    );
                   }
                 });
+
+              function showLetterSentModal(message, isError) {
+                var modal = document.getElementById('letter-sent-modal');
+                if (!modal) return;
+                var msgEl = document.getElementById(
+                  'letter-sent-modal-message'
+                );
+                if (msgEl) {
+                  msgEl.textContent = message;
+                  msgEl.style.color = isError ? '#c94f4f' : '#3c2f2f';
+                }
+                var iconDiv = modal.querySelector('div');
+                if (iconDiv)
+                  iconDiv.style.color = isError ? '#c94f4f' : '#a8bba3';
+                modal.style.display = 'flex';
+              }
+              var closeBtn = document.getElementById('close-letter-sent-modal');
+              if (closeBtn) {
+                closeBtn.addEventListener('click', function () {
+                  var modal = document.getElementById('letter-sent-modal');
+                  if (modal) modal.style.display = 'none';
+                });
+              }
             });
           </script>
         </div>
