@@ -23,6 +23,70 @@ function render() {
   else if (state.page === 'link') renderLink();
   else if (state.page === 'submitted') renderSubmitted();
   else if (state.page === 'report') renderReport();
+
+  function renderSubmitted() {
+    app.innerHTML = `
+    <div class="card center">
+      <h3>Submitted!</h3>
+      <p class="small">Thanks! The requester will get your ChatCard soon.</p>
+      <button onclick="goTo('home')">Back to Home</button>
+    </div>
+  `;
+  }
+
+  function renderReport() {
+    app.innerHTML = `
+    <div class="card">
+      <h3>Secret ChatCard Report</h3>
+      <div style="background:#f6f7fb;padding:16px;border-radius:8px;">
+        <b>AI Analysis:</b>
+        <ul>
+          <li>Most open about: Creativity, late-night thoughts</li>
+          <li>Biggest fear: Not being understood</li>
+          <li>Vibe: Playful, introspective, honest</li>
+        </ul>
+      </div>
+      <button onclick="goTo('home')">Keep Private</button>
+      <button onclick="alert('Shared!')" style="background:#eee;color:#222;">Share Back</button>
+      <button onclick="goTo('home')" style="background:#f33;color:#fff;">Delete</button>
+    </div>
+  `;
+  }
+
+  function renderLink() {
+    app.innerHTML = `
+    <div class="card">
+      <h3>ChatCard Request</h3>
+      <p class="small">Share this link with your friend/date/interviewer:</p>
+      <input readonly value="https://chatcard.link/request/abc123" />
+      <hr />
+      <p>When someone opens the link:</p>
+      <ol>
+        <li>They consent to share their AI convos</li>
+        <li>They can connect their ChatGPT (mock) or paste convos</li>
+        <li>AI analyzes and generates a secret ChatCard</li>
+      </ol>
+      <button onclick="goTo('consent')">Open as recipient</button>
+      <button onclick="goTo('dashboard')" style="background:#eee;color:#222;">Back</button>
+    </div>
+  `;
+  }
+
+  function renderConsent() {
+    app.innerHTML = `
+    <div class="card">
+      <h3>Consent Required</h3>
+      <p>Do you agree to share your AI convos for analysis?</p>
+      <button onclick="giveConsent()">I Consent</button>
+      <button onclick="goTo('home')" style="background:#eee;color:#222;">Back</button>
+    </div>
+  `;
+  }
+
+  function giveConsent() {
+    state.consentGiven = true;
+    goTo('upload');
+  }
 }
 
 function renderLanding() {
@@ -60,70 +124,6 @@ function renderLanding() {
         </a>
       </div>
     </section>
-  `;
-}
-
-function goTo(section) {
-  console.log(`Navigating to ${section}`);
-}
-
-function renderAuth() {
-  app.innerHTML = `
-    <div class="card center">
-      <h2>${state.authMode === 'signup' ? 'Create Account' : 'Log In'}</h2>
-      <form id="authForm">
-        <input id="authUser" placeholder="Username" autocomplete="username" required />
-        <input id="authPass" type="password" placeholder="Password" autocomplete="current-password" required />
-        <button type="submit">${
-          state.authMode === 'signup' ? 'Sign Up' : 'Log In'
-        }</button>
-      </form>
-      <div class="small" style="color:#f33;min-height:20px;">${
-        state.authError || ''
-      }</div>
-      <button onclick="goTo('landing')" style="background:#eee;color:#222;">Back</button>
-    </div>
-  `;
-  document.getElementById('authForm').onsubmit = e => {
-    e.preventDefault();
-    const u = document.getElementById('authUser').value.trim();
-    const p = document.getElementById('authPass').value;
-    if (!u || !p) return;
-    if (state.authMode === 'signup') {
-      if (state.users[u]) {
-        state.authError = 'Username already exists.';
-        render();
-        return;
-      }
-      state.users[u] = p;
-      state.user = { username: u };
-      state.authError = '';
-      window.location.href = 'write.html';
-      return;
-    } else {
-      if (!state.users[u] || state.users[u] !== p) {
-        state.authError = 'Invalid credentials.';
-        render();
-        return;
-      }
-      state.user = { username: u };
-      state.authError = '';
-      window.location.href = 'write.html';
-      return;
-    }
-  };
-}
-
-function renderDashboard() {
-  app.innerHTML = `
-    <div class="card center">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-weight:600;">Welcome, ${state.user.username}</div>
-        <button onclick="logout()" style="background:#eee;color:#222;font-size:0.95em;padding:7px 16px;">Log Out</button>
-      </div>
-      <h2 style="margin:18px 0 10px 0;">Dashboard</h2>
-      <button onclick="goTo('create')">Request a Sunpost</button>
-    </div>
   `;
 }
 
@@ -257,35 +257,6 @@ function renderConsent() {
   `;
 }
 
-function renderUpload() {
-  app.innerHTML = `
-    <div class="card">
-      <h3>Paste Your AI Convos</h3>
-      <div style="margin-bottom:1em;color:#444;font-size:1em;">
-        <b>Requested Focus:</b> ${
-          state.selectedQuestions.length
-            ? state.selectedQuestions.map(q => q.q).join(', ')
-            : 'General personality'
-        }
-      </div>
-      <textarea id="convos" rows="8" placeholder="Paste your ChatGPT convos here..." style="width:100%;font-size:1em;padding:12px;border-radius:8px;border:1px solid #ccc;margin-bottom:1.2em;"></textarea>
-      <button onclick="submitConvos()">Generate Card</button>
-      <button onclick="goTo('home')" style="background:#eee;color:#222;margin-left:10px;">Back</button>
-      <div id="requestSummaryCard" class="summary-card" style="display:none;margin-top:2em;"></div>
-    </div>
-  `;
-}
-
-function renderSubmitted() {
-  app.innerHTML = `
-    <div class="card center">
-      <h3>Submitted!</h3>
-      <p class="small">Thanks! The requester will get your ChatCard soon.</p>
-      <button onclick="goTo('home')">Back to Home</button>
-    </div>
-  `;
-}
-
 function renderReport() {
   app.innerHTML = `
     <div class="card">
@@ -314,7 +285,6 @@ function goTo(page, mode) {
     return;
   }
   if (page === 'consent') renderConsent();
-  else if (page === 'upload') renderUpload();
   else {
     state.page = page;
     render();
@@ -352,7 +322,6 @@ function generateLink() {
 
 function giveConsent() {
   state.consentGiven = true;
-  goTo('upload');
 }
 
 render();

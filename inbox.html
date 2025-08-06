@@ -92,6 +92,7 @@
     <div style="height: 120px"></div>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script>
       const script = document.createElement('script');
       script.src = 'firebase-secrets.js';
@@ -401,64 +402,52 @@
               It’s quiet here for now.<br />
             </div>
             <div
-              id="letter-modal"
-              style="
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                background: rgba(245, 241, 234, 0.96);
-                z-index: 1000;
-                justify-content: center;
-                align-items: center;
-              "
-            >
-              <div
-                id="letter-modal-content"
-                style="
-                  background: #e9e5dc;
-                  border-radius: 18px;
-                  box-shadow: 0 2px 24px #cbbfad55;
-                  padding: 38px 32px;
-                  max-width: 480px;
-                  min-width: 320px;
-                  color: #3c2f2f;
-                  font-family: 'Georgia', 'Poppins', serif;
-                  position: relative;
-                "
-              >
-                <button
-                  id="close-modal-btn"
-                  style="
-                    position: absolute;
-                    top: 18px;
-                    right: 18px;
-                    background: #a8bba3;
-                    color: #3c2f2f;
-                    border: 1.5px solid #cbbfad;
-                    border-radius: 6px;
-                    font-weight: 700;
-                    font-size: 1.1rem;
-                    padding: 4px 12px;
-                    cursor: pointer;
-                  "
-                >
-                  Close
-                </button>
-                <div id="modal-letter-content"></div>
-              </div>
-            </div>
           </div>
           <script>
             document.addEventListener('DOMContentLoaded', function () {
               function showLetterModal(letter) {
-                var modal = document.getElementById('letter-modal');
+                var modal = document.getElementById('inbox-modal');
+                if (!modal) {
+                  modal = document.createElement('div');
+                  modal.id = 'inbox-modal';
+                  modal.style.position = 'fixed';
+                  modal.style.top = '0';
+                  modal.style.left = '0';
+                  modal.style.width = '100vw';
+                  modal.style.height = '100vh';
+                  modal.style.background = 'rgba(245,241,234,0.96)';
+                  modal.style.zIndex = '1000';
+                  modal.style.display = 'flex';
+                  modal.style.justifyContent = 'center';
+                  modal.style.alignItems = 'center';
+                  var modalContent = document.createElement('div');
+                  modalContent.id = 'inbox-modal-content';
+                  modalContent.style.background = '#e9e5dc';
+                  modalContent.style.borderRadius = '18px';
+                  modalContent.style.boxShadow = '0 2px 24px #cbbfad55';
+                  modalContent.style.padding = '54px 48px';
+                  modalContent.style.width = '100%';
+                  modalContent.style.maxWidth = '820px';
+                  modalContent.style.minWidth = '480px';
+                  modalContent.style.maxHeight = '80vh';
+                  modalContent.style.overflowY = 'auto';
+                  modalContent.style.color = '#3c2f2f';
+                  modalContent.style.fontFamily = "'Georgia', 'Poppins', serif";
+                  modalContent.style.position = 'relative';
+                  modal.appendChild(modalContent);
+                  document.body.appendChild(modal);
+                }
                 var modalContent = document.getElementById(
-                  'modal-letter-content'
+                  'inbox-modal-content'
                 );
+                modalContent.style.width = '100%';
+                modalContent.style.maxWidth = '820px';
+                modalContent.style.minWidth = '480px';
+                modalContent.style.maxHeight = '80vh';
+                modalContent.style.overflowY = 'auto';
+                modalContent.style.padding = '54px 48px';
                 modalContent.innerHTML =
+                  '<button id="close-inbox-modal-btn" style="position:absolute;top:18px;right:18px;background:#a8bba3;color:#3c2f2f;border:1.5px solid #cbbfad;border-radius:6px;font-weight:700;font-size:1.1rem;padding:4px 12px;cursor:pointer;">Close</button>' +
                   '<div style="font-weight:700; margin-bottom:8px; color:#3c2f2f;">From: ' +
                   (letter.from || 'Anonymous') +
                   (letter.fromEmail
@@ -474,6 +463,104 @@
                     : '') +
                   '</div>';
                 modal.style.display = 'flex';
+                document.getElementById('close-inbox-modal-btn').onclick =
+                  function () {
+                    modal.style.display = 'none';
+                  };
+                modal.onclick = function (e) {
+                  if (e.target === modal) modal.style.display = 'none';
+                };
+              }
+
+              function showPasswordPrompt(letter) {
+                var promptModal = document.getElementById(
+                  'inbox-password-modal'
+                );
+                if (!promptModal) {
+                  promptModal = document.createElement('div');
+                  promptModal.id = 'inbox-password-modal';
+                  promptModal.style.position = 'fixed';
+                  promptModal.style.top = '0';
+                  promptModal.style.left = '0';
+                  promptModal.style.width = '100vw';
+                  promptModal.style.height = '100vh';
+                  promptModal.style.background = 'rgba(245,241,234,0.96)';
+                  promptModal.style.zIndex = '2000';
+                  promptModal.style.display = 'flex';
+                  promptModal.style.justifyContent = 'center';
+                  promptModal.style.alignItems = 'center';
+                  var promptContent = document.createElement('div');
+                  promptContent.id = 'inbox-password-modal-content';
+                  promptContent.style.background = '#e9e5dc';
+                  promptContent.style.borderRadius = '18px';
+                  promptContent.style.boxShadow = '0 2px 24px #cbbfad55';
+                  promptContent.style.padding = '64px 48px 38px 48px';
+                  promptContent.style.maxWidth = '600px';
+                  promptContent.style.minWidth = '380px';
+                  promptContent.style.color = '#3c2f2f';
+                  promptContent.style.fontFamily =
+                    "'Georgia', 'Poppins', serif";
+                  promptContent.style.position = 'relative';
+                  promptModal.appendChild(promptContent);
+                  document.body.appendChild(promptModal);
+                }
+                var promptContent = document.getElementById(
+                  'inbox-password-modal-content'
+                );
+                promptContent.innerHTML =
+                  '<button id="close-inbox-password-modal-btn" style="position:absolute;top:18px;right:18px;background:#a8bba3;color:#3c2f2f;border:1.5px solid #cbbfad;border-radius:6px;font-weight:700;font-size:1.1rem;padding:4px 12px;cursor:pointer;">Close</button>' +
+                  '<div style="font-weight:700; margin-bottom:18px; color:#3c2f2f; font-size:1.15rem;">Enter your account password</div>' +
+                  '<input id="inbox-password-input" type="password" placeholder="Password" style="width:100%;margin-bottom:16px;padding:10px 12px;border-radius:6px;border:1.5px solid #cbbfad;font-size:1.08rem;background:#f5f1ea;color:#3c2f2f;outline:none;">' +
+                  '<div id="inbox-password-error" style="color:#b44a4a;font-size:0.98rem;margin-bottom:10px;display:none;"></div>' +
+                  '<button id="inbox-password-submit" style="background:#a8bba3;color:#3c2f2f;border:1.5px solid #cbbfad;border-radius:8px;padding:10px 18px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;">Submit</button>';
+                promptModal.style.display = 'flex';
+                document.getElementById(
+                  'close-inbox-password-modal-btn'
+                ).onclick = function () {
+                  promptModal.style.display = 'none';
+                };
+                promptModal.onclick = function (e) {
+                  if (e.target === promptModal)
+                    promptModal.style.display = 'none';
+                };
+                document.getElementById('inbox-password-submit').onclick =
+                  function () {
+                    var input = document.getElementById(
+                      'inbox-password-input'
+                    ).value;
+                    var errorDiv = document.getElementById(
+                      'inbox-password-error'
+                    );
+                    var email = localStorage.getItem('sunpost_profile_email');
+                    if (!email || !email.trim()) {
+                      errorDiv.textContent = 'No account email found.';
+                      errorDiv.style.display = 'block';
+                      return;
+                    }
+                    if (!window.firebase || !window.firebase.auth) {
+                      errorDiv.textContent = 'Auth not loaded.';
+                      errorDiv.style.display = 'block';
+                      return;
+                    }
+                    window.firebase
+                      .auth()
+                      .signInWithEmailAndPassword(email, input)
+                      .then(function (userCredential) {
+                        promptModal.style.display = 'none';
+                        setTimeout(function () {
+                          showLetterModal(letter);
+                        }, 100);
+                      })
+                      .catch(function (error) {
+                        errorDiv.textContent = 'Incorrect password.';
+                        errorDiv.style.display = 'block';
+                      });
+                  };
+                document.getElementById('inbox-password-input').onkeydown =
+                  function (e) {
+                    if (e.key === 'Enter')
+                      document.getElementById('inbox-password-submit').click();
+                  };
               }
 
               function loadInbox() {
@@ -551,7 +638,7 @@
                           .querySelector('.inbox-view-btn')
                           .addEventListener('click', function (e) {
                             e.stopPropagation();
-                            showLetterModal(letter);
+                            showPasswordPrompt(letter);
                           });
                       });
                       if (found === 0) {
@@ -577,19 +664,7 @@
                   });
               }
 
-              document.addEventListener('click', function (e) {
-                var modal = document.getElementById('letter-modal');
-                if (
-                  modal &&
-                  modal.style.display === 'flex' &&
-                  e.target === modal
-                ) {
-                  modal.style.display = 'none';
-                }
-              });
-              document.getElementById('close-modal-btn').onclick = function () {
-                document.getElementById('letter-modal').style.display = 'none';
-              };
+              document.addEventListener('click', function (e) {});
 
               if (window.db) {
                 loadInbox();

@@ -454,9 +454,12 @@
           modalContent.style.background = '#e9e5dc';
           modalContent.style.borderRadius = '18px';
           modalContent.style.boxShadow = '0 2px 24px #cbbfad55';
-          modalContent.style.padding = '38px 32px';
-          modalContent.style.maxWidth = '480px';
-          modalContent.style.minWidth = '320px';
+          modalContent.style.padding = '54px 48px';
+          modalContent.style.width = '100%';
+          modalContent.style.maxWidth = '820px';
+          modalContent.style.minWidth = '480px';
+          modalContent.style.maxHeight = '80vh';
+          modalContent.style.overflowY = 'auto';
           modalContent.style.color = '#3c2f2f';
           modalContent.style.fontFamily = "'Georgia', 'Poppins', serif";
           modalContent.style.position = 'relative';
@@ -464,6 +467,13 @@
           document.body.appendChild(modal);
         }
         var modalContent = document.getElementById('archive-modal-content');
+        // Also update size in case modal already exists
+        modalContent.style.width = '100%';
+        modalContent.style.maxWidth = '820px';
+        modalContent.style.minWidth = '480px';
+        modalContent.style.maxHeight = '80vh';
+        modalContent.style.overflowY = 'auto';
+        modalContent.style.padding = '54px 48px';
         modalContent.innerHTML =
           '<button id="close-archive-modal-btn" style="position:absolute;top:18px;right:18px;background:#a8bba3;color:#3c2f2f;border:1.5px solid #cbbfad;border-radius:6px;font-weight:700;font-size:1.1rem;padding:4px 12px;cursor:pointer;">Close</button>' +
           '<div style="font-weight:700; margin-bottom:8px; color:#3c2f2f;">To: ' + (letter.to || 'Unknown') + '</div>' +
