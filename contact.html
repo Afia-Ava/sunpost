@@ -6,12 +6,12 @@
     <title>Contact Us</title>
     <link rel="stylesheet" href="login.css" />
   </head>
-  <body>
+  <body style="min-height: 100vh; display: flex; flex-direction: column">
     <div id="grain"></div>
     <nav class="top-navbar pill-navbar">
       <div class="pill-navbar-inner">
         <div class="pill-navbar-logo">
-          <a href="index.html" class="logo-text">chatcard</a>
+          <a href="index.html" class="logo-text">sunpost</a>
         </div>
         <div class="pill-navbar-links">
           <a href="about.html" class="nav-link">About</a>
@@ -21,7 +21,9 @@
         </div>
         <div class="pill-navbar-actions">
           <div class="login-button-container">
-            <a href="login.html" class="login-btn">Log In</a>
+            <a href="login.html" class="login-btn" style="color: #14532d"
+              >Log In</a
+            >
           </div>
         </div>
       </div>
@@ -29,17 +31,16 @@
     <main
       class="contact-main"
       style="
-        max-width: 1300px;
+        max-width: 520px;
         margin: 48px auto 0 auto;
-        padding: 48px 80px 48px 40px;
-        background: rgba(30, 30, 30, 0.7);
-        border-radius: 28px;
+        padding: 32px 56px 32px 36px;
+        background: #c8d8cf;
+        border-radius: 18px;
         box-shadow: 0 4px 32px rgba(0, 0, 0, 0.12);
-        border: 1.5px solid rgba(255, 255, 255, 0.13);
-        backdrop-filter: blur(8px);
         display: flex;
         flex-direction: column;
         align-items: center;
+        flex: 1 0 auto;
       "
     >
       <h1
@@ -48,6 +49,7 @@
           font-weight: 600;
           margin-bottom: 24px;
           text-align: left;
+          color: #14532d;
         "
       >
         Contact Us
@@ -70,6 +72,7 @@
                 margin-bottom: 6px;
                 display: block;
                 text-align: left;
+                color: #14532d;
               "
               >Name</label
             >
@@ -83,8 +86,8 @@
                 padding: 10px 12px;
                 border-radius: 8px;
                 border: 1px solid #ccc;
-                background: rgba(255, 255, 255, 0.08);
-                color: #e4e4e7;
+                background: #fff;
+                color: #14532d;
                 font-size: 1em;
                 margin-bottom: 2px;
                 text-align: left;
@@ -99,6 +102,7 @@
                 margin-bottom: 6px;
                 display: block;
                 text-align: left;
+                color: #14532d;
               "
               >Email</label
             >
@@ -112,8 +116,8 @@
                 padding: 10px 12px;
                 border-radius: 8px;
                 border: 1px solid #ccc;
-                background: rgba(255, 255, 255, 0.08);
-                color: #e4e4e7;
+                background: #fff;
+                color: #14532d;
                 font-size: 1em;
                 margin-bottom: 2px;
                 text-align: left;
@@ -131,7 +135,12 @@
         >
           <label
             for="message"
-            style="font-weight: 500; margin-bottom: 6px; display: block"
+            style="
+              font-weight: 500;
+              margin-bottom: 6px;
+              display: block;
+              color: #14532d;
+            "
             >Your Suggestion / Question / Feedback</label
           >
           <textarea
@@ -145,20 +154,21 @@
               padding: 12px;
               border-radius: 8px;
               border: 1px solid #ccc;
-              background: rgba(255, 255, 255, 0.08);
-              color: #e4e4e7;
+              background: #fff;
+              color: #14532d;
               font-size: 1em;
               margin-bottom: 2px;
               box-sizing: border-box;
               align-self: stretch;
+              resize: none;
             "
           ></textarea>
         </div>
         <button
           type="submit"
           style="
-            background: #fff;
-            color: #222;
+            background: #14532d;
+            color: #fff;
             padding: 12px 32px;
             border-radius: 10px;
             font-size: 1.1em;
@@ -173,8 +183,8 @@
         </button>
       </form>
     </main>
-    <footer class="footer-note" style="margin-top: 48px">
-      © 2025 ChatCard. All rights reserved.
+    <footer class="footer-note" style="margin-top: 48px; flex-shrink: 0">
+      © 2025 Sunpost. All rights reserved.
     </footer>
   </body>
 </html>

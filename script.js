@@ -366,7 +366,7 @@ function renderFooter() {
   }
   footer.style.background = '#0d2913';
   footer.style.color = '#fff';
-  footer.innerHTML = '© 2025 ChatCard. All rights reserved.';
+  footer.innerHTML = '© 2025 Sunpost. All rights reserved.';
 }
 
 const origRender = render;
