@@ -6,15 +6,99 @@
     <title>Settings | Sunpost</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="login.css" />
+    <style>
+      body {
+        background: #f5f1ea;
+        color: #3c2f2f;
+        min-height: 100vh;
+        font-family: 'Georgia', 'Poppins', 'Inter', serif;
+        letter-spacing: 0.01em;
+      }
+      #grain {
+        display: none;
+      }
+      aside {
+        background: #a8bba3 !important;
+        border-right: 4px solid #cbbfad;
+        box-shadow: none !important;
+      }
+      .sidebar-link {
+        color: #3c2f2f !important;
+        background: #e9e5dc !important;
+        border-radius: 8px;
+        margin-bottom: 2px;
+        font-weight: 600;
+        transition: background 0.18s;
+      }
+      .sidebar-link.selected {
+        color: #3c2f2f !important;
+        background: #cbbfad !important;
+        border: 2px solid #cbbfad;
+        box-shadow: 0 4px 24px #a8bba344;
+        font-family: 'Georgia', 'Poppins', serif;
+      }
+      #sidebar-profile-pic {
+        border: 2.5px solid #cbbfad;
+        box-shadow: 0 2px 8px #cbbfad44;
+      }
+      #sidebar-profile-name {
+        color: #3c2f2f !important;
+      }
+      #profile-dropdown {
+        background: #e9e5dc !important;
+        border: 1.5px solid #cbbfad;
+        color: #3c2f2f !important;
+      }
+      #main-content {
+        background: #f5f1ea !important;
+        border-radius: 18px;
+        box-shadow: none !important;
+        margin: 0;
+        padding: 0;
+        border: none;
+      }
+      h2 {
+        color: #3c2f2f !important;
+        font-family: 'Georgia', serif;
+        letter-spacing: 0.01em;
+      }
+      label,
+      p,
+      span,
+      input,
+      textarea,
+      button {
+        color: #3c2f2f !important;
+        font-family: 'Georgia', 'Poppins', serif;
+      }
+      textarea,
+      input {
+        background: #e9e5dc !important;
+        border: 1.5px solid #cbbfad;
+        color: #3c2f2f !important;
+        font-size: 1rem;
+      }
+      button {
+        background: #a8bba3 !important;
+        color: #3c2f2f !important;
+        border: 1.5px solid #cbbfad;
+        border-radius: 8px;
+        font-weight: 700;
+        font-family: 'Georgia', 'Poppins', serif;
+        box-shadow: 0 1px 4px #cbbfad33;
+        transition: background 0.18s;
+      }
+      button:hover {
+        background: #cbbfad !important;
+      }
+    </style>
   </head>
-  <body style="background: #18181b; color: #fff; min-height: 100vh">
+  <body>
     <div id="grain"></div>
-    <div style="height: 120px"></div>
     <main style="display: flex; min-height: 100vh">
       <aside
         style="
           width: 260px;
-          background: #232323;
           min-height: 100vh;
           height: 100vh;
           border-radius: 0;
@@ -26,6 +110,7 @@
           display: flex;
           flex-direction: column;
           align-items: center;
+          box-shadow: 2px 0 12px #a8bba344;
         "
       >
         <div
@@ -62,22 +147,22 @@
           "
         >
           <a
-            href="cards.html#getcard"
+            href="write.html"
             class="sidebar-link left-nav-link"
-            id="getcard-link"
-            >Get Card</a
+            id="write-link"
+            >Write</a
           >
           <a
-            href="cards.html#requestcard"
+            href="inbox.html"
             class="sidebar-link left-nav-link"
-            id="requestcard-link"
-            >Request Card</a
+            id="inbox-link"
+            >Inbox</a
           >
           <a
-            href="cards.html#inquiry"
+            href="archive.html"
             class="sidebar-link left-nav-link"
-            id="inquiry-link"
-            >Inquiry</a
+            id="archive-link"
+            >Archive</a
           >
         </nav>
         <div style="flex: 1"></div>
@@ -95,11 +180,11 @@
               display: flex;
               align-items: center;
               width: 90%;
-              background: #232323;
-              border-radius: 10px;
-              padding: 10px 14px;
+              background: none;
+              border-radius: 0;
+              padding: 0;
               gap: 12px;
-              box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+              box-shadow: none;
             "
           >
             <img
@@ -116,7 +201,7 @@
             <span
               id="sidebar-profile-name"
               style="
-                color: #fff;
+                color: #3c2f2f;
                 font-size: 1.08rem;
                 font-weight: 500;
                 white-space: nowrap;
@@ -142,6 +227,19 @@
                     sidebarName.textContent = 'Your Name';
                   }
                 }
+                const menuBtn = document.getElementById('profile-menu-btn');
+                const dropdown = document.getElementById('profile-dropdown');
+                if (menuBtn && dropdown) {
+                  menuBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    dropdown.style.display =
+                      dropdown.style.display === 'block' ? 'none' : 'block';
+                  });
+                  document.addEventListener('click', function (e) {
+                    if (dropdown.style.display === 'block')
+                      dropdown.style.display = 'none';
+                  });
+                }
               });
             </script>
             <span style="margin-left: auto; display: flex; align-items: center">
@@ -160,14 +258,14 @@
                     height="22"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="#bdbdbd"
+                    stroke="#3c5c3c"
                     stroke-width="2.1"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   >
-                    <circle cx="12" cy="6" r="1.5" />
-                    <circle cx="12" cy="12" r="1.5" />
-                    <circle cx="12" cy="18" r="1.5" />
+                    <circle cx="12" cy="6" r="1.5" fill="#3c5c3c" />
+                    <circle cx="12" cy="12" r="1.5" fill="#3c5c3c" />
+                    <circle cx="12" cy="18" r="1.5" fill="#3c5c3c" />
                   </svg>
                 </button>
                 <div
@@ -177,11 +275,12 @@
                     position: absolute;
                     right: 0;
                     bottom: 38px;
-                    background: #232323;
+                    background: #e9e5dc;
                     border-radius: 8px;
-                    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+                    box-shadow: 0 2px 12px #cbbfad33;
                     min-width: 140px;
                     z-index: 10;
+                    border: 1.5px solid #cbbfad;
                   "
                 >
                   <a
@@ -190,11 +289,12 @@
                     style="
                       display: block;
                       padding: 12px 18px;
-                      color: #fff;
+                      color: #3c2f2f;
                       text-decoration: none;
                       font-size: 1em;
                       border-bottom: 1px solid #333;
                       border-radius: 8px 8px 0 0;
+                      font-weight: 600;
                     "
                     >Settings</a
                   >
@@ -204,30 +304,17 @@
                     style="
                       display: block;
                       padding: 12px 18px;
-                      color: #fff;
+                      color: #3c2f2f;
                       text-decoration: none;
                       font-size: 1em;
                       border-radius: 0 0 8px 8px;
+                      font-weight: 600;
                     "
                     >Log Out</a
                   >
                 </div>
               </div>
-              <script>
-                const menuBtn = document.getElementById('profile-menu-btn');
-                const dropdown = document.getElementById('profile-dropdown');
-                if (menuBtn && dropdown) {
-                  menuBtn.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    dropdown.style.display =
-                      dropdown.style.display === 'block' ? 'none' : 'block';
-                  });
-                  document.addEventListener('click', function (e) {
-                    if (dropdown.style.display === 'block')
-                      dropdown.style.display = 'none';
-                  });
-                }
-              </script>
+              <!-- Dropdown script moved above for consistency with inbox.html -->
             </span>
           </div>
         </div>
@@ -236,25 +323,25 @@
         id="main-content"
         style="
           flex: 1;
-          background: #18181b;
-          border-radius: 18px;
-          min-height: 60vh;
-          box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+          min-height: 100vh;
           margin-left: 260px;
-          padding: 38px 0 0 0;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
+          padding: 0;
+          background: #f5f1ea;
         "
       >
         <form
           style="
             max-width: 480px;
             width: 100%;
-            margin: 8px 0 0 0;
+            margin: 38px 0 0 48px;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
+            background: none;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;
+            border: none;
           "
           id="settings-form"
         >
@@ -262,7 +349,7 @@
             style="
               font-size: 1.4rem;
               font-weight: 700;
-              color: #fff;
+              color: #3c2f2f;
               margin-bottom: 24px;
               align-self: flex-start;
             "
@@ -286,8 +373,8 @@
                 height: 72px;
                 border-radius: 50%;
                 object-fit: cover;
-                border: 3px solid #18181b;
-                background: #232323;
+                border: 3px solid #f5f1ea;
+                background: #e9e5dc;
               "
             />
             <input
@@ -301,9 +388,9 @@
               id="change-pic-btn"
               style="
                 margin-left: 18px;
-                background: #000;
-                color: #fff;
-                border: 1px solid #000;
+                background: #a8bba3;
+                color: #3c2f2f;
+                border: 1.5px solid #cbbfad;
                 border-radius: 8px;
                 padding: 8px 16px;
                 font-size: 1rem;
@@ -318,7 +405,7 @@
             for="settings-name"
             style="
               align-self: flex-start;
-              color: #bdbdbd;
+              color: #3c2f2f;
               font-size: 1.01rem;
               margin-bottom: 6px;
             "
@@ -331,9 +418,9 @@
             style="
               width: 100%;
               border-radius: 8px;
-              border: 1.5px solid #333;
-              background: #101012;
-              color: #fff;
+              border: 1.5px solid #cbbfad;
+              background: #e9e5dc;
+              color: #3c2f2f;
               padding: 12px;
               font-size: 1rem;
               margin-bottom: 18px;
@@ -344,34 +431,37 @@
             for="settings-username"
             style="
               align-self: flex-start;
-              color: #bdbdbd;
+              color: #3c2f2f;
               font-size: 1.01rem;
               margin-bottom: 6px;
             "
-            >Username</label
+            >Email</label
           >
           <input
-            id="settings-username"
-            type="text"
-            placeholder="Username"
+            id="settings-email"
+            type="email"
+            placeholder="Email address"
+            readonly
             style="
               width: 100%;
               border-radius: 8px;
-              border: 1.5px solid #333;
-              background: #101012;
-              color: #fff;
+              border: 1.5px solid #cbbfad;
+              background: #e9e5dc;
+              color: #3c2f2f;
               padding: 12px;
               font-size: 1rem;
               margin-bottom: 28px;
               transition: border 0.18s, background 0.18s;
+              opacity: 0.85;
+              cursor: not-allowed;
             "
           />
           <button
             type="submit"
             style="
               width: 100%;
-              background: #000;
-              color: #fff;
+              background: #a8bba3;
+              color: #3c2f2f;
               border: none;
               border-radius: 8px;
               padding: 12px 0;
@@ -389,26 +479,12 @@
   </body>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const menuBtn = document.getElementById('profile-menu-btn');
-      const dropdown = document.getElementById('profile-dropdown');
-      if (menuBtn && dropdown) {
-        menuBtn.addEventListener('click', function (e) {
-          e.stopPropagation();
-          dropdown.style.display =
-            dropdown.style.display === 'block' ? 'none' : 'block';
-        });
-        document.addEventListener('click', function (e) {
-          if (dropdown.style.display === 'block')
-            dropdown.style.display = 'none';
-        });
-      }
-
       const picInput = document.getElementById('profile-pic-input');
       const picPreview = document.getElementById('profile-pic-preview');
       const changePicBtn = document.getElementById('change-pic-btn');
       const profileForm = document.getElementById('settings-form');
       const nameInput = document.getElementById('settings-name');
-      const usernameInput = document.getElementById('settings-username');
+      const emailInput = document.getElementById('settings-email');
 
       function loadProfilePic() {
         const savedPic = localStorage.getItem('sunpost_profile_pic');
@@ -425,10 +501,9 @@
       function loadProfileName() {
         const savedName = localStorage.getItem('sunpost_profile_name');
         if (nameInput && savedName) nameInput.value = savedName;
-        const savedUsername = localStorage.getItem('sunpost_profile_username');
-        if (usernameInput && savedUsername) usernameInput.value = savedUsername;
-        const sidebarName = document.getElementById('sidebar-profile-name');
         const savedEmail = localStorage.getItem('sunpost_profile_email');
+        if (emailInput && savedEmail) emailInput.value = savedEmail;
+        const sidebarName = document.getElementById('sidebar-profile-name');
         if (sidebarName) {
           if (savedName && savedName.trim()) {
             sidebarName.textContent = savedName;
@@ -467,16 +542,10 @@
         profileForm.addEventListener('submit', function (e) {
           e.preventDefault();
           const nameVal = nameInput ? nameInput.value.trim() : '';
-          const usernameVal = usernameInput ? usernameInput.value.trim() : '';
           if (nameVal) {
             localStorage.setItem('sunpost_profile_name', nameVal);
           } else {
             localStorage.removeItem('sunpost_profile_name');
-          }
-          if (usernameVal) {
-            localStorage.setItem('sunpost_profile_username', usernameVal);
-          } else {
-            localStorage.removeItem('sunpost_profile_username');
           }
           loadProfileName();
           if (profileForm.querySelector('.profile-success-msg')) {

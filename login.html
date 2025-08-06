@@ -6,6 +6,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login / Signup</title>
     <link rel="stylesheet" href="login.css">
+    <style>
+      .pill-navbar {
+        background: #fff;
+        border-radius: 32px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        margin: 32px auto 0 auto;
+        max-width: 700px;
+        padding: 0 18px;
+        display: flex;
+        align-items: center;
+        min-height: 56px;
+        position: relative;
+        z-index: 10;
+      }
+      .pill-navbar-inner {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .pill-navbar-logo .logo-text {
+        font-family: 'Georgia', 'Poppins', serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #23422a;
+        text-decoration: none;
+        letter-spacing: 0.5px;
+      }
+      .pill-navbar-links {
+        display: flex;
+        gap: 18px;
+      }
+      .pill-navbar .nav-link {
+        color: #23422a;
+        font-weight: 600;
+        font-family: 'Georgia', 'Poppins', serif;
+        font-size: 1.08rem;
+        text-decoration: none;
+        padding: 8px 18px;
+        border-radius: 18px;
+        transition: background 0.18s;
+      }
+      .pill-navbar .nav-link:hover {
+        background: #f5f1ea;
+        color: #23422a;
+      }
+      .pill-navbar-actions .login-btn {
+        background: #a8bba3;
+        color: #23422a;
+        font-weight: 700;
+        border-radius: 18px;
+        padding: 8px 24px;
+        font-size: 1.08rem;
+        border: none;
+        text-decoration: none;
+        transition: background 0.18s;
+        box-shadow: 0 1px 4px #cbbfad33;
+      }
+      .pill-navbar-actions .login-btn:hover {
+        background: #cbbfad;
+        color: #23422a;
+      }
+    </style>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script>
